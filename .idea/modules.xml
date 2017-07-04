@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/AppLibrary/AppLibrary.iml" filepath="$PROJECT_DIR$/AppLibrary/AppLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BaseLibrary/BaseLibrary.iml" filepath="$PROJECT_DIR$/BaseLibrary/BaseLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MVPLlirary.iml" filepath="$PROJECT_DIR$/MVPLlirary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/QuoteLibrary/QuoteLibrary.iml" filepath="$PROJECT_DIR$/QuoteLibrary/QuoteLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UtilsLibrary/UtilsLibrary.iml" filepath="$PROJECT_DIR$/UtilsLibrary/UtilsLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+    </modules>
+  </component>
+</project>

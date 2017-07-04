@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- toast背景色-->
+    <color name="successColor">#8000</color>
+    <color name="warnColor">#8000</color>
+    <color name="errorColor">#8000</color>
+    <color name="infoColor">#8000</color>
+</resources>
