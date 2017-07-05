@@ -91,8 +91,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     }
 
     /**
-     * 是否显示toolbar,默认是显示，不需要显示时请复写并返回false
-     *
+     * 是否使用toolbar,默认是显示，不需要显示时请复写并返回false
      * @return
      */
     public boolean enableToolBar () {
