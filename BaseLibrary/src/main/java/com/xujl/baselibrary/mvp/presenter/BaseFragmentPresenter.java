@@ -183,11 +183,6 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
     }
 
     @Override
-    public IBasePresenter exposeBasePresenter () {
-        return this;
-    }
-
-    @Override
     public View exposeRootView () {
         return mRootView;
     }

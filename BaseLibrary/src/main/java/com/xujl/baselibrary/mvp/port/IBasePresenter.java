@@ -1,8 +1,9 @@
 package com.xujl.baselibrary.mvp.port;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+
+import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
 
 /**
  * ━━━━━━神兽出没━━━━━━
@@ -32,9 +33,7 @@ public interface IBasePresenter extends View.OnClickListener {
     void exit();//退出界面
     Context exposeContext ();//获取context
 
-    Activity exposeActivity ();//获取activity
-
-    IBasePresenter exposeBasePresenter ();//获取Presenter实例，慎用
+    BaseActivityPresenter exposeActivity ();//获取activity
 
     View exposeRootView ();//获取根视图
 

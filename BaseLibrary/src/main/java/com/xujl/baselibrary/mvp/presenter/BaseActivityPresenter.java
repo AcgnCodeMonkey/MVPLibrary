@@ -77,7 +77,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
      * 子类可以复写此方法修改默认toobarhelper
      */
     public BaseToolBarModule setDefaultToolBarHelper () {
-        return new BaseToolBarModule(exposeActivity(), mView.getLayoutId());
+        return new BaseToolBarModule((Activity) exposeActivity(), mView.getLayoutId());
     }
 
     /**
@@ -302,14 +302,10 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     }
 
     @Override
-    public Activity exposeActivity () {
+    public BaseActivityPresenter exposeActivity () {
         return this;
     }
 
-    @Override
-    public IBasePresenter exposeBasePresenter () {
-        return this;
-    }
 
     @Override
     public View exposeRootView () {
