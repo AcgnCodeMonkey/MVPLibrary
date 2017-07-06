@@ -6,7 +6,7 @@
 
 > **compile 'com.xujl:BaseLibrary:0.0.3'**<br>
 
-### [架构思路简介](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/AppLibrary/src/main/res/file/架构思路.md)
+### [架构思路简介](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/架构思路.md)
 &emsp;&emsp;MVP的基本思想这里不做过多解释，有兴趣的同学可以在网上找相应资料学习一下。<br>
 &emsp;&emsp;比较深入学习过MVP模式的同学都知道，MVP现在比较大众的使用方法有两种:<br>
 1.  **使用activity作为view层，创建一个presenter和model与之对应，配合使用。**
