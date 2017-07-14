@@ -4,7 +4,7 @@
 
 引用方式 :<br>
 
-> **compile 'com.xujl:BaseLibrary:0.0.3'**<br>
+> **compile 'com.xujl:BaseLibrary:0.0.4'**<br>
 
 ### [架构思路简介](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/架构思路.md)
 &emsp;&emsp;MVP的基本思想这里不做过多解释，有兴趣的同学可以在网上找相应资料学习一下。<br>
