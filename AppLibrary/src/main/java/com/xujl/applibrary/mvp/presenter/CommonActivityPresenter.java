@@ -1,4 +1,4 @@
-package com.xujl.mvpllirary.base.presenter;
+package com.xujl.applibrary.mvp.presenter;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,8 +11,9 @@ import com.xujl.applibrary.mvp.port.ICommonModel;
 import com.xujl.applibrary.mvp.port.ICommonPresenter;
 import com.xujl.applibrary.mvp.port.ICommonView;
 import com.xujl.applibrary.mvp.view.CommonView;
+import com.xujl.applibrary.util.CustomToast;
 import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
-import com.xujl.mvpllirary.mvp.common.ToolBarModule;
+import com.xujl.utilslibrary.data.ParamsMapTool;
 
 /**
  * Created by xujl on 2017/7/4.
@@ -82,7 +83,7 @@ public abstract class CommonActivityPresenter<V extends ICommonView, M extends I
 
     @Override
     protected void autoCreatViewModel () {
-        mView = (V) new CommonView(){
+        mView = (V) new CommonView() {
 
             @Override
             public int getLayoutId () {
@@ -92,11 +93,13 @@ public abstract class CommonActivityPresenter<V extends ICommonView, M extends I
         mModel = (M) new CommonModel() {
         };
     }
+
     /**
      * 关闭MVP模式时应复写此方法
+     *
      * @return
      */
-    protected int getLayoutId(){
+    public int getLayoutId () {
         return 0;
     }
 
@@ -105,16 +108,29 @@ public abstract class CommonActivityPresenter<V extends ICommonView, M extends I
 
     }
 
-    @Override
-    public ToolBarModule getToolBarModule () {
-        return (ToolBarModule) super.getToolBarModule();
+    protected void requestForGet (int mode) {
+        requestForGet(mode, null);
+    }
+
+    protected void requestForGet (int mode, ParamsMapTool paramsMapTool) {
+        getPresenterHelper().requestForGet(mode, paramsMapTool, true, mModel, mView, this);
+    }
+
+    protected void requestForGetNoHint (int mode) {
+        requestForGetNoHint(mode, null);
+    }
+
+    protected void requestForGetNoHint (int mode, ParamsMapTool paramsMapTool) {
+        getPresenterHelper().requestForGet(mode, paramsMapTool, false, mModel, mView, this);
     }
 
     @Override
-    public ToolBarModule setDefaultToolBarHelper () {
-        if(isMVP()){
-            return new ToolBarModule(this,mView.getLayoutId());
-        }
-        return new ToolBarModule(this,getLayoutId());
+    public void requestSuccess (int mode, String json) {
+
+    }
+
+    @Override
+    public void requestFailed (int mode, int errorCode, String errorMsg, String json) {
+        mView.showToastMsg(exposeContext(), "请求失败", CustomToast.ERROR);
     }
 }

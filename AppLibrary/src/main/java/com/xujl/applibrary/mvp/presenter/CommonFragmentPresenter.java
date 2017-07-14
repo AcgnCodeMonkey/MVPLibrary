@@ -94,7 +94,7 @@ public abstract class CommonFragmentPresenter<V extends ICommonView, M extends I
      * 关闭MVP模式时应复写此方法
      * @return
      */
-    protected int getLayoutId(){
+    public int getLayoutId(){
         return 0;
     }
 

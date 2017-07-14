@@ -1,6 +1,5 @@
 package com.xujl.baselibrary.mvp.presenter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,14 +9,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.xujl.baselibrary.mvp.common.BasePresenterHelper;
-import com.xujl.baselibrary.mvp.common.BaseToolBarModule;
 import com.xujl.baselibrary.mvp.port.IBaseModel;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.baselibrary.mvp.port.IBaseView;
@@ -59,44 +56,13 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     protected V mView;//视图
     protected M mModel;//数据
     protected BasePresenterHelper mPresenterHelper;//通用逻辑帮助类
-    private BaseToolBarModule mToolBarModule;
+
     /**
      * 生命周期回调
      */
     private LifeCycleCallback mLifeCycleCallback;//生命周期回调
 
-    /**
-     * 初始化导航栏
-     */
-    protected void initToolBar () {
-        mToolBarModule =  setDefaultToolBarHelper();
-        getToolBarModule().initSetting(this);
-    }
 
-    /**
-     * 子类可以复写此方法修改默认toobarhelper
-     */
-    public BaseToolBarModule setDefaultToolBarHelper () {
-        return new BaseToolBarModule((Activity) exposeActivity(), mView.getLayoutId());
-    }
-
-    /**
-     * 子类如果需要自定义ToolBarHelper，可以复写initToolBar方法，并且复写次方法并修改返回值类型
-     * 新的ToolBarHelper应该要实现IToolBar接口
-     *
-     * @return
-     */
-    public BaseToolBarModule getToolBarModule () {
-        return mToolBarModule;
-    }
-
-    /**
-     * 是否使用toolbar,默认是显示，不需要显示时请复写并返回false
-     * @return
-     */
-    public boolean enableToolBar () {
-        return true;
-    }
     //================抽象方法==================================================================================================
 
     /**
@@ -143,6 +109,15 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
             finish();
             return;
         }
+        if (isMVP()) {
+            creatViewModel();//初始化view和model
+        } else {
+            autoCreatViewModel();
+        }
+        createLayout();//创建布局
+        mView.initView(this);//初始化控件
+        ActivityManger.newInstance().addActivity(this);//管理打开的activity
+
         //判断是否需要申请权限决定是否继续加载
         final String[] permissions = needPermissions();
         if (ListUtils.isEmpty(permissions)) {
@@ -165,14 +140,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
 
     //================模板方法==================================================================================================
     private void continueLoading (final Bundle savedInstanceState) {
-        if (isMVP()) {
-            creatViewModel();//初始化view和model
-        } else {
-            autoCreatViewModel();
-        }
-        createLayout();//创建布局
-        mView.initView(this);//初始化控件
-        ActivityManger.newInstance().addActivity(this);//管理打开的activity
+
         initPresenter(savedInstanceState);//初始化逻辑代码
 
         if (mLifeCycleCallback != null) {
@@ -206,13 +174,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
      * 创建布局
      */
     protected void createLayout () {
-        //判断是否使用导航
-        if (enableToolBar()) {
-            initToolBar();//初始化导航
-            setContentView(getToolBarModule().getRootView());
-        } else {
-            setContentView(LayoutInflater.from(this).inflate(mView.getLayoutId(), null));
-        }
+        setContentView(mView.creatView(this));
     }
 
     /**

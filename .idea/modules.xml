@@ -4,10 +4,12 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AppLibrary/AppLibrary.iml" filepath="$PROJECT_DIR$/AppLibrary/AppLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/BaseLibrary/BaseLibrary.iml" filepath="$PROJECT_DIR$/BaseLibrary/BaseLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DataLibrary/DataLibrary.iml" filepath="$PROJECT_DIR$/DataLibrary/DataLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/MVPLlirary.iml" filepath="$PROJECT_DIR$/MVPLlirary.iml" />
       <module fileurl="file://$PROJECT_DIR$/QuoteLibrary/QuoteLibrary.iml" filepath="$PROJECT_DIR$/QuoteLibrary/QuoteLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/UtilsLibrary/UtilsLibrary.iml" filepath="$PROJECT_DIR$/UtilsLibrary/UtilsLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/demo/demo.iml" filepath="$PROJECT_DIR$/demo/demo.iml" />
     </modules>
   </component>
 </project>

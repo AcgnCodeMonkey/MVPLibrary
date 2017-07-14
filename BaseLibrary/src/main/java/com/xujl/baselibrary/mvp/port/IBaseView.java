@@ -1,6 +1,9 @@
 package com.xujl.baselibrary.mvp.port;
 
 import android.content.Context;
+import android.view.View;
+
+import com.xujl.baselibrary.mvp.common.BaseToolBarModule;
 
 /**
  * ━━━━━━神兽出没━━━━━━
@@ -27,6 +30,12 @@ import android.content.Context;
 
 public interface IBaseView {
     void initView (IBasePresenter presenter);//初始化操作，由presenter负责调用
+
+    View creatView (IBasePresenter presenter);//创建视图
+
+    boolean enableToolBar ();//是否使用了toobar
+
+    BaseToolBarModule getToolBarModule ();
 
     int getLayoutId ();//设置布局
 

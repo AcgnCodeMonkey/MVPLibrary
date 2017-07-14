@@ -2,16 +2,48 @@ package com.xujl.applibrary.mvp.common;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
+import com.xujl.applibrary.mvp.port.ICommonModel;
+import com.xujl.applibrary.mvp.port.ICommonPresenter;
+import com.xujl.applibrary.mvp.port.ICommonView;
 import com.xujl.baselibrary.mvp.common.BasePresenterHelper;
 import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
 import com.xujl.baselibrary.utils.ActivityManger;
+import com.xujl.utilslibrary.data.ParamsMapTool;
+import com.xujl.utilslibrary.port.RequestCallBack;
 
 /**
  * Created by xujl on 2017/7/4.
  */
 
 public class CommonPresenterHelper extends BasePresenterHelper {
+    /**
+     *
+     * @param mode
+     * @param paramsMapTool
+     * @param showHint 是否显示加载提示
+     */
+    public void requestForGet(final int mode, ParamsMapTool paramsMapTool, boolean showHint,
+                              ICommonModel model, final ICommonView view, final ICommonPresenter presenter){
+        if(showHint){
+            view.showLoading();
+        }
+        model.requestForGet(mode, paramsMapTool, new RequestCallBack() {
+            @Override
+            public void notice (String json) {
+                view.dismissLoading();
+                presenter.requestSuccess(mode,json);
+            }
+
+            @Override
+            public void error (@JsonICode int error, @Nullable String json) {
+                view.dismissLoading();
+                presenter.requestFailed(mode,error,json,json);
+            }
+        });
+    }
+
     public void exit (BaseActivityPresenter activity) {
         ActivityManger.newInstance().finishActivity(activity);
     }

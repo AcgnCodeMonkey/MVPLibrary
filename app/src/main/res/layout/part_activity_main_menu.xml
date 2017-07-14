@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_gravity="start"
+              android:fitsSystemWindows="true"
+              android:background="@color/menuBackground"
+              android:orientation="vertical">
+    <TextView
+        android:id="@+id/part_activity_main_menu_downloadTV"
+        style="@style/MenuTextViewStyle"
+        android:drawableLeft="@drawable/menu_down_icon"
+        android:text="已下载"/>
+    <TextView
+        android:id="@+id/part_activity_main_menu_collectionTV"
+        style="@style/MenuTextViewStyle"
+        android:drawableLeft="@drawable/menu_collection_icon"
+        android:text="已收藏"/>
+</LinearLayout>
