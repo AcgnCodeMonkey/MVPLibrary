@@ -67,7 +67,10 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
         return mRootView;
     }
     //================抽象方法==================================================================================================
-
+    @Override
+    public boolean enableToolBar () {
+        return true;
+    }
     /**
      * 初始化逻辑代码，由实现类实现
      *
@@ -102,8 +105,15 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
      */
     private void creatViewModel () {
         try {
-            mView = getViewClassType().newInstance();
-            mModel = getModelClassType().newInstance();
+            final Class<? extends V> viewClassType = getViewClassType();
+            final Class<? extends M> modelClassType = getModelClassType();
+            //判断是否复写了返回model与view的实际类型的方法，返回则直接创建实例
+            if (viewClassType != null) {
+                mView = viewClassType.newInstance();
+            }
+            if (modelClassType != null) {
+                mModel = modelClassType.newInstance();
+            }
         } catch (java.lang.InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -115,7 +125,7 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
      * 创建布局
      */
     protected View createLayout (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(mView.getLayoutId(), null);
+        return mView.creatView(this);
     }
 
     /**
@@ -152,6 +162,10 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
 
     protected void lazyLoad () {
         //延时加载
+        if (mView == null) {
+            resetLoadingState();
+            return;
+        }
     }
 
     protected void resetLoadingState () {

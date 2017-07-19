@@ -35,4 +35,6 @@ public interface IShowImageActivityModel extends ICommonModel {
     void downloadImage (Context context, String url, DownloadManagerHelper.DownloadCallback callBack);
 
     DownloadManagerHelper getDownloadHelper ();
+
+    boolean deleteImage();
 }

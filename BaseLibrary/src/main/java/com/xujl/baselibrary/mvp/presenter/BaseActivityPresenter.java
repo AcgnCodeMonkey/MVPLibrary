@@ -259,6 +259,11 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     //================公共方法==================================================================================================
 
     @Override
+    public boolean enableToolBar () {
+        return true;
+    }
+
+    @Override
     public Context exposeContext () {
         return this;
     }

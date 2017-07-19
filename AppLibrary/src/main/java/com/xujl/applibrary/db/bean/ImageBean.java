@@ -16,7 +16,7 @@ public class ImageBean {
      */
     private long creatDate;
     /**
-     * 图片类型：1已收藏，2已下载
+     * 图片类型：参考ImageBeanType类
      */
     private int type;
     /**

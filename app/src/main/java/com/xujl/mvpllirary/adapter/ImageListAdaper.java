@@ -24,8 +24,8 @@ public class ImageListAdaper extends BaseRecyclerViewAdapter<ImageBean> {
     @Override
     protected void convert (BaseViewHolder helper, ImageBean item) {
         helper.setText(R.id.item_image_list_dateTV, DateFormat.getDate(item.getCreatDate() + "", "yyyy-MM-dd HH:mm"));
-        if(!ViewTool.isEmpty(item.getImageUrl())){
-            ImageLoader.loadImage(mContext, item.getImageUrl(), (ImageView) helper.getView(R.id.item_image_list_imageView));
+        if(!ViewTool.isEmpty(item.getImagePath())){
+            ImageLoader.loadImage(mContext, item.getImagePath(), (ImageView) helper.getView(R.id.item_image_list_imageView));
         }
 
     }

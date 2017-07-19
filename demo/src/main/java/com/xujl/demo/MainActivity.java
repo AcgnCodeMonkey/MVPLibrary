@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.VirtualLayoutManager;
+import com.xujl.utilslibrary.view.ViewTool;
 
 import java.util.ArrayList;
 import java.util.Arrays;

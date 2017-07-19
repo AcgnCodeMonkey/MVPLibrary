@@ -1,5 +1,6 @@
 package com.xujl.mvpllirary.mvp.presenter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -21,6 +22,7 @@ import com.xujl.quotelibrary.widget.RefreshLayout;
  */
 public class ImageListActivityPresenter extends CommonActivityPresenter<IImageListActivityView, IImageListActivityModel>
         implements RefreshLayout.RefreshListener {
+    public static final int REQUEST_CODE = 6;
     private BaseRecyclerViewAdapter mAdapter;
     private OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
         @Override
@@ -28,7 +30,7 @@ public class ImageListActivityPresenter extends CommonActivityPresenter<IImageLi
             Bundle bundle = new Bundle();
             bundle.putParcelable(IntentKey.IMAGE_ENTITY, new ImagePassBean(mModel.getDataList().get(position)));
             bundle.putInt(IntentKey.TYPE,mModel.getType());
-            gotoActivity(ShowImageActivityPresenter.class, bundle);
+            gotoActivity(ShowImageActivityPresenter.class, bundle,REQUEST_CODE);
         }
     };
 
@@ -49,12 +51,13 @@ public class ImageListActivityPresenter extends CommonActivityPresenter<IImageLi
         mAdapter = new ImageListAdaper(mModel.getDataList());
         mView.setAdapter(mAdapter);
         mView.getRefreshRecyclerViewHelper().addOnItemTouchListener(mOnItemClickListener);
-        mModel.addData();
+
         mView.getRefreshRecyclerViewHelper().startRefresh();
     }
 
     @Override
     public void onRefresh (RefreshLayout refreshLayout) {
+        mModel.addData();
         mAdapter.cbNotifyDataSetChanged();
         mView.getRefreshRecyclerViewHelper().refreshLoadingComplete();
     }
@@ -62,5 +65,13 @@ public class ImageListActivityPresenter extends CommonActivityPresenter<IImageLi
     @Override
     public void onLoading (RefreshLayout refreshLayout) {
 
+    }
+
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == ShowImageActivityPresenter.RESULT_CODE){
+            mView.getRefreshRecyclerViewHelper().startRefresh();
+        }
     }
 }

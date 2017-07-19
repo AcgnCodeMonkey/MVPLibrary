@@ -6,6 +6,7 @@ import com.xujl.applibrary.db.bean.ImageBeanDao;
 import com.xujl.applibrary.util.AppApplication;
 import com.xujl.utilslibrary.view.ViewTool;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -81,14 +82,20 @@ public class DBUtils {
     }
 
     /**
-     * 通查询某个type的图片的所有对象，图片类型：0已收藏，1已下载，2已收藏并且已下载
+     * 通查询某个type的图片的所有对象，图片类型：参考ImageBeanType类
      * 时间倒序排列
      *
      * @return
      */
     public static List<ImageBean> queryForType (int type) {
-        return AppApplication.getDaoInstant().getImageBeanDao().queryBuilder()
-                .where(ImageBeanDao.Properties.Type.eq(type)).orderDesc(ImageBeanDao.Properties.CreatDate).list();
+        final List<ImageBean> list = new ArrayList<>();
+        list.addAll(AppApplication.getDaoInstant().getImageBeanDao().queryBuilder()
+                .where(ImageBeanDao.Properties.Type.eq(type))
+                .orderDesc(ImageBeanDao.Properties.CreatDate).list());
+        list.addAll(AppApplication.getDaoInstant().getImageBeanDao().queryBuilder()
+                .where(ImageBeanDao.Properties.Type.eq(ImageBeanType.TYPE_ALL))
+                .orderDesc(ImageBeanDao.Properties.CreatDate).list());
+        return list;
     }
 
     /**

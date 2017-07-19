@@ -18,13 +18,14 @@ import java.util.List;
 public class ImageListActivityModel extends CommonModel implements IImageListActivityModel {
     private int type;
     private List<ImageBean> mDataList;
+
     @Override
     public void saveType (Intent intent) {
-        if(intent == null){
+        if (intent == null) {
             return;
         }
         final Bundle bundle = intent.getExtras();
-        if(bundle != null){
+        if (bundle != null) {
             type = bundle.getInt(IntentKey.TYPE);
         }
     }
@@ -36,13 +37,14 @@ public class ImageListActivityModel extends CommonModel implements IImageListAct
 
     @Override
     public void addData () {
+        mDataList.clear();
         final List<ImageBean> imageBeen = DBUtils.queryForType(type);
         mDataList.addAll(imageBeen);
     }
 
     @Override
     public List<ImageBean> getDataList () {
-        if(mDataList  == null){
+        if (mDataList == null) {
             mDataList = new ArrayList<>();
         }
         return mDataList;

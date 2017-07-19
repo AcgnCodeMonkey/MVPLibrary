@@ -67,17 +67,18 @@ public class ShowImageActivity extends CommonView implements IShowImageActivityV
     public void loadType (int type) {
         switch(type){
             case ImageBeanType.TYPE_COLLECTION:
-                mCollectionIBtn.setVisibility(View.VISIBLE);
                 mDownloadIBtn.setVisibility(View.VISIBLE);
                 mDeleteIBtn.setVisibility(View.GONE);
             break;
             case ImageBeanType.TYPE_DOWNLOADED:
-                mCollectionIBtn.setVisibility(View.GONE);
+                mDownloadIBtn.setVisibility(View.GONE);
+                mDeleteIBtn.setVisibility(View.VISIBLE);
+                break;
+            case ImageBeanType.TYPE_ALL:
                 mDownloadIBtn.setVisibility(View.GONE);
                 mDeleteIBtn.setVisibility(View.VISIBLE);
                 break;
             default:
-                mCollectionIBtn.setVisibility(View.VISIBLE);
                 mDownloadIBtn.setVisibility(View.VISIBLE);
                 mDeleteIBtn.setVisibility(View.GONE);
             break;

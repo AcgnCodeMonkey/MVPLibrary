@@ -33,4 +33,5 @@ dependencies {
     compile('com.alibaba.android:vlayout:1.0.9@aar') {
         transitive = true
     }
+    compile project(':UtilsLibrary')
 }

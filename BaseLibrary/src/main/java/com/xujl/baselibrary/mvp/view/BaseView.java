@@ -1,7 +1,7 @@
 package com.xujl.baselibrary.mvp.view;
 
+import android.app.Activity;
 import android.support.annotation.CallSuper;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.xujl.baselibrary.mvp.common.BaseToolBarModule;
@@ -37,13 +37,29 @@ public abstract class BaseView implements IBaseView {
     private BaseViewHelper mViewHelper;
     private BaseToolBarModule mToolBarModule;
 
+
     @Override
     public View creatView (IBasePresenter presenter) {
-        if(enableToolBar()){
+        mViewHelper = setViewHelper(presenter);
+        if (!(presenter instanceof Activity)) {
+            mToolBarModule = presenter.exposeActivity().exposeView().getToolBarModule();
+            return getViewHelper().inflateLayout(getLayoutId(), presenter.exposeContext());
+        }
+        //是否使用toolBar是否presenter和view共同控制的，只有当两边都返回true时才会使用toolbar
+        if (enableToolBar() && presenter.enableToolBar()) {
             initToolBar(presenter);//初始化导航
             return getToolBarModule().getRootView();
-        }else{
-            return  LayoutInflater.from(presenter.exposeContext()).inflate(getLayoutId(),null);
+        } else {
+            return getViewHelper().inflateLayout(getLayoutId(), presenter.exposeContext());
+        }
+    }
+
+    @Override
+    public View exposeParentView () {
+        if (getViewHelper().getParentLayout() != null) {
+            return getViewHelper().getParentLayout();
+        } else {
+            return mToolBarModule.getRootView();
         }
     }
 
@@ -51,7 +67,7 @@ public abstract class BaseView implements IBaseView {
      * 初始化导航栏
      */
     protected void initToolBar (IBasePresenter presenter) {
-        mToolBarModule =  setDefaultToolBarHelper(presenter);
+        mToolBarModule = setDefaultToolBarHelper(presenter);
         getToolBarModule().initSetting(presenter.exposeActivity());
     }
 
@@ -59,7 +75,7 @@ public abstract class BaseView implements IBaseView {
      * 子类可以复写此方法修改默认toobarhelper
      */
     protected BaseToolBarModule setDefaultToolBarHelper (IBasePresenter presenter) {
-        return new BaseToolBarModule( presenter.exposeActivity(),getLayoutId());
+        return new BaseToolBarModule(presenter.exposeActivity(), getLayoutId());
     }
 
     /**
@@ -74,6 +90,7 @@ public abstract class BaseView implements IBaseView {
 
     /**
      * 是否使用toolbar,默认是显示，不需要显示时请复写并返回false
+     *
      * @return
      */
     public boolean enableToolBar () {
@@ -81,14 +98,11 @@ public abstract class BaseView implements IBaseView {
     }
 
     protected BaseViewHelper getViewHelper () {
-        if (mViewHelper == null) {
-            mViewHelper = new BaseViewHelper();
-        }
         return mViewHelper;
     }
 
-    public void setViewHelper (BaseViewHelper viewHelper) {
-        mViewHelper = viewHelper;
+    protected BaseViewHelper setViewHelper (IBasePresenter presenter) {
+        return new BaseViewHelper();
     }
 
     @CallSuper

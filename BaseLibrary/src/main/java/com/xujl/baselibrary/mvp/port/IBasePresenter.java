@@ -29,7 +29,7 @@ import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
  */
 
 public interface IBasePresenter extends View.OnClickListener {
-
+    boolean enableToolBar ();//是否使用toobar
     void exit();//退出界面
     Context exposeContext ();//获取context
 

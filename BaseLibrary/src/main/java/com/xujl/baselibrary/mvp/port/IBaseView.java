@@ -33,7 +33,9 @@ public interface IBaseView {
 
     View creatView (IBasePresenter presenter);//创建视图
 
-    boolean enableToolBar ();//是否使用了toobar
+    View exposeParentView ();//返回根布局
+
+    boolean enableToolBar ();//是否使用toobar
 
     BaseToolBarModule getToolBarModule ();
 

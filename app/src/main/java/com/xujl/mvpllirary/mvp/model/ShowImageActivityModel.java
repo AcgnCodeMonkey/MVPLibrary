@@ -28,6 +28,7 @@ import java.io.File;
 public class ShowImageActivityModel extends CommonModel implements IShowImageActivityModel {
     private ImagePassBean mImageEntity;
     private int type;
+
     @Override
     public boolean imageIsDownload () {
         final ImageBean imageBean = DBUtils.queryForImageId(mImageEntity.getImageId());
@@ -37,7 +38,8 @@ public class ShowImageActivityModel extends CommonModel implements IShowImageAct
     @Override
     public boolean imageIsCollection () {
         final ImageBean imageBean = DBUtils.queryForImageId(mImageEntity.getImageId());
-        return imageBean != null;
+        return imageBean != null
+                && (imageBean.getType() == ImageBeanType.TYPE_COLLECTION || imageBean.getType() == ImageBeanType.TYPE_ALL);
     }
 
     @Override
@@ -49,13 +51,25 @@ public class ShowImageActivityModel extends CommonModel implements IShowImageAct
 
     @Override
     public void collectionToDb () {
-        DBUtils.insert(creatImageBean(mImageEntity, "", ImageBeanType.TYPE_COLLECTION));
+        final ImageBean imageBean = DBUtils.queryForImageId(mImageEntity.getImageId());
+        if (imageBean == null) {
+            DBUtils.insert(creatImageBean(mImageEntity, "", ImageBeanType.TYPE_COLLECTION));
+            return;
+        }
+        imageBean.setType(ImageBeanType.TYPE_ALL);
+        DBUtils.update(imageBean);
     }
 
     @Override
     public void deleteCollectionToDb () {
         final ImageBean imageBean = DBUtils.queryForImageId(mImageEntity.getImageId());
         if (imageBean == null) {
+            return;
+        }
+        final int type = imageBean.getType();
+        if (type == ImageBeanType.TYPE_ALL) {
+            imageBean.setType(ImageBeanType.TYPE_DOWNLOADED);
+            DBUtils.update(imageBean);
             return;
         }
         DBUtils.delete(imageBean.getId());
@@ -108,7 +122,7 @@ public class ShowImageActivityModel extends CommonModel implements IShowImageAct
 
     @Override
     public void initDownloadHelper (Context context) {
-        getModelHelper().addHelper(HelperType.TYPE_ONE, new DownloadManagerHelper(context));
+        getModelHelper().addHelper(HelperType.TYPE_ONE, new DownloadManagerHelper());
     }
 
     public DownloadManagerHelper getDownloadHelper () {
@@ -116,8 +130,24 @@ public class ShowImageActivityModel extends CommonModel implements IShowImageAct
     }
 
     @Override
+    public boolean deleteImage () {
+        final ImageBean imageBean = DBUtils.queryForImageId(mImageEntity.getImageId());
+        if (imageBean == null) {
+            return false;
+        }
+        final File file = new File(imageBean.getImagePath());
+        final boolean delete = file.delete();
+        if (delete) {
+            DBUtils.delete(imageBean.getId());
+        }
+        return delete;
+    }
+
+    @Override
     public void downloadImage (Context context, String url, DownloadManagerHelper.DownloadCallback callBack) {
-        getDownloadHelper().setDownloadUrl(url)
+        getDownloadHelper()
+                .newTask(context)
+                .setDownloadUrl(url)
                 .setDownloadFlieName(DownloadFilePath.IMAGE_DOWNLOAD_PATH, mImageEntity.getImageId() + ".jpg")
                 .setCallback(callBack)
                 .start();
