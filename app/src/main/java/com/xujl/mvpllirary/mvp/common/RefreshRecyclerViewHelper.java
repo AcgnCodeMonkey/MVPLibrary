@@ -4,7 +4,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.scwang.smartrefresh.header.CircleHeader;
+import com.scwang.smartrefresh.header.WaveSwipeHeader;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.xujl.baselibrary.mvp.common.BaseHelper;
@@ -55,7 +55,8 @@ public class RefreshRecyclerViewHelper extends BaseHelper {
         }
         //设置 Header 为 Material风格
 //        mRefreshLayout.setRefreshHeader(new MaterialHeader(mRefreshLayout.getContext()).setShowBezierWave(true));
-        mRefreshLayout.setRefreshHeader(new CircleHeader(mRefreshLayout.getContext()));
+        mRefreshLayout.setRefreshHeader(new WaveSwipeHeader(mRefreshLayout.getContext()));
+
         //设置 Footer 为 球脉冲
         mRefreshLayout.setRefreshFooter(new BallPulseFooter(mRefreshLayout.getContext()).setSpinnerStyle(SpinnerStyle.Scale));
 //        final int themeColor = ContextCompat.getColor(mRefreshLayout.getContext(), R.color.colorPrimary);

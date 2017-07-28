@@ -66,7 +66,9 @@ public class PermissionsHelper {
                 resultString.append(",");
             }
         }
-
+        if ( resultString.length() != 0) {
+            return resultString.substring(0,resultString.length()-1);
+        }
         return resultString.toString();
     }
 
@@ -83,6 +85,7 @@ public class PermissionsHelper {
 
     /**
      * 获取危险权限中文名
+     *
      * @param perm
      * @return
      */

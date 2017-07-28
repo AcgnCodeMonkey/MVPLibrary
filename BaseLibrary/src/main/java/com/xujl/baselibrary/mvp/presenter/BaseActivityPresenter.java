@@ -228,6 +228,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         if (!ListUtils.isEmpty(perms)) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("系统提示");
+            builder.setCancelable(false);
             builder.setMessage("缺少权限:\t" + PermissionsHelper.getNoPermissionsStrings(exposeContext(), needPermissions()) + "，是否跳转系统设置手动开启权限？");
             builder.setPositiveButton("去设置", new DialogInterface.OnClickListener() {
                 @Override

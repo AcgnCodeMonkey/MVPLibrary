@@ -47,7 +47,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends BaseQuickAdapter<T, Bas
 
     public void initFooter (Context context) {
         mFooter = LayoutInflater.from(context).inflate(R.layout.include_listview_null_layout, null);
-        mFooter.setVisibility(View.GONE);
+        mFooter.setVisibility(View.VISIBLE);
         addFooterView(mFooter);
     }
 

@@ -41,7 +41,6 @@ public class RefreshLayout extends SmartRefreshLayout {
 
     public RefreshLayout (Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
     }
 
     public void setOnRefreshListener (final RefreshListener refreshListener) {

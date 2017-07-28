@@ -26,7 +26,7 @@
             <ImageView android:id="@+id/item_image_list_imageView"
                        android:layout_width="match_parent"
                        android:layout_height="120dp"
-                       android:scaleType="centerCrop"/>
+                       android:scaleType="centerInside"/>
             <TextView android:id="@+id/item_image_list_dateTV"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"

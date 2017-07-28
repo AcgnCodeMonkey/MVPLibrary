@@ -37,6 +37,8 @@ public interface IBaseView {
 
     boolean enableToolBar ();//是否使用toobar
 
+    void initToolBar (IBasePresenter presenter);
+
     BaseToolBarModule getToolBarModule ();
 
     int getLayoutId ();//设置布局

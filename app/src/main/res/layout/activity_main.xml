@@ -13,17 +13,18 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         android:orientation="vertical">
-        <com.xujl.quotelibrary.widget.RefreshLayout android:id="@+id/activity_main_refreshLayout"
-                                                    android:layout_width="match_parent"
-                                                    android:layout_height="match_parent"
-                                                    >
+            <com.xujl.quotelibrary.widget.RefreshLayout android:id="@+id/activity_main_refreshLayout"
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="match_parent"
+            >
 
-            <android.support.v7.widget.RecyclerView android:id="@+id/activity_main_recyclerView"
-                                                    android:layout_width="match_parent"
-                                                    android:layout_height="match_parent">
+                <android.support.v7.widget.RecyclerView android:id="@+id/activity_main_recyclerView"
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="match_parent">
 
-            </android.support.v7.widget.RecyclerView>
-        </com.xujl.quotelibrary.widget.RefreshLayout>
+                </android.support.v7.widget.RecyclerView>
+            </com.xujl.quotelibrary.widget.RefreshLayout>
+
     </LinearLayout>
     <include layout="@layout/part_activity_main_menu"/>
 </android.support.v4.widget.DrawerLayout>

@@ -5,6 +5,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gongwen.marqueen.MarqueeFactory;
@@ -90,8 +91,8 @@ public class MainActivity extends CommonView implements IMainActivityView {
     @Override
     public void setAdapter (BaseRecyclerViewAdapter adapter) {
         adapter.addHeaderView(mHeader);
-//        adapter.setAnimAndEmptyParentView((ViewGroup) mRootView);
-//        adapter.initFooter(mRootView.getContext());
+        adapter.setAnimAndEmptyParentView((ViewGroup) mRootView);
+        adapter.initFooter(mRootView.getContext());
         getRefreshRecyclerViewHelper().setAdapter(adapter);
     }
 

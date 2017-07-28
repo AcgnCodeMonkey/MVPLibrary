@@ -45,7 +45,7 @@ public abstract class BaseView implements IBaseView {
             mToolBarModule = presenter.exposeActivity().exposeView().getToolBarModule();
             return getViewHelper().inflateLayout(getLayoutId(), presenter.exposeContext());
         }
-        //是否使用toolBar是否presenter和view共同控制的，只有当两边都返回true时才会使用toolbar
+        //是否使用toolBar是由presenter和view共同控制的，只有当两边都返回true时才会使用toolbar
         if (enableToolBar() && presenter.enableToolBar()) {
             initToolBar(presenter);//初始化导航
             return getToolBarModule().getRootView();
@@ -66,7 +66,7 @@ public abstract class BaseView implements IBaseView {
     /**
      * 初始化导航栏
      */
-    protected void initToolBar (IBasePresenter presenter) {
+    public  void initToolBar (IBasePresenter presenter) {
         mToolBarModule = setDefaultToolBarHelper(presenter);
         getToolBarModule().initSetting(presenter.exposeActivity());
     }
