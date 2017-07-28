@@ -1,10 +1,10 @@
 # MVP模式扩展-->MVPH模式
 #### 使用简单，易扩展，易维护，低耦合，高复用是MVPH的目标<br>
-![](https://img.shields.io/badge/JitPack-0.0.4-green.svg)![](https://img.shields.io/badge/DemoVersion-1.1-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
+![](https://img.shields.io/badge/JitPack-0.0.6-green.svg)![](https://img.shields.io/badge/DemoVersion-1.1-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
 
 引用方式 :<br>
 
-> **compile 'com.xujl:BaseLibrary:0.0.4'**<br>
+> **compile 'com.xujl:BaseLibrary:0.0.6'**<br>
 
 ### [架构思路简介](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/架构思路.md)
 &emsp;&emsp;MVP的基本思想这里不做过多解释，有兴趣的同学可以在网上找相应资料学习一下。<br>
@@ -64,6 +64,11 @@ Activity为Presenter则是一个Presenter对应多个View和Model),而MVPH的思
 ###### 交流群:275885217&emsp;&emsp;入群密码:mvp
 ---
 ## 版本更新日志:
+
+    更新日期：2017/07/24  库版本：0.0.6  demo版本：1.1
+      1.修改基础库BaseView加载判断，兼容activity和fragment
+      2.优化BaseToolBarModule加载逻辑，支持页面本身包含toolbar布局
+      3.修复权限弹窗可以被关闭的Bug
 
     更新日期：2017/07/14  库版本：0.0.4  demo版本：1.1
       1.修改基础库方法加载顺序，防止动态授权时引起的空指针
