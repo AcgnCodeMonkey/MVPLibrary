@@ -40,7 +40,6 @@ public class BaseToolBarModule {
     /**
      * 此构造器用于页面本身已经包含了一个toolBar的情况
      * 直接传入布局Id和toolBar的id即可
-     *
      * @param activity
      * @param layoutId
      * @param toolBarId

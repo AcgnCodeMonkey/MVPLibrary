@@ -30,19 +30,32 @@ import android.widget.LinearLayout;
  */
 
 public class BaseViewHelper extends BaseHelper {
-    private LinearLayout mLinearLayout;
+    private View mParentView;
 
-    public View inflateLayout (int layoutId, Context context) {
-        mLinearLayout = new LinearLayout(context);
-        mLinearLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        mLinearLayout.setOrientation(LinearLayout.VERTICAL);
-        View contentView = LayoutInflater.from(context).inflate(layoutId, null);
-        contentView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        mLinearLayout.addView(contentView);
-        return mLinearLayout;
+    /**
+     *
+     * @param layoutId
+     * @param context
+     * @param isAddParentLayout 是否为内容布局自动嵌套父布局
+     * @return
+     */
+    public View inflateLayout (int layoutId, Context context,boolean isAddParentLayout) {
+        if(isAddParentLayout){
+            mParentView = new LinearLayout(context);
+            mParentView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            ((LinearLayout)mParentView).setOrientation(LinearLayout.VERTICAL);
+            View contentView = LayoutInflater.from(context).inflate(layoutId, null);
+            contentView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            ((LinearLayout)mParentView).addView(contentView);
+        }else{
+            mParentView = LayoutInflater.from(context).inflate(layoutId, null);
+            mParentView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        }
+
+        return mParentView;
     }
 
     public View getParentLayout () {
-        return mLinearLayout;
+        return mParentView;
     }
 }

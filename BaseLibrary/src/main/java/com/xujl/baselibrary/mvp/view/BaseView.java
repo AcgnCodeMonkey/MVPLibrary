@@ -43,17 +43,24 @@ public abstract class BaseView implements IBaseView {
         mViewHelper = setViewHelper(presenter);
         if (!(presenter instanceof Activity)) {
             mToolBarModule = presenter.exposeActivity().exposeView().getToolBarModule();
-            return getViewHelper().inflateLayout(getLayoutId(), presenter.exposeContext());
+            return getViewHelper().inflateLayout(getLayoutId(), presenter.exposeContext(),isAddParentView());
         }
         //是否使用toolBar是由presenter和view共同控制的，只有当两边都返回true时才会使用toolbar
         if (enableToolBar() && presenter.enableToolBar()) {
             initToolBar(presenter);//初始化导航
             return getToolBarModule().getRootView();
         } else {
-            return getViewHelper().inflateLayout(getLayoutId(), presenter.exposeContext());
+            return getViewHelper().inflateLayout(getLayoutId(), presenter.exposeContext(),isAddParentView());
         }
     }
 
+    /**
+     * 不使用toolbar时，是否默认为内容页添加父布局
+     * @return
+     */
+    protected boolean isAddParentView(){
+        return true;
+    }
     @Override
     public View exposeParentView () {
         if (getViewHelper().getParentLayout() != null) {
@@ -72,7 +79,9 @@ public abstract class BaseView implements IBaseView {
     }
 
     /**
-     * 子类可以复写此方法修改默认toobarhelper
+     * 子类可以复写此方法修改默认toobarhelper，
+     * 如果当前布局中已经包含了自己写的toolbar，可以使用BaseToolBarModule另一个包含了
+     * toolbar的id的构造器
      */
     protected BaseToolBarModule setDefaultToolBarHelper (IBasePresenter presenter) {
         return new BaseToolBarModule(presenter.exposeActivity(), getLayoutId());
