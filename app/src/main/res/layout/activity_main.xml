@@ -12,19 +12,45 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        android:orientation="vertical">
-            <com.xujl.quotelibrary.widget.RefreshLayout android:id="@+id/activity_main_refreshLayout"
-                                                        android:layout_width="match_parent"
-                                                        android:layout_height="match_parent"
-            >
+        android:orientation="vertical"
+    >
+        <android.support.v4.view.ViewPager android:id="@+id/activity_main_viewPager"
+                                           android:layout_width="match_parent"
+                                           android:layout_height="0dp"
+                                           android:layout_weight="1">
 
-                <android.support.v7.widget.RecyclerView android:id="@+id/activity_main_recyclerView"
-                                                        android:layout_width="match_parent"
-                                                        android:layout_height="match_parent">
-
-                </android.support.v7.widget.RecyclerView>
-            </com.xujl.quotelibrary.widget.RefreshLayout>
-
+        </android.support.v4.view.ViewPager>
+        <RadioGroup android:id="@+id/activity_main_radioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark"
+                    android:orientation="horizontal">
+            <Space android:layout_width="0dp"
+                   android:layout_height="0dp"
+                   android:layout_weight="1"/>
+            <RadioButton android:id="@+id/activity_main_radioButton1"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:button="@null"
+                         android:checked="true"
+                         android:drawableLeft="@drawable/home_image"
+                         android:padding="10dp"
+                         android:textColor="@drawable/home_tab_text"
+            />
+            <Space android:layout_width="0dp"
+                   android:layout_height="0dp"
+                   android:layout_weight="2"/>
+            <RadioButton android:id="@+id/activity_main_radioButton2"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:button="@null"
+                         android:drawableLeft="@drawable/home_news"
+                         android:textColor="@drawable/home_tab_text"
+            />
+            <Space android:layout_width="0dp"
+                   android:layout_height="0dp"
+                   android:layout_weight="1"/>
+        </RadioGroup>
     </LinearLayout>
     <include layout="@layout/part_activity_main_menu"/>
 </android.support.v4.widget.DrawerLayout>

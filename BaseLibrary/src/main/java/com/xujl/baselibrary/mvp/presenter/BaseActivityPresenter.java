@@ -53,17 +53,18 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBaseModel> extends AppCompatActivity
         implements IBasePresenter, EasyPermissions.PermissionCallbacks {
+
+    //<editor-fold desc="基础变量">
     protected V mView;//视图
     protected M mModel;//数据
     protected BasePresenterHelper mPresenterHelper;//通用逻辑帮助类
-
     /**
      * 生命周期回调
      */
     private LifeCycleCallback mLifeCycleCallback;//生命周期回调
+    //</editor-fold>
 
-
-    //================抽象方法==================================================================================================
+    //<editor-fold desc="抽象方法">
 
     /**
      * 生命周期回调，设置后各个生命周期方法会回调此接口
@@ -136,9 +137,9 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
                 "缺少权限会导致无法使用部分功能", 996, permissions);
 
     }
+    //</editor-fold>
 
-
-    //================模板方法==================================================================================================
+    //<editor-fold desc="模板方法">
     private void continueLoading (final Bundle savedInstanceState) {
 
         initPresenter(savedInstanceState);//初始化逻辑代码
@@ -204,8 +205,9 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     public void setPresenterHelper (BasePresenterHelper presenterHelper) {
         mPresenterHelper = presenterHelper;
     }
+    //</editor-fold>
 
-    //================动态权限==================================================================================================
+    //<editor-fold desc="动态权限">
     @Override
     public void onRequestPermissionsResult (int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -256,9 +258,9 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
             builder.show();
         }
     }
+    //</editor-fold>
 
-    //================公共方法==================================================================================================
-
+    //<editor-fold desc="公共方法">
     @Override
     public boolean enableToolBar () {
         return true;
@@ -273,7 +275,6 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     public BaseActivityPresenter exposeActivity () {
         return this;
     }
-
 
     @Override
     public View exposeRootView () {
@@ -294,7 +295,6 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     public boolean isMVP () {
         return true;
     }
-
 
     @Override
     public boolean dispatchTouchEvent (MotionEvent ev) {//解决输入框软键盘点击其他区域不消失的问题。
@@ -342,7 +342,9 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         }
         return false;
     }
+    //</editor-fold>
 
+    //<editor-fold desc="生命周期">
     @Override
     protected void onStart () {
         super.onStart();
@@ -358,7 +360,6 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
             mLifeCycleCallback.onResumeLife();
         }
     }
-
 
     @Override
     protected void onPause () {
@@ -382,7 +383,9 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         if (mLifeCycleCallback != null) {
             mLifeCycleCallback.onDestroyLife();
         }
+        mView = null;
+        mModel = null;
     }
-
+    //</editor-fold>
 
 }

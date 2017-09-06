@@ -7,4 +7,5 @@ package com.xujl.mvpllirary.util;
 public class IntentKey {
     public static final String IMAGE_ENTITY = "imageEntity";
     public static final String TYPE = "type";
+    public static final String URL = "url";
 }

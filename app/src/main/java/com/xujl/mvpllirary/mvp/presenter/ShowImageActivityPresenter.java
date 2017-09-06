@@ -15,12 +15,14 @@ import com.xujl.mvpllirary.mvp.model.ShowImageActivityModel;
 import com.xujl.mvpllirary.mvp.model.port.IShowImageActivityModel;
 import com.xujl.mvpllirary.mvp.view.ShowImageActivity;
 import com.xujl.mvpllirary.mvp.view.port.IShowImageActivityView;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import com.xujl.rxlibrary.BaseObservable;
+import com.xujl.rxlibrary.BaseObservableEmitter;
+import com.xujl.rxlibrary.BaseObserver;
+import com.xujl.rxlibrary.RxHelper;
 
 import java.io.File;
+
+import io.reactivex.annotations.NonNull;
 
 /**
  * Created by xujl on 2017/7/8.
@@ -40,13 +42,26 @@ public class ShowImageActivityPresenter extends CommonActivityPresenter<IShowIma
 
     @Override
     protected void initPresenter (Bundle savedInstanceState) {
-        EventBus.getDefault().register(this);
-        mModel.savePassData(getIntent());
-        mModel.initDownloadHelper(exposeContext());
-        mModel.blurImage(mModel.getImageUrl());
-        mView.loadType(mModel.getType());
-        mView.showImage(mModel.getImageUrl());
-        mView.changeCollectionImage(mModel.imageIsCollection());
+        RxHelper.onCreat(mRxLife)
+                .creatNormal(new BaseObservable<Bitmap>() {
+                    @Override
+                    public void emitAction (BaseObservableEmitter<Bitmap> e) throws Exception {
+                        mModel.savePassData(getIntent());
+                        mModel.initDownloadHelper(exposeContext());
+                        e.onNext(mModel.blurImage(mModel.getImageUrl()));
+                    }
+                })
+                .newThreadToMain()
+                .run(new BaseObserver<Bitmap>() {
+                    @Override
+                    public void onNext (@NonNull Bitmap o) {
+                        super.onNext(o);
+                        mView.blurBackground(o);
+                        mView.loadType(mModel.getType());
+                        mView.showImage(mModel.getImageUrl());
+                        mView.changeCollectionImage(mModel.imageIsCollection());
+                    }
+                });
     }
 
     @Override
@@ -155,14 +170,4 @@ public class ShowImageActivityPresenter extends CommonActivityPresenter<IShowIma
         });
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void blurBackground (Bitmap bitmap) {
-        mView.blurBackground(bitmap);
-    }
-
-    @Override
-    protected void onDestroy () {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
-    }
 }

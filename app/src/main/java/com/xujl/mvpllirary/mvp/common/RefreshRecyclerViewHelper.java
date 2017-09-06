@@ -1,16 +1,19 @@
 package com.xujl.mvpllirary.mvp.common;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.scwang.smartrefresh.header.WaveSwipeHeader;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
-import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.xujl.baselibrary.mvp.common.BaseHelper;
-import com.xujl.quotelibrary.adapter.BaseRecyclerViewAdapter;
-import com.xujl.quotelibrary.widget.RefreshLayout;
+import com.xujl.mvpllirary.R;
 import com.xujl.utilslibrary.system.Log;
+import com.xujl.widgetlibrary.adapter.BaseRecyclerViewAdapter;
+import com.xujl.widgetlibrary.widget.RefreshLayout;
 
 
 /**
@@ -33,7 +36,12 @@ public class RefreshRecyclerViewHelper extends BaseHelper {
         mRecyclerView.setLayoutManager(layoutManager);
         return this;
     }
-
+    public RefreshRecyclerViewHelper setLinearLayoutManager () {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mRecyclerView.getContext());
+        layoutManager.setAutoMeasureEnabled(true);
+        mRecyclerView.setLayoutManager(layoutManager);
+        return this;
+    }
     public RefreshRecyclerViewHelper setAdapter (BaseRecyclerViewAdapter adapter) {
         mRecyclerView.setAdapter(adapter);
         return this;
@@ -53,24 +61,16 @@ public class RefreshRecyclerViewHelper extends BaseHelper {
             Log.e("RefreshStyleViewHelper->", "RefreshLayout引用为空");
             return this;
         }
-        //设置 Header 为 Material风格
-//        mRefreshLayout.setRefreshHeader(new MaterialHeader(mRefreshLayout.getContext()).setShowBezierWave(true));
-        mRefreshLayout.setRefreshHeader(new WaveSwipeHeader(mRefreshLayout.getContext()));
+        final ClassicsHeader classicsHeader = new ClassicsHeader(mRefreshLayout.getContext())
+                .setSpinnerStyle(SpinnerStyle.Translate);
+        classicsHeader.setAccentColor(ContextCompat.getColor(mRefreshLayout.getContext(), R.color.white));
+        mRefreshLayout.setRefreshHeader(classicsHeader);
+        mRefreshLayout.setHeaderMaxDragRate(1.5f);
 
         //设置 Footer 为 球脉冲
-        mRefreshLayout.setRefreshFooter(new BallPulseFooter(mRefreshLayout.getContext()).setSpinnerStyle(SpinnerStyle.Scale));
-//        final int themeColor = ContextCompat.getColor(mRefreshLayout.getContext(), R.color.colorPrimary);
-//        ProgressLayout headerView = new ProgressLayout(mRefreshLayout.getContext());
-//        headerView.setColorSchemeColors(themeColor);
-//        mRefreshLayout.setHeaderView(headerView);//设置加载样式
-//        final BallPulseView bottomView = new BallPulseView(mRefreshLayout.getContext());
-//        bottomView.setAnimatingColor(themeColor);
-//        mRefreshLayout.setBottomView(bottomView);
-//        enableLoading(false);
-//        mRefreshLayout.setFloatRefresh(true);//是否使用悬浮加载样式（无侵入式）
+        mRefreshLayout.setRefreshFooter(new ClassicsFooter(mRefreshLayout.getContext()));
         return this;
     }
-
     public RefreshRecyclerViewHelper setOnRefreshListener (RefreshLayout.RefreshListener listener) {
         mRefreshLayout.setOnRefreshListener(listener);
         return this;

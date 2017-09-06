@@ -1,1 +1,3 @@
-include ':app', ':UtilsLibrary', ':BaseLibrary', ':AppLibrary', ':QuoteLibrary', ':DataLibrary', ':demo'
+include ':app', ':UtilsLibrary', ':BaseLibrary', ':AppLibrary', ':WidgetLibrary', ':DataLibrary', ':demo'
+include ':RxLibrary'
+project(':RxLibrary').projectDir = new File('../CommonLibrary/RxLibrary')

@@ -47,7 +47,7 @@ public class InternetUtil extends NetworkUtil {
     }
 
     public InternetUtil () {
-        this("http://image.baidu.com/data/");
+        this(ApiName.BASE_1);
     }
 
     public void requestForPost (Map<String, Object> params, String tag, final RequestCallBack requestCallBack, String api) {

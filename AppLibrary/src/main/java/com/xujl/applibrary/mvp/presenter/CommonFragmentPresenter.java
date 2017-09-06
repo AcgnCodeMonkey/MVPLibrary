@@ -11,7 +11,10 @@ import com.xujl.applibrary.mvp.port.ICommonModel;
 import com.xujl.applibrary.mvp.port.ICommonPresenter;
 import com.xujl.applibrary.mvp.port.ICommonView;
 import com.xujl.applibrary.mvp.view.CommonView;
+import com.xujl.applibrary.util.CustomToast;
 import com.xujl.baselibrary.mvp.presenter.BaseFragmentPresenter;
+import com.xujl.rxlibrary.RxLife;
+import com.xujl.utilslibrary.data.ParamsMapTool;
 
 /**
  * Created by xujl on 2017/7/4.
@@ -19,6 +22,7 @@ import com.xujl.baselibrary.mvp.presenter.BaseFragmentPresenter;
 
 public abstract class CommonFragmentPresenter<V extends ICommonView, M extends ICommonModel>
         extends BaseFragmentPresenter<V, M> implements ICommonPresenter {
+    protected RxLife mRxLife = new RxLife();
     @Override
     public void exit () {
         getPresenterHelper().exit(exposeActivity());
@@ -102,5 +106,35 @@ public abstract class CommonFragmentPresenter<V extends ICommonView, M extends I
     @Override
     public void onClick (View v) {
 
+    }
+
+    protected void requestForGet (int mode) {
+        requestForGet(mode, null);
+    }
+
+    protected void requestForGet (int mode, ParamsMapTool paramsMapTool) {
+        getPresenterHelper().requestForGet(mode, paramsMapTool, true, mModel, mView, this);
+    }
+
+    protected void requestForGetNoHint (int mode) {
+        requestForGetNoHint(mode, null);
+    }
+
+    protected void requestForGetNoHint (int mode, ParamsMapTool paramsMapTool) {
+        getPresenterHelper().requestForGet(mode, paramsMapTool, false, mModel, mView, this);
+    }
+    @Override
+    public void requestSuccess (int mode, String json) {
+
+    }
+
+    @Override
+    public void requestFailed (int mode, int errorCode, String errorMsg, String json) {
+        mView.showToastMsg(exposeContext(), "请求失败", CustomToast.ERROR);
+    }
+    @Override
+    public void onDestroy () {
+        mRxLife.destroyAll();
+        super.onDestroy();
     }
 }

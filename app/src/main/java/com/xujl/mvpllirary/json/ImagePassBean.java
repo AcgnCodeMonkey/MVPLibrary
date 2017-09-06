@@ -40,9 +40,9 @@ public class ImagePassBean implements Parcelable{
         this.imagePath = bean.getImagePath();
 
     }
-    public ImagePassBean (HomePayload.Images bean) {
-        this.imageId = bean.id;
-        this.imageUrl = bean.imageUrl;
+    public ImagePassBean (HomeImagelistPayload.Images bean) {
+        this.imageId = bean._id;
+        this.imageUrl = bean.url;
 
     }
     @Override

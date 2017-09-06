@@ -20,14 +20,15 @@ public abstract class CommonModel extends BaseModel implements ICommonModel {
     public static final int MODE_3 = 3;
     public static final int MODE_4 = 4;
     public static final int MODE_5 = 5;
+    protected InternetUtil mInternetUtil;
+
     @Override
     public CommonModelHelper getModelHelper () {
-        if(!(super.getModelHelper() instanceof  CommonModelHelper)){
+        if (!(super.getModelHelper() instanceof CommonModelHelper)) {
             setModelHelper(new CommonModelHelper());
         }
         return (CommonModelHelper) super.getModelHelper();
     }
-
 
 
     @Override
@@ -42,16 +43,21 @@ public abstract class CommonModel extends BaseModel implements ICommonModel {
 
     @Override
     public void requestForGet (int mode, ParamsMapTool paramsMapTool, RequestCallBack requestCallBack) {
-        final Map<String,Object> params = new HashMap<>();
-        addParams(mode,params,paramsMapTool);
-        new InternetUtil().requestForGet(params,"",requestCallBack,getApiName(mode));
+        final String apiName = getApiName(mode);
+        final Map<String, Object> params = new HashMap<>();
+        addParams(mode, params, paramsMapTool);
+        mInternetUtil.requestForGet(params, "", requestCallBack, apiName);
     }
 
-    protected  void addParams (int mode, Map<String, Object> params,ParamsMapTool paramsMapTool){
+    protected void addParams (int mode, Map<String, Object> params, ParamsMapTool paramsMapTool) {
 
     }
 
-    protected String getApiName(int mode){
+    protected void resetBaseUrl (String baseUrl) {
+        mInternetUtil = new InternetUtil(baseUrl);
+    }
+
+    protected String getApiName (int mode) {
         return null;
     }
 }

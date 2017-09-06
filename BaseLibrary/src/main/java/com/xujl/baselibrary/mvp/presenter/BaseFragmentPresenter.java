@@ -37,12 +37,14 @@ import com.xujl.baselibrary.mvp.port.IBaseView;
  */
 
 public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBaseModel> extends Fragment implements IBasePresenter {
+    //<editor-fold desc="基础变量">
     protected V mView;//视图
     protected M mModel;//数据
     protected View mRootView;
     protected BasePresenterHelper mPresenterHelper;//通用逻辑帮助类
     protected boolean isVisible;//Fragment当前状态是否可见
     protected boolean isLoading;//是否已加载过
+    //</editor-fold>
 
     @Nullable
     @Override
@@ -66,7 +68,8 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
         }
         return mRootView;
     }
-    //================抽象方法==================================================================================================
+
+    //<editor-fold desc="抽象方法">
     @Override
     public boolean enableToolBar () {
         return true;
@@ -96,9 +99,9 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
      * @return
      */
     protected abstract Class<? extends M> getModelClassType ();
+//</editor-fold>
 
-
-    //================模板方法==================================================================================================
+    //<editor-fold desc="模板方法">
 
     /**
      * 反射实例化view和model
@@ -183,8 +186,9 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
             onInvisible();
         }
     }
+    //</editor-fold>
 
-    //================公共方法==================================================================================================
+    //<editor-fold desc="公共方法">
 
     @Override
     public Context exposeContext () {
@@ -215,5 +219,14 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
     public boolean isMVP () {
         return true;
     }
+    //</editor-fold>
 
+    //<editor-fold desc="生命周期">
+    @Override
+    public void onDestroy () {
+        super.onDestroy();
+        mView = null;
+        mModel = null;
+    }
+    //</editor-fold>
 }

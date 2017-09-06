@@ -14,11 +14,18 @@ import com.xujl.mvpllirary.mvp.model.port.IImageListActivityModel;
 import com.xujl.mvpllirary.mvp.view.ImageListActivity;
 import com.xujl.mvpllirary.mvp.view.port.IImageListActivityView;
 import com.xujl.mvpllirary.util.IntentKey;
-import com.xujl.quotelibrary.adapter.BaseRecyclerViewAdapter;
-import com.xujl.quotelibrary.widget.RefreshLayout;
+import com.xujl.rxlibrary.BaseObservable;
+import com.xujl.rxlibrary.BaseObservableEmitter;
+import com.xujl.rxlibrary.BaseObserver;
+import com.xujl.rxlibrary.RxHelper;
+import com.xujl.widgetlibrary.adapter.BaseRecyclerViewAdapter;
+import com.xujl.widgetlibrary.widget.RefreshLayout;
+
+import io.reactivex.annotations.NonNull;
 
 /**
  * Created by xujl on 2017/7/10.
+ * 收藏&已下载
  */
 public class ImageListActivityPresenter extends CommonActivityPresenter<IImageListActivityView, IImageListActivityModel>
         implements RefreshLayout.RefreshListener {
@@ -29,8 +36,8 @@ public class ImageListActivityPresenter extends CommonActivityPresenter<IImageLi
         public void onSimpleItemClick (BaseQuickAdapter adapter, View view, int position) {
             Bundle bundle = new Bundle();
             bundle.putParcelable(IntentKey.IMAGE_ENTITY, new ImagePassBean(mModel.getDataList().get(position)));
-            bundle.putInt(IntentKey.TYPE,mModel.getType());
-            gotoActivity(ShowImageActivityPresenter.class, bundle,REQUEST_CODE);
+            bundle.putInt(IntentKey.TYPE, mModel.getType());
+            gotoActivity(ShowImageActivityPresenter.class, bundle, REQUEST_CODE);
         }
     };
 
@@ -51,15 +58,28 @@ public class ImageListActivityPresenter extends CommonActivityPresenter<IImageLi
         mAdapter = new ImageListAdaper(mModel.getDataList());
         mView.setAdapter(mAdapter);
         mView.getRefreshRecyclerViewHelper().addOnItemTouchListener(mOnItemClickListener);
-
         mView.getRefreshRecyclerViewHelper().startRefresh();
     }
 
     @Override
     public void onRefresh (RefreshLayout refreshLayout) {
-        mModel.addData();
-        mAdapter.cbNotifyDataSetChanged();
-        mView.getRefreshRecyclerViewHelper().refreshLoadingComplete();
+        RxHelper.onCreat(mRxLife)
+                .creatNormal(new BaseObservable<Object>() {
+                    @Override
+                    public void emitAction (BaseObservableEmitter<Object> e) throws Exception {
+                        mModel.addData();
+                        e.onNext(new Object());
+                    }
+                })
+                .ioThreadToMain()
+                .run(new BaseObserver<Object>() {
+                    @Override
+                    public void onNext (@NonNull Object o) {
+                        super.onNext(o);
+                        mAdapter.cbNotifyDataSetChanged();
+                        mView.getRefreshRecyclerViewHelper().refreshLoadingComplete();
+                    }
+                });
     }
 
     @Override
@@ -70,7 +90,7 @@ public class ImageListActivityPresenter extends CommonActivityPresenter<IImageLi
     @Override
     protected void onActivityResult (int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == ShowImageActivityPresenter.RESULT_CODE){
+        if (resultCode == ShowImageActivityPresenter.RESULT_CODE) {
             mView.getRefreshRecyclerViewHelper().startRefresh();
         }
     }

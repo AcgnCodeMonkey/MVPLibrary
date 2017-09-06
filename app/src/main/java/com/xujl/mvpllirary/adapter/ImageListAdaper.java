@@ -5,10 +5,10 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.xujl.applibrary.db.bean.ImageBean;
 import com.xujl.mvpllirary.R;
-import com.xujl.quotelibrary.adapter.BaseRecyclerViewAdapter;
-import com.xujl.quotelibrary.util.ImageLoader;
 import com.xujl.utilslibrary.data.DateFormat;
 import com.xujl.utilslibrary.view.ViewTool;
+import com.xujl.widgetlibrary.adapter.BaseRecyclerViewAdapter;
+import com.xujl.widgetlibrary.util.ImageLoader;
 
 import java.util.List;
 

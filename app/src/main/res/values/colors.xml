@@ -8,6 +8,8 @@
     <color name="textHintColor">#bbb</color>
     <color name="textContentColor">#333</color>
     <color name="textTitleColor">#666</color>
+    <color name="layoutBg">#333333</color>
+    <color name="layoutBgWhite">#dfdfdf</color>
 
     <color name="menuBackground">#aa000000</color>
     <color name="transparent">#0000</color>

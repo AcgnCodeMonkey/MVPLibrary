@@ -36,6 +36,7 @@ dependencies {
     //greendao数据库框架依赖
     compile project(':BaseLibrary')
     compile project(':UtilsLibrary')
-    compile project(':QuoteLibrary')
+    compile project(':WidgetLibrary')
     compile project(':DataLibrary')
+    compile project(':RxLibrary')
 }

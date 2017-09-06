@@ -7,12 +7,13 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
+            <option value="$PROJECT_DIR$/../CommonLibrary/RxLibrary" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/AppLibrary" />
             <option value="$PROJECT_DIR$/BaseLibrary" />
             <option value="$PROJECT_DIR$/DataLibrary" />
-            <option value="$PROJECT_DIR$/QuoteLibrary" />
             <option value="$PROJECT_DIR$/UtilsLibrary" />
+            <option value="$PROJECT_DIR$/WidgetLibrary" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/demo" />
           </set>

@@ -11,7 +11,7 @@ import com.xujl.applibrary.mvp.view.CommonView;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.mvpllirary.R;
 import com.xujl.mvpllirary.mvp.view.port.IShowImageActivityView;
-import com.xujl.quotelibrary.util.ImageLoader;
+import com.xujl.widgetlibrary.util.ImageLoader;
 
 /**
  * Created by xujl on 2017/7/8.

@@ -2,6 +2,7 @@ package com.xujl.mvpllirary.mvp.model.port;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 
 import com.xujl.applibrary.mvp.common.DownloadManagerHelper;
 import com.xujl.applibrary.mvp.port.ICommonModel;
@@ -28,7 +29,7 @@ public interface IShowImageActivityModel extends ICommonModel {
 
     String getImageUrl ();
 
-    void blurImage (String url);
+    Bitmap blurImage (String url);
 
     void initDownloadHelper (Context context);
 

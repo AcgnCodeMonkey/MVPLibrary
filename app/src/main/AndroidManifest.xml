@@ -29,6 +29,7 @@
         </activity>
         <activity android:name=".mvp.presenter.ShowImageActivityPresenter" android:theme="@style/TranslucentStyle"/>
         <activity android:name=".mvp.presenter.ImageListActivityPresenter"/>
+        <activity android:name=".mvp.presenter.NewsDetailActivityPresenter"/>
     </application>
 
 </manifest>

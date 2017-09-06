@@ -18,8 +18,6 @@ import com.xujl.mvpllirary.util.DownloadFilePath;
 import com.xujl.mvpllirary.util.FastBlurUtil;
 import com.xujl.mvpllirary.util.IntentKey;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.io.File;
 
 /**
@@ -109,15 +107,10 @@ public class ShowImageActivityModel extends CommonModel implements IShowImageAct
     }
 
     @Override
-    public void blurImage (final String url) {
-        new Thread(new Runnable() {
-            @Override
-            public void run () {
-                Bitmap bitmap = FastBlurUtil.GetUrlBitmap(url, 20);
-                bitmap = FastBlurUtil.getTransparentBitmap(bitmap, 90);
-                EventBus.getDefault().post(bitmap);
-            }
-        }).start();
+    public Bitmap blurImage (final String url) {
+        Bitmap bitmap = FastBlurUtil.GetUrlBitmap(url, 20);
+        bitmap = FastBlurUtil.getTransparentBitmap(bitmap, 90);
+        return bitmap;
     }
 
     @Override
