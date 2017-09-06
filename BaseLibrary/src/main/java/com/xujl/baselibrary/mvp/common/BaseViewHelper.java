@@ -29,7 +29,7 @@ import android.widget.LinearLayout;
  * Created by xujl on 2017/5/2.
  */
 
-public class BaseViewHelper extends BaseHelper {
+public class BaseViewHelper extends BaseMvpHelper {
     private View mParentView;
 
     /**
@@ -51,7 +51,6 @@ public class BaseViewHelper extends BaseHelper {
             mParentView = LayoutInflater.from(context).inflate(layoutId, null);
             mParentView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         }
-
         return mParentView;
     }
 

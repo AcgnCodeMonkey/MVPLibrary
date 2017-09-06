@@ -47,6 +47,8 @@ public interface IBaseView {
 
     void showToastMsg (Context context, String msg, int code, int time);//toast提示用户消息，自定义时间
 
+    <T extends View> T findView(int id);
+
     /**
      * 其他类调用相关
      **/

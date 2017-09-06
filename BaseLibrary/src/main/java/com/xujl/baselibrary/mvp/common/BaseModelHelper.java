@@ -23,5 +23,5 @@ package com.xujl.baselibrary.mvp.common;
  * Created by xujl on 2017/5/2.
  */
 
-public class BaseModelHelper extends BaseHelper{
+public class BaseModelHelper extends BaseMvpHelper {
 }

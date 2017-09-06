@@ -120,4 +120,8 @@ public abstract class BaseView implements IBaseView {
         mRootView = presenter.exposeRootView();
     }
 
+    @Override
+    public <T extends View> T findView (int id) {
+        return (T) mRootView.findViewById(id);
+    }
 }

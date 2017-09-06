@@ -45,7 +45,7 @@ public class ShowImageActivity extends CommonView implements IShowImageActivityV
 
     @Override
     public void showImage (String url) {
-        ImageLoader.loadImage(mImageView.getContext(),url,mImageView);
+        ImageLoader.loadImage(url,mImageView);
     }
 
     @Override

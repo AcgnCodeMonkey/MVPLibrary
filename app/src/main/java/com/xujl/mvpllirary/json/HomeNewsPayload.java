@@ -20,5 +20,6 @@ public class HomeNewsPayload {
         public String used;
         public String url;
         public String who;
+        public List<String> images;//图片
     }
 }

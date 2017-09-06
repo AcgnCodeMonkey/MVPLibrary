@@ -66,8 +66,6 @@ public class RefreshRecyclerViewHelper extends BaseHelper {
         classicsHeader.setAccentColor(ContextCompat.getColor(mRefreshLayout.getContext(), R.color.white));
         mRefreshLayout.setRefreshHeader(classicsHeader);
         mRefreshLayout.setHeaderMaxDragRate(1.5f);
-
-        //设置 Footer 为 球脉冲
         mRefreshLayout.setRefreshFooter(new ClassicsFooter(mRefreshLayout.getContext()));
         return this;
     }

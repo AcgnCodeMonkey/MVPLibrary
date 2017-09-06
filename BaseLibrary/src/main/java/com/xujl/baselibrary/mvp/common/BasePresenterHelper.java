@@ -23,6 +23,6 @@ package com.xujl.baselibrary.mvp.common;
  * Created by xujl on 2017/4/28.
  */
 
-public class BasePresenterHelper extends BaseHelper{
+public class BasePresenterHelper extends BaseMvpHelper {
 
 }

@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xujl.widgetlibrary.widget.RefreshLayout
-    android:id="@+id/fragment_home_news_refreshLayout"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_home_news_recyclerView"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.xujl.widgetlibrary.widget.ViewPagerTabView
+        android:id="@+id/fragment_home_news_viewPagerTab"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="45dp"
+        android:background="@color/transparent">
+    </com.xujl.widgetlibrary.widget.ViewPagerTabView>
+    <include layout="@layout/include_line_v"/>
+    <android.support.v4.view.ViewPager android:id="@+id/fragment_home_news_viewPager"
+                                                     android:layout_width="match_parent"
+                                                     android:layout_height="match_parent"
+    >
 
-    </android.support.v7.widget.RecyclerView>
-</com.xujl.widgetlibrary.widget.RefreshLayout>
+    </android.support.v4.view.ViewPager>
+</LinearLayout>

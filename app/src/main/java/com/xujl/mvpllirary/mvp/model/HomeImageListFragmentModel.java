@@ -74,7 +74,7 @@ public class HomeImageListFragmentModel extends CommonModel implements IHomeImag
         String api = null;
         switch (mode) {
             case MODE_1:
-                api = ApiName.HOME_IMAGE + "/12/" + nowPage;
+                api = ApiName.HOME_IMAGE + "/12/" + 1;
                 resetBaseUrl(ApiName.BASE_1);
                 break;
             default:

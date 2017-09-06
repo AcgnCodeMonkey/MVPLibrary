@@ -22,6 +22,6 @@ public class HomeImageListAdaper extends BaseRecyclerViewAdapter<HomeImagelistPa
     @Override
     protected void convert (BaseViewHolder helper, HomeImagelistPayload.Images item) {
         helper.setText(R.id.item_home_nameTV,item.desc);
-        ImageLoader.loadImage(mContext, item.url, (ImageView) helper.getView(R.id.item_home_imageView));
+        ImageLoader.loadImage( item.url, (ImageView) helper.getView(R.id.item_home_imageView));
     }
 }

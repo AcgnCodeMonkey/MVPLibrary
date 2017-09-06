@@ -1,63 +1,50 @@
 package com.xujl.mvpllirary.mvp.model;
 
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+
 import com.xujl.applibrary.mvp.model.CommonModel;
-import com.xujl.datalibrary.network.ApiName;
-import com.xujl.mvpllirary.json.HomeNewsPayload;
 import com.xujl.mvpllirary.mvp.model.port.IHomeNewsFragmentModel;
-import com.xujl.utilslibrary.data.ParamsMapTool;
+import com.xujl.mvpllirary.mvp.presenter.NewsTabFragmentPresenter;
+import com.xujl.mvpllirary.util.IntentKey;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by xujl on 2017/9/6.
  */
 public class HomeNewsFragmentModel extends CommonModel implements IHomeNewsFragmentModel {
-    private List<HomeNewsPayload.News> mDataList;
-    private int nowPage = 1;
+    private List<String> mTabTitles = Arrays.asList("all", "Android", "iOS", "前端", "休息视频", "拓展资源");
 
-    public HomeNewsFragmentModel () {
-        mDataList = new ArrayList<>();
+
+    @Override
+    public List<String> getTabTitle () {
+        return mTabTitles;
     }
 
     @Override
-    public void addData (int mode, String json) {
-        if (mode == MODE_1) {
-            mDataList.clear();
-            nowPage = 1;
+    public List<Fragment> getFragmentList () {
+        List<Fragment> fragmentList = new ArrayList<>();
+        for (String tabTitle : mTabTitles) {
+            final Fragment fragment = new NewsTabFragmentPresenter();
+            final Bundle bundle = new Bundle();
+            bundle.putString(IntentKey.TYPE, tabTitle);
+            fragment.setArguments(bundle);
+            fragmentList.add(fragment);
         }
-        final HomeNewsPayload homePayload = fromJson(json, HomeNewsPayload.class);
-        mDataList.addAll(homePayload.results);
-        nowPage++;
+        return fragmentList;
     }
 
     @Override
-    public List<HomeNewsPayload.News> getDataList () {
-        return mDataList;
-    }
-    @Override
-    protected void addParams (int mode, Map<String, Object> params, ParamsMapTool paramsMapTool) {
-        switch (mode) {
-            default:
-                break;
-
+    public String getMaxTitle () {
+        String result = "";
+        for (String tabTitle : mTabTitles) {
+            if (tabTitle.length() > result.length()) {
+                result = tabTitle;
+            }
         }
-    }
-
-    @Override
-    protected String getApiName (int mode) {
-        String api = null;
-        switch (mode) {
-            case MODE_1:
-                api = ApiName.HOME_NEWS + "/12/" + nowPage;
-                resetBaseUrl(ApiName.BASE_1);
-                break;
-            default:
-                api = ApiName.HOME_NEWS + "/12/" + nowPage;
-                break;
-
-        }
-        return api;
+        return result;
     }
 }

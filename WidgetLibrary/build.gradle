@@ -31,7 +31,7 @@ dependencies {
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'//如果使用了特殊的Header
     //刷新布局
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.8.3'
-    //recyclerview多类型适配器
+    //recyclerView多类型适配器
     compile 'com.github.bumptech.glide:glide:3.8.0'
     //图片加载库
     compile 'com.liulishuo.filedownloader:library:1.6.2'
@@ -39,7 +39,9 @@ dependencies {
     compile 'com.github.pinguo-zhouwei:MZBannerView:v1.1.1'
     //仿魅族banner库
     compile 'com.just.agentweb:agentweb:2.0.0'
-    //webview封装库
+    //webView封装库
+    compile 'com.shizhefei:ViewPagerIndicator:1.1.6'
+    //viewPager标题栏tab控件
     compile 'com.android.support:design:25.3.1'
     compile project(':UtilsLibrary')
 }

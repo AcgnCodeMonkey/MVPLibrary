@@ -14,12 +14,12 @@
         android:fitsSystemWindows="true"
         android:orientation="vertical"
     >
-        <android.support.v4.view.ViewPager android:id="@+id/activity_main_viewPager"
+        <com.xujl.widgetlibrary.widget.NoScrollViewPager android:id="@+id/activity_main_viewPager"
                                            android:layout_width="match_parent"
                                            android:layout_height="0dp"
                                            android:layout_weight="1">
 
-        </android.support.v4.view.ViewPager>
+        </com.xujl.widgetlibrary.widget.NoScrollViewPager>
         <RadioGroup android:id="@+id/activity_main_radioGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

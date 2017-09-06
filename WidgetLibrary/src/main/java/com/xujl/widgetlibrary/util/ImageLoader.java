@@ -18,12 +18,12 @@ import com.xujl.utilslibrary.view.ViewTool;
  */
 
 public class ImageLoader {
-    public static void loadImage (Context context, int res, final ImageView imageView) {
+    public static void loadImage ( int res, final ImageView imageView) {
         if (res == 0) {
             imageView.setImageDrawable(null);
             return;
         }
-        final DrawableTypeRequest<Integer> typeRequest = Glide.with(context).load(res);
+        final DrawableTypeRequest<Integer> typeRequest = Glide.with(imageView.getContext()).load(res);
         typeRequest.error(R.drawable.icon_error)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.icon_default)//加载中显示的图片
@@ -34,12 +34,12 @@ public class ImageLoader {
                     }
                 });
     }
-    public static void loadImage (Context context, String url, final ImageView imageView) {
+    public static void loadImage ( String url, final ImageView imageView) {
         if (ViewTool.isEmpty(url)) {
             imageView.setImageDrawable(null);
             return;
         }
-        final DrawableTypeRequest<String> typeRequest = Glide.with(context).load(url);
+        final DrawableTypeRequest<String> typeRequest = Glide.with(imageView.getContext()).load(url);
         typeRequest.error(R.drawable.icon_error)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.icon_default)//加载中显示的图片
