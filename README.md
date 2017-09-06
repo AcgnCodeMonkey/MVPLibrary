@@ -1,10 +1,10 @@
 # MVP模式扩展-->MVPH模式
 #### 使用简单，易扩展，易维护，低耦合，高复用是MVPH的目标<br>
-![](https://img.shields.io/badge/JitPack-0.0.6-green.svg)![](https://img.shields.io/badge/DemoVersion-1.1-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
+![](https://img.shields.io/badge/JitPack-0.0.8-green.svg)![](https://img.shields.io/badge/DemoVersion-1.2-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
 
 引用方式 :<br>
 
-> **compile 'com.xujl:BaseLibrary:0.0.6'**<br>
+> **compile 'com.xujl:BaseLibrary:0.0.8'**<br>
 
 ### [架构思路简介](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/架构思路.md)
 &emsp;&emsp;MVP的基本思想这里不做过多解释，有兴趣的同学可以在网上找相应资料学习一下。<br>
@@ -20,11 +20,11 @@ Model中封装好的对应方法。一般来讲这么写没有太大问题，但
 2.  **封装这段处理业务的逻辑成为一个新的BaseModel，这样，其他地方的Model只需要继承这个Model就能包含这段业务处理能力**
 
 &emsp;&emsp;以上两种方法都有比较致命的问题，第一种方法的问题在于，Presenter虽然可以对应多个Model，但是通常每个Model会有自己
-比较特别的业务逻辑，如果直接引用，会造成一些不该出现的方法也能被Presenter调用。第二种方法的问题就更明显了，继承已经是最大的问题
+比较特别的业务逻辑，如果直接引用，会造成一些不该出现的方法也能被Presenter调用，而且采用一个p对应多个m，会造成对Model管理的复杂度增加。第二种方法的问题就更明显了，继承已经是最大的问题
 ，由于Java中类只能单继承，所以说当你继承了这个特定业务的Model时就代表无法再去继承其他类了，那么问题来了，如果这时需求变更，
 又突然出现一个需要多次使用的数据处理逻辑，并且和之前的Model没有任何联系时，你要怎么办呢？<br>
 
-&emsp;&emsp;当然，这种问题对于有一定经验的程序猿当然是没有任何难度的，我们通常可以选择单独封装一个类似于Helper类的类来处理一部分特定通用逻辑
+&emsp;&emsp;当然，这种问题对于有一定经验的程序猿当然是没有任何难度的，我们通常可以选择单独封装一个类来处理一部分特定通用逻辑
 ，这样Model再去引用这个Helper类就能使用通用的数据处理逻辑了。这个其实就是大家常说的少用继承多用组合的设计原则。<br>
 
 > **MVPH的核心思想也正是基于这种思想，MVP只提供基本的设计框架，实际的业务逻辑（这里特指那些很多界面多次出现的业务逻辑）
@@ -35,7 +35,8 @@ Model中封装好的对应方法。一般来讲这么写没有太大问题，但
 &emsp;&emsp;总的来说MVPH与传统MVP的区别在于，传统MVP对于复用逻辑的是一个View对应多个Presenter或Model(如果是以
 Activity为Presenter则是一个Presenter对应多个View和Model),而MVPH的思想则是MVP只能一一对应，即一个Presenter
 （Activity）对应一个View和一个Model，对于需要复用的逻辑采用组合的方式使用Helper类来实现，以达到逻辑和数据甚至视图的
-多次复用。
+多次复用，同时每个helper由mvp每个对应角色自己管理，这样，一个model可以只由自己独立的逻辑构成也可以自主或由Presenter添加某个通用功能的helper到自己内部进行功能扩展。<br>
+&emsp;&emsp;注意点：虽然思想是这样的，但是我们在编写helper类的时候应该有自己的把控，因为通常helper的编写就涉及到三个，ViewHelper,ModelHelper,PresenterHelper,就像mvp一样，如果对于helper划分的粒度过细的话，非常容易造成类爆炸（mvp划分不好会造成方法数爆炸）。所以，目前来讲，只建议抽离通用性较强或者虽然使用的地方不多，但是逻辑非常复杂的业务逻辑，这样才能达到一个平衡点。
 
 ***
 ### 框架功能介绍
@@ -64,6 +65,12 @@ Activity为Presenter则是一个Presenter对应多个View和Model),而MVPH的思
 ###### 交流群:275885217&emsp;&emsp;入群密码:mvp
 ---
 ## 版本更新日志:
+
+    更新日期：2017/09/06  库版本：0.0.8  demo版本：1.2
+     1.新增baseview可控制在不使用toobar时是否为布局添加父布局
+     2.修复activity和fragment销毁时未清空model和view引用
+     3.demo更新，引入rxjava2,新增RxLibrary,修改demo部分加载逻辑
+     4.demo首页变更，新增安卓资讯栏目，点击跳转webview详情页,详情页采用非mvp编写
 
     更新日期：2017/07/24  库版本：0.0.6  demo版本：1.1
       1.修改基础库BaseView加载判断，兼容activity和fragment
