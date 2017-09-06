@@ -66,7 +66,7 @@ Activity为Presenter则是一个Presenter对应多个View和Model),而MVPH的思
 ---
 ## 版本更新日志:
 
-    更新日期：2017/09/6  库版本：0.0.8  demo版本：1.2
+    更新日期：2017/09/06  库版本：0.0.8  demo版本：1.2
      1.新增baseview可控制在不使用toobar时是否为布局添加父布局
      2.修复activity和fragment销毁时未清空model和view引用
      3.demo更新，引入rxjava2,新增RxLibrary,修改demo部分加载逻辑
