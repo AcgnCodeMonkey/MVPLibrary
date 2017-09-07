@@ -38,5 +38,4 @@ dependencies {
     compile project(':UtilsLibrary')
     compile project(':WidgetLibrary')
     compile project(':DataLibrary')
-    compile project(':RxLibrary')
 }

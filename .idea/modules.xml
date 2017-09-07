@@ -6,7 +6,6 @@
       <module fileurl="file://$PROJECT_DIR$/BaseLibrary/BaseLibrary.iml" filepath="$PROJECT_DIR$/BaseLibrary/BaseLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/DataLibrary/DataLibrary.iml" filepath="$PROJECT_DIR$/DataLibrary/DataLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/MVPLlirary.iml" filepath="$PROJECT_DIR$/MVPLlirary.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../CommonLibrary/RxLibrary/RxLibrary.iml" filepath="$PROJECT_DIR$/../CommonLibrary/RxLibrary/RxLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/UtilsLibrary/UtilsLibrary.iml" filepath="$PROJECT_DIR$/UtilsLibrary/UtilsLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/WidgetLibrary/WidgetLibrary.iml" filepath="$PROJECT_DIR$/WidgetLibrary/WidgetLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />

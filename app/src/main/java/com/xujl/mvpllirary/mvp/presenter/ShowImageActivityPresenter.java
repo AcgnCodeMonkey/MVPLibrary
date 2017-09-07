@@ -1,7 +1,6 @@
 package com.xujl.mvpllirary.mvp.presenter;
 
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -15,14 +14,8 @@ import com.xujl.mvpllirary.mvp.model.ShowImageActivityModel;
 import com.xujl.mvpllirary.mvp.model.port.IShowImageActivityModel;
 import com.xujl.mvpllirary.mvp.view.ShowImageActivity;
 import com.xujl.mvpllirary.mvp.view.port.IShowImageActivityView;
-import com.xujl.rxlibrary.BaseObservable;
-import com.xujl.rxlibrary.BaseObservableEmitter;
-import com.xujl.rxlibrary.BaseObserver;
-import com.xujl.rxlibrary.RxHelper;
 
 import java.io.File;
-
-import io.reactivex.annotations.NonNull;
 
 /**
  * Created by xujl on 2017/7/8.
@@ -42,26 +35,12 @@ public class ShowImageActivityPresenter extends CommonActivityPresenter<IShowIma
 
     @Override
     protected void initPresenter (Bundle savedInstanceState) {
-        RxHelper.onCreat(mRxLife)
-                .creatNormal(new BaseObservable<Bitmap>() {
-                    @Override
-                    public void emitAction (BaseObservableEmitter<Bitmap> e) throws Exception {
-                        mModel.savePassData(getIntent());
-                        mModel.initDownloadHelper(exposeContext());
-                        e.onNext(mModel.blurImage(mModel.getImageUrl()));
-                    }
-                })
-                .newThreadToMain()
-                .run(new BaseObserver<Bitmap>() {
-                    @Override
-                    public void onNext (@NonNull Bitmap o) {
-                        super.onNext(o);
-                        mView.blurBackground(o);
-                        mView.loadType(mModel.getType());
-                        mView.showImage(mModel.getImageUrl());
-                        mView.changeCollectionImage(mModel.imageIsCollection());
-                    }
-                });
+        mModel.savePassData(getIntent());
+        mModel.initDownloadHelper(exposeContext());
+        mView.blurBackground(mModel.blurImage(mModel.getImageUrl()));
+        mView.loadType(mModel.getType());
+        mView.showImage(mModel.getImageUrl());
+        mView.changeCollectionImage(mModel.imageIsCollection());
     }
 
     @Override

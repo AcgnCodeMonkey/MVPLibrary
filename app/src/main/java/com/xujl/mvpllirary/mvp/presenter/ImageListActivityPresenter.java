@@ -14,14 +14,8 @@ import com.xujl.mvpllirary.mvp.model.port.IImageListActivityModel;
 import com.xujl.mvpllirary.mvp.view.ImageListActivity;
 import com.xujl.mvpllirary.mvp.view.port.IImageListActivityView;
 import com.xujl.mvpllirary.util.IntentKey;
-import com.xujl.rxlibrary.BaseObservable;
-import com.xujl.rxlibrary.BaseObservableEmitter;
-import com.xujl.rxlibrary.BaseObserver;
-import com.xujl.rxlibrary.RxHelper;
 import com.xujl.widgetlibrary.adapter.BaseRecyclerViewAdapter;
 import com.xujl.widgetlibrary.widget.RefreshLayout;
-
-import io.reactivex.annotations.NonNull;
 
 /**
  * Created by xujl on 2017/7/10.
@@ -63,23 +57,9 @@ public class ImageListActivityPresenter extends CommonActivityPresenter<IImageLi
 
     @Override
     public void onRefresh (RefreshLayout refreshLayout) {
-        RxHelper.onCreat(mRxLife)
-                .creatNormal(new BaseObservable<Object>() {
-                    @Override
-                    public void emitAction (BaseObservableEmitter<Object> e) throws Exception {
-                        mModel.addData();
-                        e.onNext(new Object());
-                    }
-                })
-                .ioThreadToMain()
-                .run(new BaseObserver<Object>() {
-                    @Override
-                    public void onNext (@NonNull Object o) {
-                        super.onNext(o);
-                        mAdapter.cbNotifyDataSetChanged();
-                        mView.getRefreshRecyclerViewHelper().refreshLoadingComplete();
-                    }
-                });
+        mModel.addData();
+        mAdapter.cbNotifyDataSetChanged();
+        mView.getRefreshRecyclerViewHelper().refreshLoadingComplete();
     }
 
     @Override
