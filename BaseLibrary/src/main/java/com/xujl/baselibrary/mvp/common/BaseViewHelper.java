@@ -30,7 +30,7 @@ import android.widget.LinearLayout;
  */
 
 public class BaseViewHelper extends BaseMvpHelper {
-    private View mParentView;
+    protected View mParentView;
 
     /**
      *

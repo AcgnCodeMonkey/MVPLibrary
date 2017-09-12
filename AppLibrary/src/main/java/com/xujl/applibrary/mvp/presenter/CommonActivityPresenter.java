@@ -13,6 +13,7 @@ import com.xujl.applibrary.mvp.port.ICommonView;
 import com.xujl.applibrary.mvp.view.CommonView;
 import com.xujl.applibrary.util.CustomToast;
 import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
+import com.xujl.rxlibrary.RxLife;
 import com.xujl.utilslibrary.data.ParamsMapTool;
 
 /**
@@ -21,6 +22,7 @@ import com.xujl.utilslibrary.data.ParamsMapTool;
 
 public abstract class CommonActivityPresenter<V extends ICommonView, M extends ICommonModel>
         extends BaseActivityPresenter<V, M> implements ICommonPresenter {
+    protected RxLife mRxLife = new RxLife();
     @Override
     public <S extends Activity> void gotoActivity (Class<S> cls, Bundle bundle) {
         getPresenterHelper().gotoActivity(this, cls, bundle);
@@ -135,6 +137,7 @@ public abstract class CommonActivityPresenter<V extends ICommonView, M extends I
 
     @Override
     protected void onDestroy () {
+        mRxLife.destroyAll();
         super.onDestroy();
     }
 }

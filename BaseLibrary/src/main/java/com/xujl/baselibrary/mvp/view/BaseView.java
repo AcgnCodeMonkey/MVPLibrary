@@ -34,8 +34,8 @@ import com.xujl.baselibrary.mvp.port.IBaseView;
 
 public abstract class BaseView implements IBaseView {
     protected View mRootView;
-    private BaseViewHelper mViewHelper;
-    private BaseToolBarModule mToolBarModule;
+    protected BaseViewHelper mViewHelper;
+    protected BaseToolBarModule mToolBarModule;
 
 
     @Override

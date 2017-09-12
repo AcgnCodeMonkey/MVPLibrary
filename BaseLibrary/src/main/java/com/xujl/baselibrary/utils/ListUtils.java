@@ -12,7 +12,6 @@ public class ListUtils {
     public static boolean isEmpty (Map list) {
         return list == null || list.size() == 0;
     }
-
     public static boolean isEmpty (List list) {
         return list == null || list.size() == 0;
     }

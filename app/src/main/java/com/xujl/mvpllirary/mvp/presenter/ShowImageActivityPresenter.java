@@ -37,7 +37,7 @@ public class ShowImageActivityPresenter extends CommonActivityPresenter<IShowIma
     protected void initPresenter (Bundle savedInstanceState) {
         mModel.savePassData(getIntent());
         mModel.initDownloadHelper(exposeContext());
-        mView.blurBackground(mModel.blurImage(mModel.getImageUrl()));
+//        mView.blurBackground(mModel.blurImage(mModel.getImageUrl()));
         mView.loadType(mModel.getType());
         mView.showImage(mModel.getImageUrl());
         mView.changeCollectionImage(mModel.imageIsCollection());

@@ -85,4 +85,5 @@ public class RefreshLayout extends SmartRefreshLayout {
         }
         return super.finishLoadmore();
     }
+
 }

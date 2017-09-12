@@ -19,6 +19,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -38,4 +41,5 @@ dependencies {
     compile project(':UtilsLibrary')
     compile project(':WidgetLibrary')
     compile project(':DataLibrary')
+    compile project(':RxLibrary')
 }

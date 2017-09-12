@@ -15,8 +15,8 @@ import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
  */
 
 public class BaseToolBarModule {
-    private ViewGroup mRootView;//页面根布局
-    private Toolbar mToolbar;
+    protected ViewGroup mRootView;//页面根布局
+    protected Toolbar mToolbar;
     private ActionBar mActionBar;
 
     /**
@@ -37,6 +37,9 @@ public class BaseToolBarModule {
         mRootView.addView(contentView);
     }
 
+    public BaseToolBarModule () {
+    }
+
     /**
      * 此构造器用于页面本身已经包含了一个toolBar的情况
      * 直接传入布局Id和toolBar的id即可
@@ -48,6 +51,7 @@ public class BaseToolBarModule {
         mRootView = (ViewGroup) LayoutInflater.from(activity).inflate(layoutId, null);
         mToolbar = (Toolbar) mRootView.findViewById(toolBarId);
     }
+
 
     public void initSetting (BaseActivityPresenter presenter) {
         presenter.setSupportActionBar(mToolbar);

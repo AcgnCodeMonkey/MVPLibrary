@@ -28,6 +28,8 @@ public class MainActivity extends CommonView implements IMainActivityView {
         mViewPager = (ViewPager) mRootView.findViewById(R.id.activity_main_viewPager);
         getToolBarModule().getActionBar().setHomeButtonEnabled(true); //设置返回键可用
         getToolBarModule().getActionBar().setDisplayHomeAsUpEnabled(true);
+        getToolBarModule().getRightIB().setImageResource(R.drawable.qr_code_icon);
+        getToolBarModule().getRightIB().setOnClickListener(presenter);
         mDrawerToggle = new ActionBarDrawerToggle(presenter.exposeActivity(), mDrawerLayout, getToolBarModule().getToolbar(), R.string.open, R.string.close) {
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -42,6 +44,7 @@ public class MainActivity extends CommonView implements IMainActivityView {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mRootView.findViewById(R.id.part_activity_main_menu_downloadTV).setOnClickListener(presenter);
         mRootView.findViewById(R.id.part_activity_main_menu_collectionTV).setOnClickListener(presenter);
+        mRootView.findViewById(R.id.part_activity_main_menu_personTV).setOnClickListener(presenter);
         RadioGroup radioGroup = (RadioGroup) mRootView.findViewById(R.id.activity_main_radioGroup);
         radioGroup.setOnCheckedChangeListener((RadioGroup.OnCheckedChangeListener) presenter);
     }
@@ -62,5 +65,6 @@ public class MainActivity extends CommonView implements IMainActivityView {
         getToolBarModule().setTitle(title);
         mViewPager.setCurrentItem(position);
     }
+
 
 }

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+>
+    <data>
+        <variable name="person" type="com.xujl.mvpllirary.json.PersonPayload"/>
+    </data>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:id="@+id/dataBindingRootView"
+                  android:background="@color/layoutBgWhite"
+                  android:orientation="vertical">
+        <LinearLayout android:layout_width="match_parent"
+                      android:orientation="vertical"
+                      android:layout_height="match_parent">
+            <LinearLayout
+                style="@style/PersonLayoutItemStyle">
+                <TextView
+                    style="@style/PersonLayoutItemTitleStyle" android:text="姓名"/>
+                <EditText
+                    android:id="@+id/activity_person_nameET"
+                    android:text="@{person.name}"
+                    style="@style/PersonLayoutItemContentStyle" tools:text="测试"/>
+            </LinearLayout>
+            <LinearLayout
+                style="@style/PersonLayoutItemStyle">
+                <TextView
+                    style="@style/PersonLayoutItemTitleStyle" android:text="年龄"/>
+                <EditText
+                    android:id="@+id/activity_person_ageET"
+                    android:text="@{person.age}"
+                    style="@style/PersonLayoutItemContentStyle" tools:text="测试"/>
+            </LinearLayout>
+            <LinearLayout
+                style="@style/PersonLayoutItemStyle">
+                <TextView
+                    style="@style/PersonLayoutItemTitleStyle" android:text="联系电话"/>
+                <EditText
+                    android:id="@+id/activity_person_phoneET"
+                    android:text="@{person.phone}"
+                    style="@style/PersonLayoutItemContentStyle" tools:text="测试"/>
+            </LinearLayout>
+            <LinearLayout
+                style="@style/PersonLayoutItemStyle">
+                <TextView
+                    style="@style/PersonLayoutItemTitleStyle" android:text="身份证号"/>
+                <EditText
+                    android:id="@+id/activity_person_codeET"
+                    android:text="@{person.code}"
+                    style="@style/PersonLayoutItemContentStyle" tools:text="测试"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="8dp"
+                style="@style/PersonLayoutItemStyle">
+                <TextView
+                    style="@style/PersonLayoutItemTitleStyle" android:text="性别"/>
+                <EditText
+                    android:id="@+id/activity_person_sexET"
+                    android:text="@{person.sex}"
+                    style="@style/PersonLayoutItemContentStyle" tools:text="测试"/>
+            </LinearLayout>
+            <LinearLayout
+                style="@style/PersonLayoutItemStyle">
+                <TextView
+                    style="@style/PersonLayoutItemTitleStyle" android:text="婚姻状况"/>
+                <EditText
+                    android:id="@+id/activity_person_marriageET"
+                    android:text="@{person.marriage}"
+                    style="@style/PersonLayoutItemContentStyle" tools:text="测试"/>
+            </LinearLayout>
+            <LinearLayout
+                style="@style/PersonLayoutItemStyle">
+                <TextView
+                    style="@style/PersonLayoutItemTitleStyle" android:text="紧急联系电话"/>
+                <EditText
+                    android:id="@+id/activity_person_phone2ET"
+                    android:text="@{person.phone2}"
+                    style="@style/PersonLayoutItemContentStyle" tools:text="测试"/>
+            </LinearLayout>
+            <LinearLayout
+                style="@style/PersonLayoutItemStyle">
+                <TextView
+                    style="@style/PersonLayoutItemTitleStyle" android:text="学历"/>
+                <EditText
+                    android:id="@+id/activity_person_recordET"
+                    android:text="@{person.record}"
+                    style="@style/PersonLayoutItemContentStyle" tools:text="测试"/>
+            </LinearLayout>
+            <LinearLayout
+                style="@style/PersonLayoutItemStyle">
+                <TextView
+                    style="@style/PersonLayoutItemTitleStyle" android:text="家庭住址"/>
+                <EditText
+                    android:id="@+id/activity_person_addressET"
+                    android:text="@{person.address}"
+                    style="@style/PersonLayoutItemContentStyle" tools:text="测试"/>
+            </LinearLayout>
+            <LinearLayout
+                style="@style/PersonLayoutItemStyle">
+                <TextView
+                    style="@style/PersonLayoutItemTitleStyle" android:text="详细地址"/>
+                <EditText
+                    android:id="@+id/activity_person_addressDetailET"
+                    android:text="@{person.addressDetail}"
+                    style="@style/PersonLayoutItemContentStyle" tools:text="测试"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

@@ -14,10 +14,4 @@
         app:indicatorAlign="center"
         app:indicatorPaddingLeft="10dp"
     />
-    <com.gongwen.marqueen.MarqueeView android:id="@+id/marqueeView"
-                                      android:layout_width="match_parent"
-                                      android:layout_height="wrap_content"
-    >
-
-    </com.gongwen.marqueen.MarqueeView>
 </LinearLayout>

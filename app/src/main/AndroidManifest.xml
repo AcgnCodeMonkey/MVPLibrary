@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:name="com.xujl.applibrary.util.AppApplication"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvp.presenter.MainActivityPresenter">
+        <activity android:name=".mvp.presenter.SplashActivityPresenter">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -30,6 +30,8 @@
         <activity android:name=".mvp.presenter.ShowImageActivityPresenter" android:theme="@style/TranslucentStyle"/>
         <activity android:name=".mvp.presenter.ImageListActivityPresenter"/>
         <activity android:name=".mvp.presenter.NewsDetailActivityPresenter"/>
+        <activity android:name=".mvp.presenter.MainActivityPresenter"/>
+        <activity android:name=".mvp.presenter.PersonDataBindingActivityPresenter"/>
     </application>
 
 </manifest>

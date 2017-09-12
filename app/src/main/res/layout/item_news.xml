@@ -29,12 +29,12 @@
                            android:layout_width="50dp"
                            android:visibility="gone"
                            android:layout_height="50dp"
+                           android:layout_marginRight="8dp"
                            android:scaleType="centerCrop"
                            android:src="@drawable/toast_frame"/>
                 <TextView android:id="@+id/item_news_titleTV"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
-                          android:layout_marginLeft="8dp"
                           android:textColor="@color/colorPrimary"
                           android:textSize="@dimen/text_medium"
                           tools:text="标题"/>

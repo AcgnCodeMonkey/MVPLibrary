@@ -1,6 +1,7 @@
 package com.xujl.mvpllirary.mvp.presenter;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.view.View;
@@ -9,7 +10,10 @@ import android.widget.RadioGroup;
 import com.xujl.applibrary.adapter.SimpleViewPagerAdapter;
 import com.xujl.applibrary.db.ImageBeanType;
 import com.xujl.applibrary.mvp.presenter.CommonActivityPresenter;
+import com.xujl.applibrary.util.CustomToast;
+import com.xujl.baselibrary.mvp.port.HelperType;
 import com.xujl.mvpllirary.R;
+import com.xujl.mvpllirary.mvp.common.QRScanHelper;
 import com.xujl.mvpllirary.mvp.model.MainActivityModel;
 import com.xujl.mvpllirary.mvp.model.port.IMainActivityModel;
 import com.xujl.mvpllirary.mvp.view.MainActivity;
@@ -34,6 +38,7 @@ public class MainActivityPresenter extends CommonActivityPresenter<IMainActivity
 
     @Override
     protected void initPresenter (Bundle savedInstanceState) {
+        getPresenterHelper().addHelper(HelperType.TYPE_ONE,new QRScanHelper());
         mView.setAdapter(new SimpleViewPagerAdapter(getSupportFragmentManager(), mModel.getFragmentList()));
     }
 
@@ -51,6 +56,12 @@ public class MainActivityPresenter extends CommonActivityPresenter<IMainActivity
                 bundle2.putInt(IntentKey.TYPE, ImageBeanType.TYPE_COLLECTION);
                 gotoActivity(ImageListActivityPresenter.class, bundle2);
                 break;
+            case R.id.part_activity_main_menu_personTV:
+                gotoActivity(PersonDataBindingActivityPresenter.class);
+                break;
+            case R.id.toolbar_layout_rightImageBtn:
+                getQRScanHelper().openScanner(exposeActivity());
+                break;
             default:
 
                 break;
@@ -61,7 +72,7 @@ public class MainActivityPresenter extends CommonActivityPresenter<IMainActivity
 
     @Override
     protected String[] needPermissions () {
-        return new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        return new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA};
     }
 
     @Override
@@ -78,5 +89,18 @@ public class MainActivityPresenter extends CommonActivityPresenter<IMainActivity
                 break;
 
         }
+    }
+
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final String result = getQRScanHelper().onActivityResult(requestCode, resultCode, data);
+        if (result == null) {
+            return;
+        }
+        mView.showToastMsg(exposeContext(),result, CustomToast.SUCCESS);
+    }
+    private QRScanHelper getQRScanHelper(){
+        return getPresenterHelper().getHelper(HelperType.TYPE_ONE);
     }
 }

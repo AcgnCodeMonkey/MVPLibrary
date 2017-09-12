@@ -16,4 +16,9 @@
         style="@style/MenuTextViewStyle"
         android:drawableLeft="@drawable/menu_collection_icon"
         android:text="已收藏"/>
+    <TextView
+        android:id="@+id/part_activity_main_menu_personTV"
+        style="@style/MenuTextViewStyle"
+        android:drawableLeft="@drawable/menu_person_icon"
+        android:text="个人中心"/>
 </LinearLayout>

@@ -20,14 +20,17 @@ public class ToolBarModule extends BaseToolBarModule {
     private BaseActivityPresenter mPresenter;
     public ToolBarModule (Activity activity, int layoutId) {
         super(activity, layoutId);
-        mTitleTV = (TextView) getToolbar().findViewById(R.id.toolbar_layout_titleTV);
-        mLeftIB = (ImageButton) getToolbar().findViewById(R.id.toolbar_layout_leftImageBtn);
-        mRightIB = (ImageButton) getToolbar().findViewById(R.id.toolbar_layout_rightImageBtn);
+    }
+
+    public ToolBarModule () {
     }
 
     @Override
     public void initSetting (BaseActivityPresenter presenter) {
         super.initSetting(presenter);
+        mTitleTV = (TextView) getToolbar().findViewById(R.id.toolbar_layout_titleTV);
+        mLeftIB = (ImageButton) getToolbar().findViewById(R.id.toolbar_layout_leftImageBtn);
+        mRightIB = (ImageButton) getToolbar().findViewById(R.id.toolbar_layout_rightImageBtn);
         mPresenter = presenter;
         getActionBar().setDisplayShowTitleEnabled(false);
         getToolbar().setTitle("");
@@ -53,6 +56,10 @@ public class ToolBarModule extends BaseToolBarModule {
 
     public ImageButton getLeftIB () {
         return mLeftIB;
+    }
+
+    public ImageButton getRightIB () {
+        return mRightIB;
     }
 
     public void setTitle(String title){
