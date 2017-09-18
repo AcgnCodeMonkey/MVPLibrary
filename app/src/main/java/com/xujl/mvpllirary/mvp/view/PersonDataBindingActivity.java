@@ -13,11 +13,16 @@ public class PersonDataBindingActivity extends DataBindingView<ActivityPersonBin
     @Override
     public void initView (IBasePresenter presenter) {
         super.initView(presenter);
-        mDataBinding.activityPersonAddressDetailET.setText("dddd");
+        mDataBinding.activityPersonCommitBtn.setOnClickListener(presenter);
     }
 
     @Override
     public int getLayoutId () {
         return R.layout.activity_person;
+    }
+
+    @Override
+    public void showResult (String result) {
+        mDataBinding.activityPersonResultTV.setText(result);
     }
 }
