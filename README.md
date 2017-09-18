@@ -1,10 +1,10 @@
 # MVP模式扩展-->MVPH模式
 #### 使用简单，易扩展，易维护，低耦合，高复用是MVPH的目标<br>
-![](https://img.shields.io/badge/JitPack-0.0.8-green.svg)![](https://img.shields.io/badge/DemoVersion-1.2-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
+![](https://img.shields.io/badge/JitPack-0.0.9-green.svg)![](https://img.shields.io/badge/DemoVersion-1.3-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
 
 引用方式 :<br>
 
-> **compile 'com.xujl:BaseLibrary:0.0.8'**<br>
+> **compile 'com.xujl:BaseLibrary:0.0.9'**<br>
 
 ### [架构思路简介](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/架构思路.md)
 &emsp;&emsp;MVP的基本思想这里不做过多解释，有兴趣的同学可以在网上找相应资料学习一下。<br>
@@ -63,10 +63,25 @@ Activity为Presenter则是一个Presenter对应多个View和Model),而MVPH的思
 &emsp;&emsp;不过考虑到现在rxJava和DataBinding被越来越广泛的使用，所以在后面的版本有可能会考虑融合这两个东西进来。
 
 ###### 交流群:275885217&emsp;&emsp;入群密码:mvp
+###### 友情鸣谢：[接口提供-http://gank.io/api](http://gank.io/api)
 ---
 ## 版本更新日志:
 
-    更新日期：2017/09/06  库版本：0.0.8  demo版本：1.2
+    更新日期：2017/09/18  库版本：0.0.9  demo版本：1.3
+     1.更改helper基类用法，基础model，view，presenter，helper类改为继承BaseMvpHelper
+     （原BaseHelper）类，新的BaseHelper类为其他自定义helper类的基类，并且只有
+     基础BaseMvpHelper的子类才具有添加BaseHelper类的功能（之前是任意BaseHelper
+     子类都可以添加）,自定义的helper类无法往自己内部添加helper类。
+     2.baseView新增findView方法，可以直接调用，不用再需要使用mRootView,也不需要类型强转
+     3.demo依赖RxLibrary方式变更
+     4.demo资讯新增viewPage+fragment分类，增加启动页面，首页导航增加二维码扫描
+     5.demo的AppLibrary新增结合DataBinding的使用封装基类，demo中新增结合DataBinding的使用
+     示例，下次更新会更改为基础库支持DataBinding。
+     6.修改基础库部分字段访问权限
+     7.下次更新目标：优化ToolBarModule和helper类代码，优化view和presenter的模板代码，释放
+     部分逻辑到helper类中，基类兼容DataBinding
+
+    更新日期：2017/09/6  库版本：0.0.8  demo版本：1.2
      1.新增baseview可控制在不使用toobar时是否为布局添加父布局
      2.修复activity和fragment销毁时未清空model和view引用
      3.demo更新，引入rxjava2,新增RxLibrary,修改demo部分加载逻辑
