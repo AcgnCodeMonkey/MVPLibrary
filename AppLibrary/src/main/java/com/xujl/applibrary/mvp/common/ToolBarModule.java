@@ -73,4 +73,5 @@ public class ToolBarModule extends BaseToolBarModule {
     public void setTitle(String title){
         mTitleTV.setText(title);
     }
+
 }

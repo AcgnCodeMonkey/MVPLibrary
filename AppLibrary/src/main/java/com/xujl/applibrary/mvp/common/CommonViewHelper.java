@@ -37,5 +37,4 @@ public class CommonViewHelper extends BaseViewHelper {
     public boolean isLoading () {
         return mLoadingPopupWindow.isLoading();
     }
-
 }

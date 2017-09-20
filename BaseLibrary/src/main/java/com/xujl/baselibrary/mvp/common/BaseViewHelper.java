@@ -105,6 +105,7 @@ public class BaseViewHelper extends BaseMvpHelper {
         return mRootLayout;
     }
 
+
     /**
      * @param basePresenter
      * @return

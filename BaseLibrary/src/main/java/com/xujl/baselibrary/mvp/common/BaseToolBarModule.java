@@ -17,7 +17,7 @@ import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
  * Created by xujl on 2017/7/4.
  */
 
-public class BaseToolBarModule {
+public  class BaseToolBarModule {
     protected ViewGroup mRootView;//页面根布局
     protected View mContentLayout;//页面内容布局
     protected Toolbar mToolbar;
@@ -34,7 +34,7 @@ public class BaseToolBarModule {
     public BaseToolBarModule (Activity activity, int layoutId, LayoutConfig config) {
 
         if (config.isEnableDataBinding()) {
-            mDataBinding = DataBindingUtil.setContentView(activity, layoutId);
+            mDataBinding = DataBindingUtil.setContentView(activity,layoutId);
             mRootView = (ViewGroup) activity.findViewById(R.id.dataBindingRootLayout);
             mContentLayout = mRootView.getChildAt(0);
             findToolBar(activity, config);//找到导航栏控件
@@ -48,6 +48,7 @@ public class BaseToolBarModule {
         findToolBar(activity, config);//找到导航栏控件
         mRootView.addView(mContentLayout);
     }
+
     private void findToolBar(Activity activity,LayoutConfig config) {
         int toolBarId = getToolBarId();
         //判断view或presenter是否传入了导航id，有就直接寻找导航栏
@@ -64,18 +65,6 @@ public class BaseToolBarModule {
         return mDataBinding;
     }
 
-//    /**
-//     * 此构造器用于页面本身已经包含了一个toolBar的情况
-//     * 直接传入布局Id和toolBar的id即可
-//     *
-//     * @param activity
-//     * @param layoutId
-//     * @param toolBarId
-//     */
-//    public BaseToolBarModule (Activity activity, int layoutId, int toolBarId) {
-//        mRootView = (ViewGroup) LayoutInflater.from(activity).inflate(layoutId, null);
-//        mToolbar = (Toolbar) mRootView.findViewById(toolBarId);
-//    }
 
 
     public void initSetting (BaseActivityPresenter presenter) {
