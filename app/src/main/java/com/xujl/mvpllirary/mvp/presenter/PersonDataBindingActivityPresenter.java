@@ -3,9 +3,8 @@ package com.xujl.mvpllirary.mvp.presenter;
 import android.os.Bundle;
 import android.view.View;
 
-import com.xujl.applibrary.mvp.presenter.DataBindingActivityPresenter;
+import com.xujl.applibrary.mvp.presenter.CommonActivityPresenter;
 import com.xujl.mvpllirary.R;
-import com.xujl.mvpllirary.databinding.ActivityPersonBinding;
 import com.xujl.mvpllirary.mvp.model.PersonDataBindingActivityModel;
 import com.xujl.mvpllirary.mvp.model.port.IPersonDataBindingActivityModel;
 import com.xujl.mvpllirary.mvp.view.PersonDataBindingActivity;
@@ -15,8 +14,8 @@ import com.xujl.mvpllirary.mvp.view.port.IPersonDataBindingActivityView;
  * Created by xujl on 2017/9/12.
  */
 
-public class PersonDataBindingActivityPresenter extends DataBindingActivityPresenter
-        <IPersonDataBindingActivityView,IPersonDataBindingActivityModel,ActivityPersonBinding>{
+public class PersonDataBindingActivityPresenter extends CommonActivityPresenter<IPersonDataBindingActivityView,
+        IPersonDataBindingActivityModel> {
     @Override
     protected Class<? extends IPersonDataBindingActivityView> getViewClassType () {
         return PersonDataBindingActivity.class;
@@ -28,8 +27,7 @@ public class PersonDataBindingActivityPresenter extends DataBindingActivityPrese
     }
     @Override
     protected void initPresenter (Bundle savedInstanceState) {
-        super.initPresenter(savedInstanceState);
-        mDataBinding.setPerson(mModel.getPersonPayload());//建立数据与视图的绑定关系
+        mView.setPerson(mModel.getPersonPayload());//建立数据与视图的绑定关系
     }
 
     @Override

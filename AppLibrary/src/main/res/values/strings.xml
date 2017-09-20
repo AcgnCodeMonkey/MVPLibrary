@@ -1,4 +1,3 @@
 <resources>
     <string name="app_name">AppLibrary</string>
-    <item name="dataBindingRootView" type="id"/>
 </resources>

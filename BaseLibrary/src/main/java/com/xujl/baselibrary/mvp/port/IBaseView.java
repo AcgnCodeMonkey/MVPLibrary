@@ -28,26 +28,22 @@ import com.xujl.baselibrary.mvp.common.BaseToolBarModule;
  * Created by xujl on 2017/4/28.
  */
 
-public interface IBaseView {
+public interface IBaseView extends IBaseVP {
     void initView (IBasePresenter presenter);//初始化操作，由presenter负责调用
 
-    View creatView (IBasePresenter presenter);//创建视图
+    View createUI (IBasePresenter presenter);//创建视图
 
-    View exposeParentView ();//返回根布局
+    View exposeRootView ();//返回根布局
 
-    boolean enableToolBar ();//是否使用toobar
-
-    void initToolBar (IBasePresenter presenter);
+    <T extends View> T findView (int id);
 
     BaseToolBarModule getToolBarModule ();
 
-    int getLayoutId ();//设置布局
+    BaseToolBarModule createToolBarModule (IBaseView view, IBasePresenter presenter, int layoutId);
 
     void showToastMsg (Context context, String msg, int code);//toast提示用户消息
 
     void showToastMsg (Context context, String msg, int code, int time);//toast提示用户消息，自定义时间
-
-    <T extends View> T findView(int id);
 
     /**
      * 其他类调用相关

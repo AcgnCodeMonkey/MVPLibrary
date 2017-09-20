@@ -12,6 +12,7 @@ import com.xujl.baselibrary.mvp.common.BasePresenterHelper;
 import com.xujl.baselibrary.mvp.port.IBaseModel;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.baselibrary.mvp.port.IBaseView;
+import com.xujl.baselibrary.mvp.port.LifeCycleCallback;
 
 /**
  * ━━━━━━神兽出没━━━━━━
@@ -43,37 +44,16 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
     protected View mRootView;
     protected BasePresenterHelper mPresenterHelper;//通用逻辑帮助类
     protected boolean isVisible;//Fragment当前状态是否可见
-    protected boolean isLoading;//是否已加载过
+    protected boolean isLoaded;//是否已加载过
+    protected boolean isViewCompleted;//是否初始化完成了控件
+    protected boolean isEveryReload;//是否每次fragment重新显示都重新懒加载
+    protected LayoutInflater inflater;
+    protected ViewGroup container;
+    private LifeCycleCallback mLifeCycleCallback;//生命周期回调
     //</editor-fold>
 
-    @Nullable
-    @Override
-    public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        firstLoading(savedInstanceState);//首选加载项，在布局加载之前需要加载的东西
-        if (isMVP()) {
-            creatViewModel();//初始化view和model
-        } else {
-            autoCreatViewModel();
-        }
-        mRootView = createLayout(inflater, container, savedInstanceState);//创建布局
-        mView.initView(this);//初始化控件
-        initPresenter(savedInstanceState);//初始化逻辑代码
-        //判断界面是否可见，如果需要在界面可见时才加载某些功能需要把相关代码写在lazyLoad ()方法中
-        if (getUserVisibleHint()) {
-            isVisible = true;
-            onVisible();
-        } else {
-            isVisible = false;
-            onInvisible();
-        }
-        return mRootView;
-    }
-
     //<editor-fold desc="抽象方法">
-    @Override
-    public boolean enableToolBar () {
-        return true;
-    }
+
     /**
      * 初始化逻辑代码，由实现类实现
      *
@@ -84,7 +64,7 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
     /**
      * 自动创建view和model实例，用于关闭mvp模式下。抽象基类应实现此方法
      */
-    protected abstract void autoCreatViewModel ();
+    protected abstract void autoCreateViewModel ();
 
     /**
      * 获取view实际类型
@@ -99,14 +79,46 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
      * @return
      */
     protected abstract Class<? extends M> getModelClassType ();
-//</editor-fold>
+    //</editor-fold>
 
     //<editor-fold desc="模板方法">
+    @Nullable
+    @Override
+    public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //首选加载项，在布局加载之前需要加载的东西
+        firstLoading(savedInstanceState);
+        //初始化view和model
+        createViewModel();
+        //创建布局
+        mRootView = createLayout(inflater, container, savedInstanceState);
+        //初始化控件
+        mView.initView(this);
+        //初始化逻辑代码
+        initPresenter(savedInstanceState);
+        isViewCompleted = true;
+        isEveryReload = isEveryReload();
+        if (mLifeCycleCallback != null) {
+            mLifeCycleCallback.onCreateLife(savedInstanceState);
+        }
+        //判断界面是否可见，如果需要在界面可见时才加载某些功能需要把相关代码写在lazyLoad ()方法中
+        isVisible = getUserVisibleHint();
+        if (isVisible) {
+            onVisible();
+        } else {
+            onInVisible();
+        }
+        return mRootView;
+    }
 
     /**
      * 反射实例化view和model
      */
-    private void creatViewModel () {
+    private void createViewModel () {
+        //不是mvp模式时，直接创建子类实例，不使用反射
+        if (!isMVP()) {
+            autoCreateViewModel();
+            return;
+        }
         try {
             final Class<? extends V> viewClassType = getViewClassType();
             final Class<? extends M> modelClassType = getModelClassType();
@@ -128,7 +140,9 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
      * 创建布局
      */
     protected View createLayout (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return mView.creatView(this);
+        this.inflater = inflater;
+        this.container = container;
+        return mView.createUI(this);
     }
 
     /**
@@ -151,45 +165,93 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
         mPresenterHelper = presenterHelper;
     }
 
-    protected void onInvisible () {
-        //fragment不可见
+    /**
+     * fragment不可见回调
+     */
+    protected void onInVisible () {
+        //TO DO
+        if (isLoaded && isViewCompleted && isEveryReload) {
+            isLoaded = false;
+        }
     }
 
+    /**
+     * fragment可见回调
+     */
     protected void onVisible () {
-        //fragment可见
-        if (!isLoading) {
-            isLoading = true;
+        //数据未加载过并且控件已经初始化完成时，进行懒加载
+        if (!isLoaded && isViewCompleted) {
+            isLoaded = true;
             lazyLoad();
         }
     }
 
+    /**
+     * 复写此方法实现懒加载数据
+     */
     protected void lazyLoad () {
-        //延时加载
-        if (mView == null) {
-            resetLoadingState();
-            return;
-        }
     }
 
+    /**
+     * 是否每次显示fragment都重新加载
+     *
+     * @return
+     */
+    protected boolean isEveryReload () {
+        return false;
+    }
+
+    /**
+     * 重置当前的加载状态标识，让下次fragment再次显示时重新加载
+     */
     protected void resetLoadingState () {
-        isLoading = false;
+        isLoaded = false;
     }
 
     @Override
     public void setUserVisibleHint (boolean isVisibleToUser) {//设置fragment是否可见
         super.setUserVisibleHint(isVisibleToUser);
-        if (getUserVisibleHint()) {
-            isVisible = true;
+        isVisible = isVisibleToUser;
+        if (isVisible) {
             onVisible();
         } else {
-            isVisible = false;
-            onInvisible();
+            onInVisible();
         }
     }
     //</editor-fold>
 
-    //<editor-fold desc="公共方法">
+    //<editor-fold desc="配置方法">
+    public LayoutInflater getInflater () {
+        return inflater;
+    }
 
+    public ViewGroup getContainer () {
+        return container;
+    }
+
+    @Override
+    public int getToolBarId () {
+        return 0;
+    }
+
+    @Override
+    public boolean enableToolBar () {
+        return true;
+    }
+
+    @Override
+    public boolean isAddParentLayout () {
+        return true;
+    }
+
+    @Override
+    public boolean enableDataBinding () {
+        return false;
+    }
+
+    //</editor-fold>
+
+    //<editor-fold desc="Getter方法">
     @Override
     public Context exposeContext () {
         return getContext();
@@ -198,11 +260,6 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
     @Override
     public BaseActivityPresenter exposeActivity () {
         return (BaseActivityPresenter) getActivity();
-    }
-
-    @Override
-    public View exposeRootView () {
-        return mRootView;
     }
 
     @Override
@@ -215,16 +272,65 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
         return mModel;
     }
 
+    //</editor-fold>
+
+    //<editor-fold desc="公共方法">
+
+    /**
+     * 生命周期回调，设置后各个生命周期方法会回调此接口
+     *
+     * @param mLifeCycleCallback
+     */
+    public void setmLifeCycleCallback (LifeCycleCallback mLifeCycleCallback) {
+        this.mLifeCycleCallback = mLifeCycleCallback;
+    }
+
     @Override
     public boolean isMVP () {
         return true;
     }
+
     //</editor-fold>
 
     //<editor-fold desc="生命周期">
     @Override
+    public void onStart () {
+        super.onStart();
+        if (mLifeCycleCallback != null) {
+            mLifeCycleCallback.onStartLife();
+        }
+    }
+
+    @Override
+    public void onResume () {
+        super.onResume();
+        if (mLifeCycleCallback != null) {
+            mLifeCycleCallback.onResumeLife();
+        }
+    }
+
+    @Override
+    public void onPause () {
+        super.onPause();
+        if (mLifeCycleCallback != null) {
+            mLifeCycleCallback.onPauseLife();
+        }
+    }
+
+    @Override
+    public void onStop () {
+        super.onStop();
+        if (mLifeCycleCallback != null) {
+            mLifeCycleCallback.onStopLife();
+        }
+    }
+
+    @Override
     public void onDestroy () {
         super.onDestroy();
+        if (mLifeCycleCallback != null) {
+            mLifeCycleCallback.onDestroyLife();
+        }
         mView = null;
         mModel = null;
     }

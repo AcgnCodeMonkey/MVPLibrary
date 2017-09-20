@@ -24,8 +24,8 @@ public class MainActivity extends CommonView implements IMainActivityView {
     public void initView (final IBasePresenter presenter) {
         super.initView(presenter);
         getToolBarModule().setTitle("妹纸");
-        mDrawerLayout = (DrawerLayout) mRootView.findViewById(R.id.activity_main_drawerLayout);
-        mViewPager = (ViewPager) mRootView.findViewById(R.id.activity_main_viewPager);
+        mDrawerLayout =  findView(R.id.activity_main_drawerLayout);
+        mViewPager = findView(R.id.activity_main_viewPager);
         getToolBarModule().getActionBar().setHomeButtonEnabled(true); //设置返回键可用
         getToolBarModule().getActionBar().setDisplayHomeAsUpEnabled(true);
         getToolBarModule().getRightIB().setImageResource(R.drawable.qr_code_icon);

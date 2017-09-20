@@ -5,7 +5,7 @@
     <data>
         <variable name="person" type="com.xujl.mvpllirary.json.PersonPayload"/>
     </data>
-    <LinearLayout android:id="@+id/dataBindingRootView"
+    <LinearLayout android:id="@+id/dataBindingRootLayout"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:background="@color/layoutBgWhite"

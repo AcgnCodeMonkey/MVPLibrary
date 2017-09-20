@@ -50,11 +50,12 @@ public class NewsTabFragmentPresenter extends CommonFragmentPresenter<INewsTabFr
 
     @Override
     protected void lazyLoad () {
-        super.lazyLoad();
-        if(mView == null){
-            return;
-        }
         mView.getRefreshRecyclerViewHelper().startRefresh();
+    }
+
+    @Override
+    protected boolean isEveryReload () {
+        return true;
     }
 
     @Override

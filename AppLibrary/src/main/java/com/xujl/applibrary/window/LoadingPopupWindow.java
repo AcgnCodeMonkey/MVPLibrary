@@ -41,7 +41,7 @@ public class LoadingPopupWindow {
 
     public void show () {
         try {
-            mWindow.showAtLocation(mActivity.exposeRootView(), Gravity.CENTER, 0, 0);
+            mWindow.showAtLocation(mActivity.exposeView().exposeRootView(), Gravity.CENTER, 0, 0);
             isLoading = true;
         } catch (Exception e) {
             //窗口未创建

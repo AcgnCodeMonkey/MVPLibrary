@@ -28,19 +28,11 @@ import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
  * Created by xujl on 2017/4/28.
  */
 
-public interface IBasePresenter extends View.OnClickListener {
-    boolean enableToolBar ();//是否使用toobar
+public interface IBasePresenter extends View.OnClickListener,IBaseVP {
     void exit();//退出界面
     Context exposeContext ();//获取context
-
     BaseActivityPresenter exposeActivity ();//获取activity
-
-    View exposeRootView ();//获取根视图
-
     IBaseView exposeView ();//获取视图模块
-
     IBaseModel exposeModel ();//获取数据模块
-
     boolean isMVP ();//设置是否MVP加载模式
-
 }

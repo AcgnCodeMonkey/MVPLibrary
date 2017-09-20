@@ -1,6 +1,6 @@
 package com.xujl.baselibrary.mvp.view;
 
-import android.app.Activity;
+import android.databinding.ViewDataBinding;
 import android.support.annotation.CallSuper;
 import android.view.View;
 
@@ -33,68 +33,35 @@ import com.xujl.baselibrary.mvp.port.IBaseView;
  */
 
 public abstract class BaseView implements IBaseView {
-    protected View mRootView;
+    protected View mRootView;//根布局
+    protected View mContentLayout;//实际布局
     protected BaseViewHelper mViewHelper;
-    protected BaseToolBarModule mToolBarModule;
+    private ViewDataBinding mDataBinding;
 
+    //<editor-fold desc="配置">
 
     @Override
-    public View creatView (IBasePresenter presenter) {
-        mViewHelper = setViewHelper(presenter);
-        if (!(presenter instanceof Activity)) {
-            mToolBarModule = presenter.exposeActivity().exposeView().getToolBarModule();
-            return getViewHelper().inflateLayout(getLayoutId(), presenter.exposeContext(),isAddParentView());
-        }
-        //是否使用toolBar是由presenter和view共同控制的，只有当两边都返回true时才会使用toolbar
-        if (enableToolBar() && presenter.enableToolBar()) {
-            initToolBar(presenter);//初始化导航
-            return getToolBarModule().getRootView();
-        } else {
-            return getViewHelper().inflateLayout(getLayoutId(), presenter.exposeContext(),isAddParentView());
-        }
+    public int getToolBarId () {
+        return 0;
     }
 
     /**
      * 不使用toolbar时，是否默认为内容页添加父布局
-     * @return
-     */
-    protected boolean isAddParentView(){
-        return true;
-    }
-    @Override
-    public View exposeParentView () {
-        if (getViewHelper().getParentLayout() != null) {
-            return getViewHelper().getParentLayout();
-        } else {
-            return mToolBarModule.getRootView();
-        }
-    }
-
-    /**
-     * 初始化导航栏
-     */
-    public  void initToolBar (IBasePresenter presenter) {
-        mToolBarModule = setDefaultToolBarHelper(presenter);
-        getToolBarModule().initSetting(presenter.exposeActivity());
-    }
-
-    /**
-     * 子类可以复写此方法修改默认toobarhelper，
-     * 如果当前布局中已经包含了自己写的toolbar，可以使用BaseToolBarModule另一个包含了
-     * toolbar的id的构造器
-     */
-    protected BaseToolBarModule setDefaultToolBarHelper (IBasePresenter presenter) {
-        return new BaseToolBarModule(presenter.exposeActivity(), getLayoutId());
-    }
-
-    /**
-     * 子类如果需要自定义ToolBarHelper，可以复写initToolBar方法，并且复写次方法并修改返回值类型
-     * 新的ToolBarHelper应该要实现IToolBar接口
      *
      * @return
      */
-    public BaseToolBarModule getToolBarModule () {
-        return mToolBarModule;
+    public boolean isAddParentLayout () {
+        return true;
+    }
+
+    @Override
+    public boolean enableDataBinding () {
+        return false;
+    }
+
+    @Override
+    public BaseToolBarModule createToolBarModule (IBaseView view, IBasePresenter presenter, int layoutId) {
+        return new BaseToolBarModule(presenter.exposeActivity(), layoutId, getViewHelper().getConfig());
     }
 
     /**
@@ -106,6 +73,19 @@ public abstract class BaseView implements IBaseView {
         return true;
     }
 
+    //</editor-fold>
+    //<editor-fold desc="其他方法">
+
+    /**
+     * 子类如果需要自定义ToolBarHelper，可以复写initToolBar方法，并且复写次方法并修改返回值类型
+     * 新的ToolBarHelper应该要实现IToolBar接口
+     *
+     * @return
+     */
+    public BaseToolBarModule getToolBarModule () {
+        return mViewHelper.getToolBarModule();
+    }
+
     protected BaseViewHelper getViewHelper () {
         return mViewHelper;
     }
@@ -114,14 +94,31 @@ public abstract class BaseView implements IBaseView {
         return new BaseViewHelper();
     }
 
-    @CallSuper
     @Override
-    public void initView (IBasePresenter presenter) {
-        mRootView = presenter.exposeRootView();
+    public View exposeRootView () {
+        return mRootView;
+    }
+
+    public ViewDataBinding getDataBinding () {
+        return mDataBinding;
+    }
+
+    //</editor-fold>
+    public <T extends View> T findView (int id) {
+        return (T) mRootView.findViewById(id);
     }
 
     @Override
-    public <T extends View> T findView (int id) {
-        return (T) mRootView.findViewById(id);
+    public View createUI (IBasePresenter presenter) {
+        mViewHelper = setViewHelper(presenter);
+        return getViewHelper().createUI(this, presenter);
+    }
+
+    @CallSuper
+    @Override
+    public void initView (IBasePresenter presenter) {
+        mDataBinding = getViewHelper().getDataBinding();
+        mRootView = mViewHelper.getRootLayout();
+        mContentLayout = mViewHelper.getContentLayout();
     }
 }

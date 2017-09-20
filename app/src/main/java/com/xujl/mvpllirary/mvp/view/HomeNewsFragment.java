@@ -21,8 +21,8 @@ public class HomeNewsFragment extends CommonView implements IHomeNewsFragmentVie
     @Override
     public void initView (IBasePresenter presenter) {
         super.initView(presenter);
-        mViewPager = findView(R.id.fragment_home_news_viewPager);
-        mPagerTabView = findView(R.id.fragment_home_news_viewPagerTab);
+        mViewPager = (ViewPager) findView(R.id.fragment_home_news_viewPager);
+        mPagerTabView = (ViewPagerTabView) findView(R.id.fragment_home_news_viewPagerTab);
         mPagerTabView.setIndicatorViewPager(mViewPager);
         mPagerTabView.setAdapter(new TabFragmentAdapter(((Fragment) presenter).getFragmentManager(),
                 presenter.exposeContext(), new ArrayList<String>(), new ArrayList<Fragment>()));

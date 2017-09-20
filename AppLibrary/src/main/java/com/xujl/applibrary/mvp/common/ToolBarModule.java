@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.xujl.applibrary.R;
 import com.xujl.baselibrary.mvp.common.BaseToolBarModule;
+import com.xujl.baselibrary.mvp.common.LayoutConfig;
 import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
 
 /**
@@ -18,12 +19,19 @@ public class ToolBarModule extends BaseToolBarModule {
     private ImageButton mLeftIB;
     private ImageButton mRightIB;
     private BaseActivityPresenter mPresenter;
-    public ToolBarModule (Activity activity, int layoutId) {
-        super(activity, layoutId);
+
+    /**
+     * 使用此构造器会根据子类返回的toolBar的布局id自动创建toolBar并和内容布局拼接
+     * 到一起
+     *
+     * @param activity
+     * @param layoutId activity布局id
+     * @param config
+     */
+    public ToolBarModule (Activity activity, int layoutId, LayoutConfig config) {
+        super(activity, layoutId, config);
     }
 
-    public ToolBarModule () {
-    }
 
     @Override
     public void initSetting (BaseActivityPresenter presenter) {

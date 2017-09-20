@@ -6,6 +6,8 @@ import com.xujl.applibrary.mvp.view.CommonView;
 import com.xujl.baselibrary.mvp.port.HelperType;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.mvpllirary.R;
+import com.xujl.mvpllirary.databinding.FragmentNewsTabBinding;
+import com.xujl.mvpllirary.json.NewsPayload;
 import com.xujl.mvpllirary.mvp.common.RefreshRecyclerViewHelper;
 import com.xujl.mvpllirary.mvp.view.port.INewsTabFragmentView;
 import com.xujl.widgetlibrary.adapter.BaseRecyclerViewAdapter;
@@ -15,9 +17,11 @@ import com.xujl.widgetlibrary.widget.RefreshLayout;
  * Created by xujl on 2017/9/6.
  */
 public class NewsTabFragment extends CommonView implements INewsTabFragmentView {
+    private FragmentNewsTabBinding mBinding;
     @Override
     public void initView (IBasePresenter presenter) {
         super.initView(presenter);
+        mBinding = (FragmentNewsTabBinding) getDataBinding();
         RefreshRecyclerViewHelper refreshLayoutHelper = new RefreshRecyclerViewHelper(mRootView, R.id.fragment_news_tab_refreshLayout
                 ,R.id.fragment_news_tab_recyclerView);
         refreshLayoutHelper.initRefreshLayout()
@@ -25,13 +29,17 @@ public class NewsTabFragment extends CommonView implements INewsTabFragmentView 
                 .setLinearLayoutManager()
                 .setOnRefreshListener((RefreshLayout.RefreshListener) presenter);
         getViewHelper().addHelper(HelperType.TYPE_ONE,refreshLayoutHelper);
+        mBinding.setTest(new NewsPayload("测试标题文字"));
     }
 
     @Override
     public int getLayoutId () {
         return R.layout.fragment_news_tab;
     }
-
+    @Override
+    public boolean enableDataBinding () {
+        return true;
+    }
     @Override
     public RefreshRecyclerViewHelper getRefreshRecyclerViewHelper () {
         return getViewHelper().getHelper(HelperType.TYPE_ONE);

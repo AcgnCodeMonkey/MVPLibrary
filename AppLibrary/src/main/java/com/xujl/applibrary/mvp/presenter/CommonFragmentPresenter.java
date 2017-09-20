@@ -83,12 +83,17 @@ public abstract class CommonFragmentPresenter<V extends ICommonView, M extends I
 
 
     @Override
-    protected void autoCreatViewModel () {
+    protected void autoCreateViewModel () {
         mView = (V) new CommonView(){
 
             @Override
             public int getLayoutId () {
-                return CommonFragmentPresenter.this.getLayoutId();
+                return 0;
+            }
+
+            @Override
+            public int getToolBarId () {
+                return 0;
             }
         };
         mModel = (M) new CommonModel() {

@@ -66,14 +66,6 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
 
     //<editor-fold desc="抽象方法">
 
-    /**
-     * 生命周期回调，设置后各个生命周期方法会回调此接口
-     *
-     * @param mLifeCycleCallback
-     */
-    public void setmLifeCycleCallback (LifeCycleCallback mLifeCycleCallback) {
-        this.mLifeCycleCallback = mLifeCycleCallback;
-    }
 
     /**
      * 初始化逻辑代码，由实现类实现
@@ -85,7 +77,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     /**
      * 自动创建view和model实例，用于关闭mvp模式下。抽象基类应实现此方法
      */
-    protected abstract void autoCreatViewModel ();
+    protected abstract void autoCreateViewModel ();
 
     /**
      * 获取view实际类型
@@ -101,33 +93,37 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
      */
     protected abstract Class<? extends M> getModelClassType ();
 
+
+    //</editor-fold>
+
+    //<editor-fold desc="模板方法">
+
+    /**
+     * 主加载流程模板
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate (@Nullable Bundle savedInstanceState) {
-        firstLoading(savedInstanceState);//首选加载项，在布局加载之前需要加载的东西
+        //首选加载项，在布局加载之前需要加载的内容可以复写此方法
+        firstLoading(savedInstanceState);
         super.onCreate(savedInstanceState);
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             //防止软件安装直接打开后activity重新启动首页的bug
             finish();
             return;
         }
-        if (isMVP()) {
-            creatViewModel();//初始化view和model
-        } else {
-            autoCreatViewModel();
-        }
-        createLayout();//创建布局
-        mView.initView(this);//初始化控件
+        //初始化view和model
+        createViewModel();
+        //创建视图
+        createLayout();
+        //初始化控件
+        mView.initView(this);
         ActivityManger.newInstance().addActivity(this);//管理打开的activity
 
-        //判断是否需要申请权限决定是否继续加载
         final String[] permissions = needPermissions();
-        if (ListUtils.isEmpty(permissions)) {
-            continueLoading(savedInstanceState);//继续加载
-            return;
-        }
-        final boolean hasPermissions = EasyPermissions.hasPermissions(exposeContext(), permissions);
-        //判断需要的权限是否已经授权决定是否继续加载
-        if (hasPermissions) {
+        //不需要权限或者需要的权限已全部获取到时直接继续加载
+        if (ListUtils.isEmpty(permissions) || EasyPermissions.hasPermissions(exposeContext(), permissions)) {
             continueLoading(savedInstanceState);//继续加载
             return;
         }
@@ -137,13 +133,9 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
                 "缺少权限会导致无法使用部分功能", 996, permissions);
 
     }
-    //</editor-fold>
 
-    //<editor-fold desc="模板方法">
     private void continueLoading (final Bundle savedInstanceState) {
-
         initPresenter(savedInstanceState);//初始化逻辑代码
-
         if (mLifeCycleCallback != null) {
             mLifeCycleCallback.onCreateLife(savedInstanceState);
         }
@@ -151,9 +143,14 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
 
 
     /**
-     * 反射实例化view和model
+     * 实例化view和model,如果为非mvp模式，则使用子类默认的view和model
      */
-    private void creatViewModel () {
+    private void createViewModel () {
+        //不是mvp模式时，直接创建子类实例，不使用反射
+        if (!isMVP()) {
+            autoCreateViewModel();
+            return;
+        }
         try {
             final Class<? extends V> viewClassType = getViewClassType();
             final Class<? extends M> modelClassType = getModelClassType();
@@ -175,7 +172,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
      * 创建布局
      */
     protected void createLayout () {
-        setContentView(mView.creatView(this));
+        setContentView(mView.createUI(this));
     }
 
     /**
@@ -216,10 +213,13 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-    //下面两个方法是实现EasyPermissions的EasyPermissions.PermissionCallbacks接口
-    //分别返回授权成功和失败的权限
+    /**
+     * 下面两个方法是实现EasyPermissions的EasyPermissions.PermissionCallbacks接口
+     * 分别返回授权成功和失败的权限
+     */
     @Override
     public void onPermissionsGranted (int requestCode, List<String> perms) {
+        //获取到所有权限后进行下一步加载
         if (!ListUtils.isEmpty(perms) && perms.size() >= ListUtils.getSize(needPermissions())) {
             continueLoading(null);
         }
@@ -261,9 +261,34 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     //</editor-fold>
 
     //<editor-fold desc="公共方法">
+
+    /**
+     * 生命周期回调，设置后各个生命周期方法会回调此接口
+     *
+     * @param mLifeCycleCallback
+     */
+    public void setmLifeCycleCallback (LifeCycleCallback mLifeCycleCallback) {
+        this.mLifeCycleCallback = mLifeCycleCallback;
+    }
+
+    @Override
+    public int getToolBarId () {
+        return 0;
+    }
+
+    @Override
+    public boolean isAddParentLayout () {
+        return true;
+    }
+
     @Override
     public boolean enableToolBar () {
         return true;
+    }
+
+    @Override
+    public boolean enableDataBinding () {
+        return false;
     }
 
     @Override
@@ -276,10 +301,6 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         return this;
     }
 
-    @Override
-    public View exposeRootView () {
-        return getWindow().getDecorView().getRootView();
-    }
 
     @Override
     public IBaseView exposeView () {
@@ -296,52 +317,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         return true;
     }
 
-    @Override
-    public boolean dispatchTouchEvent (MotionEvent ev) {//解决输入框软键盘点击其他区域不消失的问题。
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            View v = getCurrentFocus();
-            if (isShouldHideInput(v, ev)) {
 
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (imm != null) {
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                }
-            }
-            return super.dispatchTouchEvent(ev);
-        }
-        // 必不可少，否则所有的组件都不会有TouchEvent了
-        if (getWindow().superDispatchTouchEvent(ev)) {
-            return true;
-        }
-        return onTouchEvent(ev);
-    }
-
-    /**
-     * 是否隐藏输入框
-     *
-     * @param v
-     * @param event
-     * @return
-     */
-    public boolean isShouldHideInput (View v, MotionEvent event) {
-        if (v != null && (v instanceof EditText)) {
-            int[] leftTop = {0, 0};
-            //获取输入框当前的location位置
-            v.getLocationInWindow(leftTop);
-            int left = leftTop[0];
-            int top = leftTop[1];
-            int bottom = top + v.getHeight();
-            int right = left + v.getWidth();
-            if (event.getX() > left && event.getX() < right
-                    && event.getY() > top && event.getY() < bottom) {
-                // 点击的是输入框区域，保留点击EditText的事件
-                return false;
-            } else {
-                return true;
-            }
-        }
-        return false;
-    }
     //</editor-fold>
 
     //<editor-fold desc="生命周期">
@@ -387,5 +363,49 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         mModel = null;
     }
     //</editor-fold>
+    @Override
+    public boolean dispatchTouchEvent (MotionEvent ev) {//解决输入框软键盘点击其他区域不消失的问题。
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (isShouldHideInput(v, ev)) {
 
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+            return super.dispatchTouchEvent(ev);
+        }
+        // 必不可少，否则所有的组件都不会有TouchEvent了
+        if (getWindow().superDispatchTouchEvent(ev)) {
+            return true;
+        }
+        return onTouchEvent(ev);
+    }
+    /**
+     * 是否隐藏输入框
+     *
+     * @param v
+     * @param event
+     * @return
+     */
+    public boolean isShouldHideInput (View v, MotionEvent event) {
+        if (v != null && (v instanceof EditText)) {
+            int[] leftTop = {0, 0};
+            //获取输入框当前的location位置
+            v.getLocationInWindow(leftTop);
+            int left = leftTop[0];
+            int top = leftTop[1];
+            int bottom = top + v.getHeight();
+            int right = left + v.getWidth();
+            if (event.getX() > left && event.getX() < right
+                    && event.getY() > top && event.getY() < bottom) {
+                // 点击的是输入框区域，保留点击EditText的事件
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
 }
