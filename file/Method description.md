@@ -10,6 +10,7 @@
 | int getToolBarId ()   | 导航栏toolBarId,调用规则同上 |
 | boolean enableDataBinding ()   | 是否使用dataBinding进行布局绑定，只有view或presenter其中一个返回true就会启用，默认是不使用 |
 | boolean isAddParentLayout ()   | 是否为当前内容布局自动添加一个父布局，只有presenter和view都返回true才会启用，默认是添加 |<br>
+
 备注：需要view和presenter共同控制的配置中，凡是默认开启的，只要其中一方返回false就会关闭，凡是默认关闭的，只要其中一个返回true就会开启，具体配置可以参见LayoutConfig类
 #### IBaseView
 &emsp;&emsp;BaseView基础接口，提供一些简单方法供外接调用<br>
