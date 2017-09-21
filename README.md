@@ -71,7 +71,7 @@ Activity为Presenter则是一个Presenter对应多个View和Model),而MVPH的思
 ---
 ## 版本更新日志:
 
-    更新日期：2017/09/20  库版本：0.1.1  demo版本：1.4
+    **更新日期：2017/09/20  库版本：0.1.1  demo版本：1.4**
      1.新增mvp基础框架支持dataBinding
      2.布局加载逻辑统一由BaseViewHelper进行控制，加载配置由新增类LayoutConfig进行
      控制
@@ -82,7 +82,7 @@ Activity为Presenter则是一个Presenter对应多个View和Model),而MVPH的思
      dataBindingPresenter等类
      7.新增方法说明文档（持续更新，逐步完善）
 
-    更新日期：2017/09/18  库版本：0.0.9  demo版本：1.3
+    **更新日期：2017/09/18  库版本：0.0.9  demo版本：1.3**
      1.更改helper基类用法，基础model，view，presenter，helper类改为继承BaseMvpHelper
      （原BaseHelper）类，新的BaseHelper类为其他自定义helper类的基类，并且只有
      基础BaseMvpHelper的子类才具有添加BaseHelper类的功能（之前是任意BaseHelper
@@ -96,28 +96,28 @@ Activity为Presenter则是一个Presenter对应多个View和Model),而MVPH的思
      7.下次更新目标：优化ToolBarModule和helper类代码，优化view和presenter的模板代码，释放
      部分逻辑到helper类中，基类兼容DataBinding
 
-    更新日期：2017/09/6  库版本：0.0.8  demo版本：1.2
+    **更新日期：2017/09/6  库版本：0.0.8  demo版本：1.2**
      1.新增baseview可控制在不使用toobar时是否为布局添加父布局
      2.修复activity和fragment销毁时未清空model和view引用
      3.demo更新，引入rxjava2,新增RxLibrary,修改demo部分加载逻辑
      4.demo首页变更，新增安卓资讯栏目，点击跳转webview详情页,详情页采用非mvp编写
 
-    更新日期：2017/07/24  库版本：0.0.6  demo版本：1.1
+    **更新日期：2017/07/24  库版本：0.0.6  demo版本：1.1**
       1.修改基础库BaseView加载判断，兼容activity和fragment
       2.优化BaseToolBarModule加载逻辑，支持页面本身包含toolbar布局
       3.修复权限弹窗可以被关闭的Bug
 
-    更新日期：2017/07/14  库版本：0.0.4  demo版本：1.1
+    **更新日期：2017/07/14  库版本：0.0.4  demo版本：1.1**
       1.修改基础库方法加载顺序，防止动态授权时引起的空指针
       2.优化toolbar，改为view引用toolbar而不是presenter引用toolbar
       3.demo新增图片搜索，收藏，下载功能
 
-    更新日期：2017/07/06  库版本：0.0.3  demo版本：1.0
+    **更新日期：2017/07/06  库版本：0.0.3  demo版本：1.0**
        1.修改exposeActivity方法返回值类型
        2.优化部分类方法
        3.从此版本开始，框架库接入了我自己的正式项目中
 
-    更新日期：2017/07/05  库版本：0.0.1  demo版本：1.0
+    **更新日期：2017/07/05  库版本：0.0.1  demo版本：1.0**
        1.上传初步基础框架
        2.完成简单demo基础Library封装
        3.编写简单demo
