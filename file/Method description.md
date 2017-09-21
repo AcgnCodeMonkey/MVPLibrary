@@ -1,7 +1,7 @@
 ### 1.接口方法说明
 #### IBaseVP
 &emsp;&emsp;view和presenter共有方法，为了兼容mvp和mvc开发，此接口包含部分需要两边同时可以
-控制界面加载的部分配置方法
+控制界面加载的部分配置方法<br>
 |             方法名        | 说明           |
 | ------------------------- |:-------------:|
 | boolean enableToolBar ()   | 是否使用导航，只有presenter和view都返回true才会启用，默认是使用导航 |
@@ -11,7 +11,7 @@
 | boolean isAddParentLayout ()   | 是否为当前内容布局自动添加一个父布局，只有presenter和view都返回true才会启用，默认是添加 |
 备注：需要view和presenter共同控制的配置中，凡是默认开启的，只要其中一方返回false就会关闭，凡是默认关闭的，只要其中一个返回true就会开启，具体配置可以参见LayoutConfig类
 #### IBaseView
-&emsp;&emsp;BaseView基础接口，提供一些简单方法供外接调用
+&emsp;&emsp;BaseView基础接口，提供一些简单方法供外接调用<br>
 |             方法名        | 说明           |
 | ------------------------- |:-------------:|
 | void initView (IBasePresenter presenter)   | 初始化控件，子类复写此方法时必须调用super方法 |
@@ -25,7 +25,7 @@
 | void showLoading ()   | 显示界面加载，由子类实现，具体实现根据自己需求来定 |
 | void dismissLoading ()   | 隐藏界面加载 |
 #### IBasePresenter
-&emsp;&emsp;BaseActivityPresenter和BaseFragmentPresenter的基础接口
+&emsp;&emsp;BaseActivityPresenter和BaseFragmentPresenter的基础接口<br>
 |             方法名        | 说明           |
 | ------------------------- |:-------------:|
 | void exit() | 退出当前activity，建议退出界面时统一使用此方法，而不是finish()方法，以便进行某些退出时的统一处理 |
@@ -35,7 +35,7 @@
 | IBaseModel exposeModel () | 获取当前BaseModel |
 | boolean isMVP () | 当前界面是否使用mvp进行开发，默认是true,关闭mvp模式时，可以不用传递presenter上的两个泛型和presenter中两个回传类类型的方法 |
 #### IBaseModel
-&emsp;&emsp;BaseModel基础接口
+&emsp;&emsp;BaseModel基础接口<br>
 |             方法名        | 说明           |
 | ------------------------- |:-------------:|
 | <T> T fromJson (String json, Class<T> classOfT) | 解析json |
