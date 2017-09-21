@@ -15,7 +15,7 @@ public class PersonDataBindingActivity extends CommonView implements IPersonData
     @Override
     public void initView (IBasePresenter presenter) {
         super.initView(presenter);
-        mBinding = (ActivityPersonBinding) getDataBinding();
+        mBinding =  getDataBinding();
         mBinding.activityPersonCommitBtn.setOnClickListener(presenter);
     }
 

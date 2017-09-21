@@ -99,8 +99,8 @@ public abstract class BaseView implements IBaseView {
         return mRootView;
     }
 
-    public ViewDataBinding getDataBinding () {
-        return mDataBinding;
+    public <D extends ViewDataBinding> D getDataBinding () {
+        return (D) mDataBinding;
     }
 
     //</editor-fold>
