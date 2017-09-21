@@ -1,10 +1,10 @@
 # MVP模式扩展-->MVPH模式
 #### 使用简单，易扩展，易维护，低耦合，高复用是MVPH的目标<br>
-![](https://img.shields.io/badge/JitPack-0.0.9-green.svg)![](https://img.shields.io/badge/DemoVersion-1.3-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
+![](https://img.shields.io/badge/JitPack-0.1.1-green.svg)![](https://img.shields.io/badge/DemoVersion-1.4-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
 
 引用方式 :<br>
 
-> **compile 'com.xujl:BaseLibrary:0.0.9'**<br>
+> **compile 'com.xujl:BaseLibrary:0.1.1'**<br>
 
 ### [架构思路简介](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/架构思路.md)
 &emsp;&emsp;MVP的基本思想这里不做过多解释，有兴趣的同学可以在网上找相应资料学习一下。<br>
@@ -55,17 +55,32 @@ Activity为Presenter则是一个Presenter对应多个View和Model),而MVPH的思
 >4. **支持关闭MVP模式进行开发.**我们都知道，app中某些界面的逻辑有时候非常简单，并且基本上不用过多考虑扩展性的问题，这时，使用MVP模式进行开发无疑是臃肿的，因为你可能不得不为了几行显示数据的逻辑去给他写上几个接口和类。所以MVPH提供了方法可以关闭MVP模式，让你重回MVC模式，通常你只需要复写下面的方法并返回false就可以了。而且只需要在你自己的实现基类稍作处理，就算不使用MVP模式，你依然可以使用View和Model调用他们中基础方法。<br>
 >  boolean isMVP();//是否使用MVP模式
 
+>5. **支持DataBinding.**从0.1.0版本开始，正式兼容使用DataBinding进行开发
+
 
 &emsp;&emsp;由于为了提高框架的自由度与可扩展度，所以MVPH本身并没有封装太多功能，仅仅提供了基本的MVPH架构思路。不过在demo里
 我展示了通过使用MVPH框架为基础进行扩展的一个简单套路，目前demo还比较简单，打算在后面丰富demo的功能，主要是涵盖
 开发者们的大部分业务场景，这样大家在遇到一些特别的界面时能有一个参考进行开发。
 
-&emsp;&emsp;不过考虑到现在rxJava和DataBinding被越来越广泛的使用，所以在后面的版本有可能会考虑融合这两个东西进来。
+***
+[1.属性方法说明](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/Method%20description.md)<br>
+[2.特殊功能说明](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/special.md)
 
 ###### 交流群:275885217&emsp;&emsp;入群密码:mvp
 ###### 友情鸣谢：[接口提供-http://gank.io/api](http://gank.io/api)
 ---
 ## 版本更新日志:
+
+    更新日期：2017/09/20  库版本：0.1.1  demo版本：1.4
+     1.新增mvp基础框架支持dataBinding
+     2.布局加载逻辑统一由BaseViewHelper进行控制，加载配置由新增类LayoutConfig进行
+     控制
+     3.优化view和presenter的部分加载逻辑，去除部分无用方法，简化调用逻辑
+     4.修正部分不规范的方法名，逻辑复杂处添加更多注释
+     5.修改BaseFragment懒加载的部分代码
+     6.demo中原dataBinding示例界面，改为直接继承CommonPresenter,去除之前封装的
+     dataBindingPresenter等类
+     7.新增方法说明文档（持续更新，逐步完善）
 
     更新日期：2017/09/18  库版本：0.0.9  demo版本：1.3
      1.更改helper基类用法，基础model，view，presenter，helper类改为继承BaseMvpHelper
