@@ -66,19 +66,6 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
      */
     protected abstract void autoCreateViewModel ();
 
-    /**
-     * 获取view实际类型
-     *
-     * @return
-     */
-    protected abstract Class<? extends V> getViewClassType ();
-
-    /**
-     * 获取model实际类型
-     *
-     * @return
-     */
-    protected abstract Class<? extends M> getModelClassType ();
     //</editor-fold>
 
     //<editor-fold desc="模板方法">
@@ -122,20 +109,83 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
         try {
             final Class<? extends V> viewClassType = getViewClassType();
             final Class<? extends M> modelClassType = getModelClassType();
-            //判断是否复写了返回model与view的实际类型的方法，返回则直接创建实例
-            if (viewClassType != null) {
+            /**
+             *   判断是否返回了model与view的实际类型的，返回则通过类类型反射创建实例,
+             *   否则尝试使用全限定名进行反射创建对象
+             */
+            if (viewClassType != null && modelClassType != null) {
                 mView = viewClassType.newInstance();
-            }
-            if (modelClassType != null) {
                 mModel = modelClassType.newInstance();
+            } else {
+                String className = getClass().getSimpleName();
+                String viewClassName = classNameToCreateView(getViewClassPackageName(), className);
+                mView = (V) Class.forName(viewClassName).newInstance();
+                String modelClassName = classNameToCreateModel(getModelClassPackageName(), className);
+                mModel = (M) Class.forName(modelClassName).newInstance();
             }
         } catch (java.lang.InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
+    /**
+     * 获取view包路径
+     *
+     * @return
+     */
+    protected String getViewClassPackageName () {
+        return null;
+    }
 
+    /**
+     * 获取model包路径
+     *
+     * @return
+     */
+    protected String getModelClassPackageName () {
+        return null;
+    }
+    /**
+     * 获取view实际类型
+     *
+     * @return
+     */
+    protected  Class<? extends V> getViewClassType (){
+        return null;
+    }
+
+    /**
+     * 获取model实际类型
+     *
+     * @return
+     */
+    protected  Class<? extends M> getModelClassType (){
+        return null;
+    }
+    /**
+     * 尝试通过包名和presenter类名创建view的全限定名
+     *
+     * @param viewClassPackageName
+     * @param simpleName
+     * @return
+     */
+    protected String classNameToCreateView (String viewClassPackageName, String simpleName) {
+        return viewClassPackageName + "." + simpleName.replace("Presenter", "");
+    }
+
+    /**
+     * 尝试通过包名和presenter类名创建model的全限定名
+     *
+     * @param viewClassPackageName
+     * @param simpleName
+     * @return
+     */
+    protected String classNameToCreateModel (String viewClassPackageName, String simpleName) {
+        return viewClassPackageName + "." + simpleName.replace("Presenter", "") + "Model";
+    }
     /**
      * 创建布局
      */

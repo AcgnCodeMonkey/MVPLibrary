@@ -50,6 +50,7 @@ public abstract class BaseView implements IBaseView {
      *
      * @return
      */
+    @Override
     public boolean isAddParentLayout () {
         return true;
     }
@@ -69,6 +70,7 @@ public abstract class BaseView implements IBaseView {
      *
      * @return
      */
+    @Override
     public boolean enableToolBar () {
         return true;
     }
@@ -82,6 +84,7 @@ public abstract class BaseView implements IBaseView {
      *
      * @return
      */
+    @Override
     public BaseToolBarModule getToolBarModule () {
         return mViewHelper.getToolBarModule();
     }
@@ -98,12 +101,13 @@ public abstract class BaseView implements IBaseView {
     public View exposeRootView () {
         return mRootView;
     }
-
+    @Override
     public <D extends ViewDataBinding> D getDataBinding () {
         return (D) mDataBinding;
     }
 
     //</editor-fold>
+    @Override
     public <T extends View> T findView (int id) {
         return (T) mRootView.findViewById(id);
     }

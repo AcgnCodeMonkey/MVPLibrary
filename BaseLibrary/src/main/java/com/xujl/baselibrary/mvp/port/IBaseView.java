@@ -1,6 +1,7 @@
 package com.xujl.baselibrary.mvp.port;
 
 import android.content.Context;
+import android.databinding.ViewDataBinding;
 import android.view.View;
 
 import com.xujl.baselibrary.mvp.common.BaseToolBarModule;
@@ -36,6 +37,8 @@ public interface IBaseView extends IBaseVP {
     View exposeRootView ();//返回根布局
 
     <T extends View> T findView (int id);
+
+    <D extends ViewDataBinding> D getDataBinding ();
 
     BaseToolBarModule getToolBarModule ();
 

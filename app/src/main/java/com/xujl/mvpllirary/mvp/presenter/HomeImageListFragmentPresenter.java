@@ -9,9 +9,7 @@ import com.xujl.applibrary.mvp.model.CommonModel;
 import com.xujl.applibrary.mvp.presenter.CommonFragmentPresenter;
 import com.xujl.mvpllirary.adapter.HomeImageListAdaper;
 import com.xujl.mvpllirary.json.ImagePassBean;
-import com.xujl.mvpllirary.mvp.model.HomeImageListFragmentModel;
 import com.xujl.mvpllirary.mvp.model.port.IHomeImageListFragmentModel;
-import com.xujl.mvpllirary.mvp.view.HomeImageListFragment;
 import com.xujl.mvpllirary.mvp.view.port.IHomeImageListFragmentView;
 import com.xujl.mvpllirary.util.IntentKey;
 import com.xujl.widgetlibrary.adapter.BaseRecyclerViewAdapter;
@@ -33,15 +31,6 @@ public class HomeImageListFragmentPresenter extends CommonFragmentPresenter<IHom
         }
     };
 
-    @Override
-    protected Class<? extends IHomeImageListFragmentView> getViewClassType () {
-        return HomeImageListFragment.class;
-    }
-
-    @Override
-    protected Class<? extends IHomeImageListFragmentModel> getModelClassType () {
-        return HomeImageListFragmentModel.class;
-    }
 
     @Override
     protected void initPresenter (Bundle savedInstanceState) {

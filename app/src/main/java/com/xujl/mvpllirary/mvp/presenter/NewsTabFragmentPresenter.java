@@ -8,9 +8,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.xujl.applibrary.mvp.model.CommonModel;
 import com.xujl.applibrary.mvp.presenter.CommonFragmentPresenter;
 import com.xujl.mvpllirary.adapter.NewsTabAdapter;
-import com.xujl.mvpllirary.mvp.model.NewsTabFragmentModel;
 import com.xujl.mvpllirary.mvp.model.port.INewsTabFragmentModel;
-import com.xujl.mvpllirary.mvp.view.NewsTabFragment;
 import com.xujl.mvpllirary.mvp.view.port.INewsTabFragmentView;
 import com.xujl.mvpllirary.util.IntentKey;
 import com.xujl.widgetlibrary.adapter.BaseRecyclerViewAdapter;
@@ -30,15 +28,6 @@ public class NewsTabFragmentPresenter extends CommonFragmentPresenter<INewsTabFr
             gotoActivity(NewsDetailActivityPresenter.class, bundle);
         }
     };
-    @Override
-    protected Class<? extends INewsTabFragmentView> getViewClassType () {
-        return NewsTabFragment.class;
-    }
-
-    @Override
-    protected Class<? extends INewsTabFragmentModel> getModelClassType () {
-        return NewsTabFragmentModel.class;
-    }
 
     @Override
     protected void initPresenter (Bundle savedInstanceState) {

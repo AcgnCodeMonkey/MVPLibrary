@@ -16,15 +16,6 @@ import com.xujl.mvpllirary.util.IntentKey;
  * 资讯详情网页，使用非mvp模式
  */
 public class NewsDetailActivityPresenter extends CommonActivityPresenter implements ChromeClientCallbackManager.ReceivedTitleCallback {
-    @Override
-    protected Class<?> getViewClassType () {
-        return null;
-    }
-
-    @Override
-    protected Class<?> getModelClassType () {
-        return null;
-    }
 
     @Override
     public boolean isMVP () {

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    tools:context="com.xujl.test.MainActivity">
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="81dp"
+        android:layout_marginStart="81dp"
+        android:padding="20dp" android:text="普通异常"
+        app:layout_constraintBaseline_toBaselineOf="@+id/text2" app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_constraintBaseline_creator="1" tools:layout_constraintLeft_creator="1"/>
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="onCreate异常\njkjk\nkljkljlkj\njlkjlkjkjlk\nkjhlkjkjljl"
+        app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintLeft_toRightOf="@+id/text"
+        app:layout_constraintTop_toTopOf="parent" tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1" tools:layout_constraintTop_creator="1"/>
+    <View android:layout_width="20dp" android:layout_height="wrap_content"
+          android:background="#000"
+          app:layout_constraintBottom_toBottomOf="@+id/text2"
+          app:layout_constraintLeft_toLeftOf="@+id/text"
+          app:layout_constraintRight_toRightOf="@+id/text"
+          app:layout_constraintTop_toBottomOf="@+id/text"
+          app:layout_constraintVertical_bias="0.0"/>
+</android.support.constraint.ConstraintLayout>

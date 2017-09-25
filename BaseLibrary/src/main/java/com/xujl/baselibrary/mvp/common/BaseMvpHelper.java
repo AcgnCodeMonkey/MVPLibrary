@@ -10,7 +10,7 @@ import com.xujl.baselibrary.mvp.port.HelperType;
  */
 
  class BaseMvpHelper {
-    private final SparseArray<BaseHelper> mViewHelpers = new SparseArray<>();
+    private final SparseArray<BaseHelper> mHelpers = new SparseArray<>();
 
     /**
      * 添加一个helper
@@ -19,31 +19,31 @@ import com.xujl.baselibrary.mvp.port.HelperType;
      * @param helper
      */
     public <T extends BaseHelper> void addHelper (@HelperType.HelperTypeEnum int type, T helper) {
-        mViewHelpers.put(type, helper);
+        mHelpers.put(type, helper);
     }
 
     /**
-     * 获取指定类型的viewHelper
+     * 获取指定类型的Helper
      *
      * @param type helper类型值必须传入指定类型的枚举值
      * @param <T>
      * @return
      */
     public <T extends BaseHelper> T getHelper (@HelperType.HelperTypeEnum int type) {
-        return (T) mViewHelpers.get(type);
+        return (T) mHelpers.get(type);
     }
 
     /**
      * @param type helper类型值必须传入指定类型的枚举值
      */
     public void removeHelper (@HelperType.HelperTypeEnum int type) {
-        mViewHelpers.remove(type);
+        mHelpers.remove(type);
     }
 
     /**
-     * 清空viewHelper集合
+     * 清空Helper集合
      */
     public void clearHelpers () {
-        mViewHelpers.clear();
+        mHelpers.clear();
     }
 }

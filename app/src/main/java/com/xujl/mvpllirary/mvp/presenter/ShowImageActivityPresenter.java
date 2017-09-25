@@ -10,9 +10,7 @@ import com.xujl.applibrary.mvp.common.DownloadManagerHelper;
 import com.xujl.applibrary.mvp.presenter.CommonActivityPresenter;
 import com.xujl.applibrary.util.CustomToast;
 import com.xujl.mvpllirary.R;
-import com.xujl.mvpllirary.mvp.model.ShowImageActivityModel;
 import com.xujl.mvpllirary.mvp.model.port.IShowImageActivityModel;
-import com.xujl.mvpllirary.mvp.view.ShowImageActivity;
 import com.xujl.mvpllirary.mvp.view.port.IShowImageActivityView;
 
 import java.io.File;
@@ -23,15 +21,6 @@ import java.io.File;
 public class ShowImageActivityPresenter extends CommonActivityPresenter<IShowImageActivityView, IShowImageActivityModel> {
     public static final int RESULT_CODE = 9;
 
-    @Override
-    protected Class<? extends IShowImageActivityView> getViewClassType () {
-        return ShowImageActivity.class;
-    }
-
-    @Override
-    protected Class<? extends IShowImageActivityModel> getModelClassType () {
-        return ShowImageActivityModel.class;
-    }
 
     @Override
     protected void initPresenter (Bundle savedInstanceState) {

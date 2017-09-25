@@ -9,9 +9,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.xujl.applibrary.mvp.presenter.CommonActivityPresenter;
 import com.xujl.mvpllirary.adapter.ImageListAdaper;
 import com.xujl.mvpllirary.json.ImagePassBean;
-import com.xujl.mvpllirary.mvp.model.ImageListActivityModel;
 import com.xujl.mvpllirary.mvp.model.port.IImageListActivityModel;
-import com.xujl.mvpllirary.mvp.view.ImageListActivity;
 import com.xujl.mvpllirary.mvp.view.port.IImageListActivityView;
 import com.xujl.mvpllirary.util.IntentKey;
 import com.xujl.widgetlibrary.adapter.BaseRecyclerViewAdapter;
@@ -35,15 +33,6 @@ public class ImageListActivityPresenter extends CommonActivityPresenter<IImageLi
         }
     };
 
-    @Override
-    protected Class<? extends IImageListActivityView> getViewClassType () {
-        return ImageListActivity.class;
-    }
-
-    @Override
-    protected Class<? extends IImageListActivityModel> getModelClassType () {
-        return ImageListActivityModel.class;
-    }
 
     @Override
     protected void initPresenter (Bundle savedInstanceState) {

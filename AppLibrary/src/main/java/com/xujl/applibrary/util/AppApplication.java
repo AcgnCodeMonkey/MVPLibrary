@@ -1,6 +1,5 @@
 package com.xujl.applibrary.util;
 
-import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.xujl.applibrary.db.bean.DaoMaster;
@@ -14,15 +13,19 @@ import com.xujl.utilslibrary.system.StartUpApplication;
  */
 
 public class AppApplication extends StartUpApplication{
-    private  static Application sApplication;
+    private  static AppApplication sApplication;
     private static DaoSession sDaoSession;//greenDao
-    public static Application getInstance(){
+    private String mViewPackageName;
+    private String mModelPackageName;
+    public static AppApplication getInstance(){
         return sApplication;
     }
     @Override
     public void onCreate () {
         super.onCreate();
         sApplication = this;
+        setModelPackageName("com.xujl.mvpllirary.mvp.model");
+        setViewPackageName("com.xujl.mvpllirary.mvp.view");
         DensityUtil.mContext = getApplicationContext();
         InternetState.setContext(getApplicationContext());
         setDubug(true);
@@ -43,5 +46,21 @@ public class AppApplication extends StartUpApplication{
     }
     public static DaoSession getDaoInstant () {
         return sDaoSession;
+    }
+
+    public String getViewPackageName () {
+        return mViewPackageName;
+    }
+
+    public void setViewPackageName (String viewPackageName) {
+        mViewPackageName = viewPackageName;
+    }
+
+    public String getModelPackageName () {
+        return mModelPackageName;
+    }
+
+    public void setModelPackageName (String modelPackageName) {
+        mModelPackageName = modelPackageName;
     }
 }

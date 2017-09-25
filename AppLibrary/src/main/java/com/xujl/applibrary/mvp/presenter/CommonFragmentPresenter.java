@@ -11,6 +11,7 @@ import com.xujl.applibrary.mvp.port.ICommonModel;
 import com.xujl.applibrary.mvp.port.ICommonPresenter;
 import com.xujl.applibrary.mvp.port.ICommonView;
 import com.xujl.applibrary.mvp.view.CommonView;
+import com.xujl.applibrary.util.AppApplication;
 import com.xujl.applibrary.util.CustomToast;
 import com.xujl.baselibrary.mvp.presenter.BaseFragmentPresenter;
 import com.xujl.rxlibrary.RxLife;
@@ -141,5 +142,14 @@ public abstract class CommonFragmentPresenter<V extends ICommonView, M extends I
     public void onDestroy () {
         mRxLife.destroyAll();
         super.onDestroy();
+    }
+    @Override
+    protected String getViewClassPackageName () {
+        return AppApplication.getInstance().getViewPackageName();
+    }
+
+    @Override
+    protected String getModelClassPackageName () {
+        return AppApplication.getInstance().getModelPackageName();
     }
 }

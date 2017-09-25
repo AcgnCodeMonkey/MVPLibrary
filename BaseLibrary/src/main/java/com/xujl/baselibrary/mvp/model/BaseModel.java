@@ -29,6 +29,7 @@ import com.xujl.baselibrary.mvp.port.IBaseModel;
 public abstract class BaseModel implements IBaseModel{
     protected BaseModelHelper mModelHelper;
 
+
     public BaseModelHelper getModelHelper () {
         if(mModelHelper == null){
             mModelHelper = new BaseModelHelper();

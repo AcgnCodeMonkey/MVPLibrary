@@ -1,1 +1,1 @@
-include ':app', ':UtilsLibrary', ':BaseLibrary', ':AppLibrary', ':WidgetLibrary', ':DataLibrary', ':libraryzxing', ':RxLibrary'
+include ':app', ':UtilsLibrary', ':BaseLibrary', ':AppLibrary', ':WidgetLibrary', ':DataLibrary', ':libraryzxing', ':RxLibrary', ':Test'

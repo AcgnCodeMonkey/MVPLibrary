@@ -57,6 +57,9 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     //<editor-fold desc="基础变量">
     protected V mView;//视图
     protected M mModel;//数据
+    protected boolean isViewLoaded;//视图是否已加载过
+    protected boolean isViewComlpeted;//界面是否已经加载完成
+    protected Bundle savedInstanceState;//界面是否已经加载完成
     protected BasePresenterHelper mPresenterHelper;//通用逻辑帮助类
     /**
      * 生命周期回调
@@ -78,20 +81,6 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
      * 自动创建view和model实例，用于关闭mvp模式下。抽象基类应实现此方法
      */
     protected abstract void autoCreateViewModel ();
-
-    /**
-     * 获取view实际类型
-     *
-     * @return
-     */
-    protected abstract Class<? extends V> getViewClassType ();
-
-    /**
-     * 获取model实际类型
-     *
-     * @return
-     */
-    protected abstract Class<? extends M> getModelClassType ();
 
 
     //</editor-fold>
@@ -120,7 +109,32 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         //初始化控件
         mView.initView(this);
         ActivityManger.newInstance().addActivity(this);//管理打开的activity
+        this.savedInstanceState = savedInstanceState;
+    }
 
+    private void continueLoading (final Bundle savedInstanceState) {
+        initPresenter(savedInstanceState);//初始化逻辑代码
+        if (mLifeCycleCallback != null) {
+            mLifeCycleCallback.onCreateLife(savedInstanceState);
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged (boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        isViewComlpeted = hasFocus;
+        judgeLoading();
+    }
+
+    /**
+     * 当前界面已获取焦点，且没有加载过，才进行后续加载
+     */
+    private void judgeLoading () {
+        //已经加载过或者当前界面未获取焦点时跳出
+        if(isViewLoaded || !isViewComlpeted){
+            return;
+        }
+        isViewLoaded = true;
         final String[] permissions = needPermissions();
         //不需要权限或者需要的权限已全部获取到时直接继续加载
         if (ListUtils.isEmpty(permissions) || EasyPermissions.hasPermissions(exposeContext(), permissions)) {
@@ -131,16 +145,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         EasyPermissions.requestPermissions(this, "必要的权限:\t" +
                 PermissionsHelper.getNoPermissionsStrings(exposeContext(), permissions) +
                 "缺少权限会导致无法使用部分功能", 996, permissions);
-
     }
-
-    private void continueLoading (final Bundle savedInstanceState) {
-        initPresenter(savedInstanceState);//初始化逻辑代码
-        if (mLifeCycleCallback != null) {
-            mLifeCycleCallback.onCreateLife(savedInstanceState);
-        }
-    }
-
 
     /**
      * 实例化view和model,如果为非mvp模式，则使用子类默认的view和model
@@ -154,19 +159,88 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         try {
             final Class<? extends V> viewClassType = getViewClassType();
             final Class<? extends M> modelClassType = getModelClassType();
-            //判断是否复写了返回model与view的实际类型的方法，返回则直接创建实例
-            if (viewClassType != null) {
+            /**
+             *   判断是否返回了model与view的实际类型的，返回则通过类类型反射创建实例,
+             *   否则尝试使用全限定名进行反射创建对象
+             */
+
+            if (viewClassType != null && modelClassType != null) {
                 mView = viewClassType.newInstance();
-            }
-            if (modelClassType != null) {
                 mModel = modelClassType.newInstance();
+            } else {
+                String className = getClass().getSimpleName();
+                String viewClassName = classNameToCreateView(getViewClassPackageName(), className);
+                mView = (V) Class.forName(viewClassName).newInstance();
+                String modelClassName = classNameToCreateModel(getModelClassPackageName(), className);
+                mModel = (M) Class.forName(modelClassName).newInstance();
             }
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
+
+    /**
+     * 获取view实际类型
+     *
+     * @return
+     */
+    protected Class<? extends V> getViewClassType () {
+        return null;
+    }
+
+    /**
+     * 获取model实际类型
+     *
+     * @return
+     */
+    protected Class<? extends M> getModelClassType () {
+        return null;
+    }
+
+    /**
+     * 获取view包路径
+     *
+     * @return
+     */
+    protected String getViewClassPackageName () {
+        return null;
+    }
+
+    /**
+     * 获取model包路径
+     *
+     * @return
+     */
+    protected String getModelClassPackageName () {
+        return null;
+    }
+
+    /**
+     * 尝试通过包名和presenter类名创建view的全限定名
+     *
+     * @param viewClassPackageName
+     * @param simpleName
+     * @return
+     */
+    protected String classNameToCreateView (String viewClassPackageName, String simpleName) {
+        return viewClassPackageName + "." + simpleName.replace("Presenter", "");
+    }
+
+    /**
+     * 尝试通过包名和presenter类名创建model的全限定名
+     *
+     * @param viewClassPackageName
+     * @param simpleName
+     * @return
+     */
+    protected String classNameToCreateModel (String viewClassPackageName, String simpleName) {
+        return viewClassPackageName + "." + simpleName.replace("Presenter", "") + "Model";
+    }
+
 
     /**
      * 创建布局
@@ -267,7 +341,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
      *
      * @param mLifeCycleCallback
      */
-    public void setmLifeCycleCallback (LifeCycleCallback mLifeCycleCallback) {
+    protected void setmLifeCycleCallback (LifeCycleCallback mLifeCycleCallback) {
         this.mLifeCycleCallback = mLifeCycleCallback;
     }
 
@@ -362,6 +436,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         mView = null;
         mModel = null;
     }
+
     //</editor-fold>
     @Override
     public boolean dispatchTouchEvent (MotionEvent ev) {//解决输入框软键盘点击其他区域不消失的问题。
@@ -382,6 +457,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         }
         return onTouchEvent(ev);
     }
+
     /**
      * 是否隐藏输入框
      *
@@ -389,7 +465,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
      * @param event
      * @return
      */
-    public boolean isShouldHideInput (View v, MotionEvent event) {
+    private boolean isShouldHideInput (View v, MotionEvent event) {
         if (v != null && (v instanceof EditText)) {
             int[] leftTop = {0, 0};
             //获取输入框当前的location位置
