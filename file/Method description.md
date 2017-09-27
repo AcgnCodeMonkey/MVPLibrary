@@ -1,6 +1,6 @@
 #### 目录
-* [接口方法说明](#Main)
-  + [IBaseVP](#IBaseVP)
+* [接口方法说明](#接口方法说明)
+  + [IBaseVP](#i-base-v-p)
   + [IBaseView](#IBaseView)
   + [IBasePresenter](#IBasePresenter)
   + [IBaseModel](#IBaseModel)
@@ -13,7 +13,7 @@
 * [其他部分类说明](#其他部分类说明)
   + [BaseMvpHelper](#BaseMvpHelper)
 
-### Main
+### 接口方法说明
 #### IBaseVP
 &emsp;&emsp;view和presenter共有方法，为了兼容mvp和mvc开发，此接口包含部分需要两边同时可以
 控制界面加载的部分配置方法
