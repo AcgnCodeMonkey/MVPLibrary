@@ -1,6 +1,6 @@
 #### 目录
 * [接口方法说明](#接口方法说明)
-  + [IBaseVP](#IBaseVP)
+  * [IBaseVP](#IBaseVP)
   + [IBaseView](#IBaseView)
   + [IBasePresenter](#IBasePresenter)
   + [IBaseModel](#IBaseModel)
