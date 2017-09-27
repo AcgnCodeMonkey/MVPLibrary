@@ -2,7 +2,7 @@
 #### 目录
 - [DataBinding](#DataBinding)
 - [布局结构说明](#布局结构说明)
-- [Presenter反射创建说明](#Presenter反射创建说明)
+- [反射创建说明](#反射创建说明)
 - [界面加载流程](#界面加载流程)
 
 #### DataBinding
@@ -59,7 +59,7 @@ private ActivityPersonBinding mBinding;
 &emsp;&emsp;本库的自动添加toolBar功能和全局空布局功能都是基于为布局文件动态添加一个父布局(垂直线性布局)，然后动态结合toolBar和真实布局实现的。从示意图可以明显看出，contentLayout才是项目中的布局文件，rootView是通过代码生成的布局，toolBar则是用rootView去添加到自己内部第一个位置的，需要特别指出的是，布局配置类中有个属性是，是否自动为布局文件创建父布局，**这个属性只有在关闭使用MVPH的自动生成toolBar功能时才会生效**，至于原因，结合上面讲的结构，我想大家应该都知道为什么了。<br>
 &emsp;&emsp;通过上面的说明，有的同学应该已经知道为什么在dataBinding布局中需要有那些强制要求了。这些强制要求就是为了dataBinding布局和普通布局保持结构的统一性。
 
-#### Presenter反射创建说明
+#### 反射创建说明
 
 Presenter中持有view和model的强引用，view和model的声明类型采用的是类泛型传递到基类的，实际类型则是通过子类传递，然后进行反射创建，目前支持两种方式进行反射创建。（具体逻辑参考Presenter类中的createViewModel方法）
 * 子类Presenter复写对应方法，直接返回对应view和model的类类型，通过类类型反射创建
