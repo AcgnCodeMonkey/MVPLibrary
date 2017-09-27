@@ -1,7 +1,7 @@
 ### 特殊功能说明
 #### 目录
 * [横线](#横线)
-* [布局结构说明](#2.布局结构说明)
+* [布局结构说明](#布局结构说明)
 - [Presenter反射创建说明](#3.Presenter反射创建说明)
 - [界面加载流程](#4.界面加载流程)
 
@@ -54,7 +54,7 @@ private ActivityPersonBinding mBinding;
 
 ### 横线
 -----------
-#### 2.布局结构说明
+#### 布局结构说明
 -----------
 ![](https://raw.githubusercontent.com/AcgnCodeMonkey/MVPLibrary/master/file/布局结构示意图.png)
 
