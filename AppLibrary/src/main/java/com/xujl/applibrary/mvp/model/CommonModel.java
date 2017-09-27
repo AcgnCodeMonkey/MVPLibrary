@@ -1,10 +1,18 @@
 package com.xujl.applibrary.mvp.model;
 
+import android.support.annotation.Nullable;
+
 import com.xujl.applibrary.mvp.common.CommonModelHelper;
 import com.xujl.applibrary.mvp.port.ICommonModel;
 import com.xujl.baselibrary.mvp.model.BaseModel;
 import com.xujl.datalibrary.network.InternetUtil;
+import com.xujl.rxlibrary.BaseObservable;
+import com.xujl.rxlibrary.BaseObservableEmitter;
+import com.xujl.rxlibrary.BaseObserver;
+import com.xujl.rxlibrary.RxHelper;
+import com.xujl.rxlibrary.RxLife;
 import com.xujl.utilslibrary.data.ParamsMapTool;
+import com.xujl.datalibrary.network.ResultEntity;
 import com.xujl.utilslibrary.port.RequestCallBack;
 
 import java.util.HashMap;
@@ -42,11 +50,31 @@ public abstract class CommonModel extends BaseModel implements ICommonModel {
     }
 
     @Override
-    public void requestForGet (int mode, ParamsMapTool paramsMapTool, RequestCallBack requestCallBack) {
+    public void requestForGet (int mode, ParamsMapTool paramsMapTool, RxLife rxLife, BaseObserver<ResultEntity> observer) {
         final String apiName = getApiName(mode);
         final Map<String, Object> params = new HashMap<>();
         addParams(mode, params, paramsMapTool);
-        mInternetUtil.requestForGet(params, "", requestCallBack, apiName);
+        RxHelper.onCreat(rxLife)
+                .creatNormal(new BaseObservable<ResultEntity>() {
+                    @Override
+                    public void emitAction (final BaseObservableEmitter<ResultEntity> e) throws Exception {
+                        mInternetUtil.requestForGet(params, "", new RequestCallBack() {
+                            @Override
+                            public void notice (String json) {
+                                e.onNext(new ResultEntity(json));
+                                e.onComplete();
+                            }
+
+                            @Override
+                            public void error (@JsonICode int error, @Nullable String json) {
+                                e.onNext(new ResultEntity(json, error));
+                                e.onComplete();
+                            }
+                        }, apiName);
+                    }
+                })
+                .newThreadToMain()
+                .run(observer);
     }
 
     protected void addParams (int mode, Map<String, Object> params, ParamsMapTool paramsMapTool) {

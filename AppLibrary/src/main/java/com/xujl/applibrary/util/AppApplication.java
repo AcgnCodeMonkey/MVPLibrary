@@ -12,17 +12,20 @@ import com.xujl.utilslibrary.system.StartUpApplication;
  * Created by xujl on 2017/7/6.
  */
 
-public class AppApplication extends StartUpApplication{
-    private  static AppApplication sApplication;
+public class AppApplication extends StartUpApplication {
+    private static AppApplication sApplication;
     private static DaoSession sDaoSession;//greenDao
     private String mViewPackageName;
     private String mModelPackageName;
-    public static AppApplication getInstance(){
+
+    public static AppApplication getInstance () {
         return sApplication;
     }
+
     @Override
     public void onCreate () {
         super.onCreate();
+
         sApplication = this;
         setModelPackageName("com.xujl.mvpllirary.mvp.model");
         setViewPackageName("com.xujl.mvpllirary.mvp.view");
@@ -31,6 +34,7 @@ public class AppApplication extends StartUpApplication{
         setDubug(true);
         setupDatabase(); //配置数据库
     }
+
     /**
      * 配置数据库
      */
@@ -44,6 +48,7 @@ public class AppApplication extends StartUpApplication{
         //获取Dao对象管理者
         sDaoSession = daoMaster.newSession();
     }
+
     public static DaoSession getDaoInstant () {
         return sDaoSession;
     }
@@ -63,4 +68,5 @@ public class AppApplication extends StartUpApplication{
     public void setModelPackageName (String modelPackageName) {
         mModelPackageName = modelPackageName;
     }
+
 }

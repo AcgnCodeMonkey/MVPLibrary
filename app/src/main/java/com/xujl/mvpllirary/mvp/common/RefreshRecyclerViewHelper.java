@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.scwang.smartrefresh.header.WaveSwipeHeader;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
@@ -62,12 +61,10 @@ public class RefreshRecyclerViewHelper extends BaseHelper {
             Log.e("RefreshStyleViewHelper->", "RefreshLayout引用为空");
             return this;
         }
-        WaveSwipeHeader w;
         final ClassicsHeader classicsHeader = new ClassicsHeader(mRefreshLayout.getContext())
                 .setSpinnerStyle(SpinnerStyle.Translate);
         classicsHeader.setAccentColor(ContextCompat.getColor(mRefreshLayout.getContext(), R.color.white));
         mRefreshLayout.setRefreshHeader(classicsHeader);
-        mRefreshLayout.setHeaderMaxDragRate(1.5f);
         mRefreshLayout.setRefreshFooter(new ClassicsFooter(mRefreshLayout.getContext()));
         return this;
     }

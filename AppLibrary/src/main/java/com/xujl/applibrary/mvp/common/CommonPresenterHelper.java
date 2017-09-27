@@ -2,7 +2,6 @@ package com.xujl.applibrary.mvp.common;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import com.xujl.applibrary.mvp.port.ICommonModel;
 import com.xujl.applibrary.mvp.port.ICommonPresenter;
@@ -10,8 +9,11 @@ import com.xujl.applibrary.mvp.port.ICommonView;
 import com.xujl.baselibrary.mvp.common.BasePresenterHelper;
 import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
 import com.xujl.baselibrary.utils.ActivityManger;
+import com.xujl.rxlibrary.BaseObserver;
 import com.xujl.utilslibrary.data.ParamsMapTool;
-import com.xujl.utilslibrary.port.RequestCallBack;
+import com.xujl.datalibrary.network.ResultEntity;
+
+import io.reactivex.annotations.NonNull;
 
 /**
  * Created by xujl on 2017/7/4.
@@ -19,27 +21,27 @@ import com.xujl.utilslibrary.port.RequestCallBack;
 
 public class CommonPresenterHelper extends BasePresenterHelper {
     /**
-     *
      * @param mode
      * @param paramsMapTool
-     * @param showHint 是否显示加载提示
+     * @param showHint      是否显示加载提示
      */
-    public void requestForGet(final int mode, ParamsMapTool paramsMapTool, boolean showHint,
-                              ICommonModel model, final ICommonView view, final ICommonPresenter presenter){
-        if(showHint){
+    public void requestForGet (final int mode, ParamsMapTool paramsMapTool, boolean showHint,
+                               ICommonModel model, final ICommonView view, final ICommonPresenter presenter) {
+        if (showHint) {
             view.showLoading();
         }
-        model.requestForGet(mode, paramsMapTool, new RequestCallBack() {
+        //网络请求与生命周期绑定，界面被销毁时，不接受回调结果
+        model.requestForGet(mode, paramsMapTool, presenter.getRxLife(), new BaseObserver<ResultEntity>() {
             @Override
-            public void notice (String json) {
+            public void onNext (@NonNull ResultEntity resultEntity) {
+                super.onNext(resultEntity);
                 view.dismissLoading();
-                presenter.requestSuccess(mode,json);
-            }
-
-            @Override
-            public void error (@JsonICode int error, @Nullable String json) {
-                view.dismissLoading();
-                presenter.requestFailed(mode,error,json,json);
+                if (resultEntity.getErrorCode() == 0) {
+                    presenter.requestSuccess(mode, resultEntity.getResultJson());
+                    return;
+                }
+                presenter.requestFailed(mode, resultEntity.getErrorCode(),
+                        resultEntity.getErrorString(), resultEntity.getResultJson());
             }
         });
     }

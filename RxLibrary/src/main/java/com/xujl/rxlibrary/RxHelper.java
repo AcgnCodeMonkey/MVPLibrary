@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -80,6 +81,32 @@ public class RxHelper {
         return this;
     }
     /**
+     * 创建一个倒计时的发射器
+     *
+     * @param space 倒计时间隔 单位都是毫秒
+     * @param timeLong 倒计时长 单位都是毫秒
+     * @return
+     */
+    public RxHelper createCountDown (final long space, final long timeLong) {
+        creatNormal(new BaseObservable<Long>() {
+            @Override
+            public void emitAction (BaseObservableEmitter<Long> e) throws Exception {
+                boolean flag = true;
+                long count = timeLong;
+                while (flag){
+                    e.onNext(count);
+                    if(count == 0){
+                        e.onComplete();
+                        flag = false;
+                    }
+                    count-=space;
+                    Thread.sleep(space);
+                }
+            }
+        });
+        return this;
+    }
+    /**
      * 定时发射器
      *
      * @param delay
@@ -95,7 +122,10 @@ public class RxHelper {
 
 
     //==============================================================================================================================================
-
+    public <R,T>RxHelper  mapChange(Function<? super T, ? extends R> mapper){
+        mObservable = mObservable.map(mapper);
+        return this;
+    }
     /**
      * 设置发射器在主线程
      *

@@ -152,4 +152,9 @@ public abstract class CommonFragmentPresenter<V extends ICommonView, M extends I
     protected String getModelClassPackageName () {
         return AppApplication.getInstance().getModelPackageName();
     }
+
+    @Override
+    public RxLife getRxLife () {
+        return mRxLife;
+    }
 }

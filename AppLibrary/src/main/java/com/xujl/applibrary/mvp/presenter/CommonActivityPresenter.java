@@ -156,4 +156,8 @@ public abstract class CommonActivityPresenter<V extends ICommonView, M extends I
     protected String getModelClassPackageName () {
         return AppApplication.getInstance().getModelPackageName();
     }
+
+    public RxLife getRxLife () {
+        return mRxLife;
+    }
 }

@@ -15,11 +15,6 @@ import com.xujl.rxlibrary.RxHelper;
 public class SplashActivityPresenter extends CommonActivityPresenter {
     @Override
     protected void initPresenter (Bundle savedInstanceState) {
-//        final PopupWindow window = new PopupWindow();
-//        window.setWidth(500);
-//        window.setHeight(500);
-//        window.setContentView(LayoutInflater.from(this).inflate(R.layout.test,null));
-//        window.showAtLocation(mView.exposeRootView(), Gravity.CENTER,0,0);
         final GranzortView granzortView = mView.findView(R.id.activity_splash_granzortView);
         RxHelper.onCreat()
                 .createTimer(1500)
@@ -38,7 +33,10 @@ public class SplashActivityPresenter extends CommonActivityPresenter {
                 gotoActivity(MainActivityPresenter.class);
             }
         });
+
+
     }
+
 
     @Override
     public int getLayoutId () {
