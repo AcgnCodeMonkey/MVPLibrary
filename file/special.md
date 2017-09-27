@@ -1,11 +1,11 @@
 ### 特殊功能说明
 #### 目录
-* [横线](#横线)
-* [布局结构说明](#布局结构说明)
-- [Presenter反射创建说明](#3.Presenter反射创建说明)
-- [界面加载流程](#4.界面加载流程)
+- [DataBinding](#DataBinding)
+- [布局结构说明](#布局结构说明)
+- [Presenter反射创建说明](#Presenter反射创建说明)
+- [界面加载流程](#界面加载流程)
 
-#### 1.DataBinding
+#### DataBinding
 
 &emsp;&emsp;考虑到现在很多人项目中并没有大量使用这个东西，所以**dataBinding功能默认是关闭的**,开启dataBinding只需要在presenter或view的实现子类复写enableDataBinding方法，并返回true即可。<br>
 &emsp;&emsp;基本使用，参考demo中PersonDataBindingActivity界面，首先需要自己在view的实现类中声明一个当前界面对应类型的dataBinding,然后调用getDataBinding方法为这个变量赋值，后面就可以直接使用dataBinding了。
@@ -58,9 +58,9 @@ private ActivityPersonBinding mBinding;
 
 &emsp;&emsp;本库的自动添加toolBar功能和全局空布局功能都是基于为布局文件动态添加一个父布局(垂直线性布局)，然后动态结合toolBar和真实布局实现的。从示意图可以明显看出，contentLayout才是项目中的布局文件，rootView是通过代码生成的布局，toolBar则是用rootView去添加到自己内部第一个位置的，需要特别指出的是，布局配置类中有个属性是，是否自动为布局文件创建父布局，**这个属性只有在关闭使用MVPH的自动生成toolBar功能时才会生效**，至于原因，结合上面讲的结构，我想大家应该都知道为什么了。<br>
 &emsp;&emsp;通过上面的说明，有的同学应该已经知道为什么在dataBinding布局中需要有那些强制要求了。这些强制要求就是为了dataBinding布局和普通布局保持结构的统一性。
-#### 3.Presenter反射创建说明
+#### Presenter反射创建说明
 Presenter中持有view和model的强引用，view和model的声明类型采用的是类泛型传递到基类的，实际类型则是通过子类传递，然后进行反射创建，目前支持两种方式进行反射创建。（具体逻辑参考Presenter类中的createViewModel方法）
-##### 1.子类Presenter复写对应方法，直接返回对应view和model的类类型，通过类类型反射创建
+* 子类Presenter复写对应方法，直接返回对应view和model的类类型，通过类类型反射创建
 demo中只有MainActivity采用了方法1进行反射创建，其他所有界面均采用方法2实现
 ~~~java
   @Override
@@ -73,7 +73,7 @@ demo中只有MainActivity采用了方法1进行反射创建，其他所有界面
       return MainActivityModel.class;
   }
 ~~~
-##### 2.由项目基类统一返回view和model的包路径，然后拼接出view和model的全限定名进行反射创建
+* 由项目基类统一返回view和model的包路径，然后拼接出view和model的全限定名进行反射创建
 ~~~java
     @Override
     protected String getViewClassPackageName () {
@@ -91,7 +91,7 @@ demo中只有MainActivity采用了方法1进行反射创建，其他所有界面
 
 总的来说，**推荐使用方法2进行反射**，虽然方法2缺点很多，但是只要习惯了这种创建方法，使用起来就会非常方便。
 
-### 4.界面加载流程
+### 界面加载流程
 这里以activity为例，fragment加载逻辑与之类似
 
 ![](https://raw.githubusercontent.com/AcgnCodeMonkey/MVPLibrary/master/file/加载流程图.png)
