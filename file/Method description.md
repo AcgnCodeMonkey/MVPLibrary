@@ -126,8 +126,10 @@
 | void resetLoadingState () | 强制重置当前加载状态为未加载 |
 
 ---
-### 3.其他部分类说明
+### 其他部分类说明
+
 #### BaseMvpHelper
+
 &emsp;&emsp;model,view,presenter的helper类的基类
 
 |             方法名        | 说明           |
