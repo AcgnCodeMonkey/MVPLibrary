@@ -1,4 +1,10 @@
 ### 特殊功能说明
+#### 目录
+- [DataBinding](#DataBinding)
+- [布局结构说明](#布局结构说明)
+- [Presenter反射创建说明](#Presenter反射创建说明)
+- [界面加载流程](#界面加载流程)
+
 #### 1.DataBinding
 
 &emsp;&emsp;考虑到现在很多人项目中并没有大量使用这个东西，所以**dataBinding功能默认是关闭的**,开启dataBinding只需要在presenter或view的实现子类复写enableDataBinding方法，并返回true即可。<br>
@@ -83,3 +89,12 @@ demo中只有MainActivity采用了方法1进行反射创建，其他所有界面
 * 两种方法优缺点对比：1方法优点在于非常自由，可以随意命名view和model类，然后进行传递，缺点在于比较繁琐，每个Presenter实现子类都必须要传递（mvp模式下）。2方法的优点在于非常简单，只需要自己在项目Presenter基类中复写一次对应方法，返回view和model的包路径，然后所有的子类无需再次复写，缺点在于：首先，对view和model的命名要求必须遵循一定规范（可以和demo中的命名规范不同，因为可以通过Presenter复写全限定名拼接方法来改变规则），其次，要求view和model的分包必须放在一起（至少activity对应的view和model,fragment对应的view和model，的分包必须各自在一起），因为如果包路径太多就会造成经常需要复写返回包路径的方法，这样的话，还不如直接使用方法1，最后，因为方法2采用的是拼接全限定名的方式，所以Presenter没有直接引用view和model的类名，这样有一个风险就是造成，以为某个view和model类未使用，而被误删。
 
 总的来说，**推荐使用方法2进行反射**，虽然方法2缺点很多，但是只要习惯了这种创建方法，使用起来就会非常方便。
+
+### 4.界面加载流程
+这里以activity为例，fragment加载逻辑与之类似
+
+![](https://raw.githubusercontent.com/AcgnCodeMonkey/MVPLibrary/master/file/加载流程图.png)
+
+&emsp;&emsp;简单解释下流程图的意思，当activity调用onCreate方法时会首先调用一个firstLoading的方法，此方法位于super方法调用前，因此可以用来设置某些特殊功能，紧接着调用super方法，之后会调用createViewModel方法创建view和Model，此方法内部会进行逻辑判断是使用反射创建实例还是使用子类默认创建的实例，然后下一步开始创建布局视图，布局视图创建完毕后开始调用view类的初始化控件方法，下一步会判断当前界面是否需要权限，如果有未获取的权限则会跳入权限申请循环方法，知道授权完毕，进入下一步加载，然后调用presenrer的逻辑初始化方法，最后回调自定义生命周期回调方法。
+
+&emsp;&emsp;备注：需要注意的一点是，在0.1.2版本之后，onCreate中方法调用只到mView.initView(),下一步的方法是在activity中的onWindowFocusChanged后调用的，这是为了防止界面还未完全显示时，进行某些ui操作时造成程序崩溃（比如弹出popupWindow）
