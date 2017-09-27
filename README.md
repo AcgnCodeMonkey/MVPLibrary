@@ -1,10 +1,10 @@
 # MVP模式扩展-->MVPH模式
 #### 使用简单，易扩展，易维护，低耦合，高复用是MVPH的目标<br>
-![](https://img.shields.io/badge/JitPack-0.1.1-green.svg)![](https://img.shields.io/badge/DemoVersion-1.4-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
+![](https://img.shields.io/badge/JitPack-0.1.2-green.svg)![](https://img.shields.io/badge/DemoVersion-1.5-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
 
 引用方式 :<br>
 
-> **compile 'com.xujl:BaseLibrary:0.1.1'**<br>
+> **compile 'com.xujl:BaseLibrary:0.1.2'**<br>
 
 ### [架构思路简介](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/架构思路.md)
 &emsp;&emsp;MVP的基本思想这里不做过多解释，有兴趣的同学可以在网上找相应资料学习一下。<br>
@@ -43,9 +43,7 @@ Activity为Presenter则是一个Presenter对应多个View和Model),而MVPH的思
 支持的功能:
 >1.  **ToolBar动态加载.**无需每个布局引用相同的ToolBar布局，只需配置一次ToolBarModule实现类。同时，支持每个activity
 > 单独修改ToolBar。<br>
->  enableToolBar ();//默认是使用toolBar的，当然前提是你已经配置过ToolBarModule类<br>
->  BaseToolBarModule setDefaultToolBarHelper ();//子类复写此方法并修改返回值可以实现自定义toolBar效果
-
+>
 >2.  **动态权限管理集成.**框架使用了第三方权限管理库easypermissions，需要申请权限的activity只需要复写下面的方法
 > 并返回需要申请的对应权限数组即可，当然你也可以自己引用其他库处理权限，这并不会冲突。<br>
 >  String[] needPermissions ();
@@ -64,60 +62,85 @@ Activity为Presenter则是一个Presenter对应多个View和Model),而MVPH的思
 
 ***
 [1.属性方法说明](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/Method%20description.md)<br>
-[2.特殊功能说明](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/special.md)
+[2.部分功能说明](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/special.md)
 
 ###### 交流群:275885217&emsp;&emsp;入群密码:mvp
 ###### 友情鸣谢：[接口提供-http://gank.io/api](http://gank.io/api)
 ---
 ## 版本更新日志:
 
-    **更新日期：2017/09/20  库版本：0.1.1  demo版本：1.4**
-     1.新增mvp基础框架支持dataBinding
-     2.布局加载逻辑统一由BaseViewHelper进行控制，加载配置由新增类LayoutConfig进行
-     控制
-     3.优化view和presenter的部分加载逻辑，去除部分无用方法，简化调用逻辑
-     4.修正部分不规范的方法名，逻辑复杂处添加更多注释
-     5.修改BaseFragment懒加载的部分代码
-     6.demo中原dataBinding示例界面，改为直接继承CommonPresenter,去除之前封装的
-     dataBindingPresenter等类
-     7.新增方法说明文档（持续更新，逐步完善）
+**更新日期：2017/09/25  库版本：0.1.2  demo版本：1.5**
+* presenter新增通过类名反射创建view和model，可以不用再传递类名
+* 抽取部分方法到接口
+* 修改activity加载流程，采用界面完全可见时才进行逻辑初始化，防止初始化时进行popupWindow弹窗引起的异常
+* 增加说明文档
 
-    **更新日期：2017/09/18  库版本：0.0.9  demo版本：1.3**
-     1.更改helper基类用法，基础model，view，presenter，helper类改为继承BaseMvpHelper
+**更新日期：2017/09/20  库版本：0.1.1  demo版本：1.4**
+* 新增mvp基础框架支持dataBinding
+* 布局加载逻辑统一由BaseViewHelper进行控制，加载配置由新增类LayoutConfig进行
+     控制
+* 优化view和presenter的部分加载逻辑，去除部分无用方法，简化调用逻辑
+* 修正部分不规范的方法名，逻辑复杂处添加更多注释
+* 修改BaseFragment懒加载的部分代码
+* demo中原dataBinding示例界面，改为直接继承CommonPresenter,去除之前封装的
+     dataBindingPresenter等类
+* 新增方法说明文档（持续更新，逐步完善）
+
+
+**更新日期：2017/09/18  库版本：0.0.9  demo版本：1.3**
+* 更改helper基类用法，基础model，view，presenter，helper类改为继承BaseMvpHelper
      （原BaseHelper）类，新的BaseHelper类为其他自定义helper类的基类，并且只有
      基础BaseMvpHelper的子类才具有添加BaseHelper类的功能（之前是任意BaseHelper
      子类都可以添加）,自定义的helper类无法往自己内部添加helper类。
-     2.baseView新增findView方法，可以直接调用，不用再需要使用mRootView,也不需要类型强转
-     3.demo依赖RxLibrary方式变更
-     4.demo资讯新增viewPage+fragment分类，增加启动页面，首页导航增加二维码扫描
-     5.demo的AppLibrary新增结合DataBinding的使用封装基类，demo中新增结合DataBinding的使用
+* baseView新增findView方法，可以直接调用，不用再需要使用mRootView,也不需要类型强转
+* demo依赖RxLibrary方式变更
+* demo资讯新增viewPage+fragment分类，增加启动页面，首页导航增加二维码扫描
+* demo的AppLibrary新增结合DataBinding的使用封装基类，demo中新增结合DataBinding的使用
      示例，下次更新会更改为基础库支持DataBinding。
-     6.修改基础库部分字段访问权限
-     7.下次更新目标：优化ToolBarModule和helper类代码，优化view和presenter的模板代码，释放
+* 修改基础库部分字段访问权限
+* 下次更新目标：优化ToolBarModule和helper类代码，优化view和presenter的模板代码，释放
      部分逻辑到helper类中，基类兼容DataBinding
 
-    **更新日期：2017/09/6  库版本：0.0.8  demo版本：1.2**
-     1.新增baseview可控制在不使用toobar时是否为布局添加父布局
-     2.修复activity和fragment销毁时未清空model和view引用
-     3.demo更新，引入rxjava2,新增RxLibrary,修改demo部分加载逻辑
-     4.demo首页变更，新增安卓资讯栏目，点击跳转webview详情页,详情页采用非mvp编写
+**更新日期：2017/09/6  库版本：0.0.8  demo版本：1.2**
+* 新增baseview可控制在不使用toobar时是否为布局添加父布局
+* 修复activity和fragment销毁时未清空model和view引用
+* demo更新，引入rxjava2,新增RxLibrary,修改demo部分加载逻辑
+* demo首页变更，新增安卓资讯栏目，点击跳转webview详情页,详情页采用非mvp编写
 
-    **更新日期：2017/07/24  库版本：0.0.6  demo版本：1.1**
-      1.修改基础库BaseView加载判断，兼容activity和fragment
-      2.优化BaseToolBarModule加载逻辑，支持页面本身包含toolbar布局
-      3.修复权限弹窗可以被关闭的Bug
+**更新日期：2017/07/24  库版本：0.0.6  demo版本：1.1**
+* 修改基础库BaseView加载判断，兼容activity和fragment
+* 优化BaseToolBarModule加载逻辑，支持页面本身包含toolbar布局
+* 修复权限弹窗可以被关闭的Bug
 
-    **更新日期：2017/07/14  库版本：0.0.4  demo版本：1.1**
-      1.修改基础库方法加载顺序，防止动态授权时引起的空指针
-      2.优化toolbar，改为view引用toolbar而不是presenter引用toolbar
-      3.demo新增图片搜索，收藏，下载功能
+**更新日期：2017/07/14  库版本：0.0.4  demo版本：1.1**
+* 修改基础库方法加载顺序，防止动态授权时引起的空指针
+* 优化toolbar，改为view引用toolbar而不是presenter引用toolbar
+* demo新增图片搜索，收藏，下载功能
 
-    **更新日期：2017/07/06  库版本：0.0.3  demo版本：1.0**
-       1.修改exposeActivity方法返回值类型
-       2.优化部分类方法
-       3.从此版本开始，框架库接入了我自己的正式项目中
+**更新日期：2017/07/06  库版本：0.0.3  demo版本：1.0**
+* 修改exposeActivity方法返回值类型
+* 优化部分类方法
+* 从此版本开始，框架库接入了我自己的正式项目中
 
-    **更新日期：2017/07/05  库版本：0.0.1  demo版本：1.0**
-       1.上传初步基础框架
-       2.完成简单demo基础Library封装
-       3.编写简单demo
+**更新日期：2017/07/05  库版本：0.0.1  demo版本：1.0**
+* 上传初步基础框架
+* 完成简单demo基础Library封装
+* 编写简单demo
+
+## Licence
+
+```
+Copyright 2016 Shintaro Katafuchi, Marcel Schnelle, Yoshinori Isogai
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
