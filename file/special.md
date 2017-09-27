@@ -52,10 +52,8 @@ private ActivityPersonBinding mBinding;
 </layout>
 ~~~
 
-### 横线
------------
 #### 布局结构说明
------------
+
 ![](https://raw.githubusercontent.com/AcgnCodeMonkey/MVPLibrary/master/file/布局结构示意图.png)
 
 &emsp;&emsp;本库的自动添加toolBar功能和全局空布局功能都是基于为布局文件动态添加一个父布局(垂直线性布局)，然后动态结合toolBar和真实布局实现的。从示意图可以明显看出，contentLayout才是项目中的布局文件，rootView是通过代码生成的布局，toolBar则是用rootView去添加到自己内部第一个位置的，需要特别指出的是，布局配置类中有个属性是，是否自动为布局文件创建父布局，**这个属性只有在关闭使用MVPH的自动生成toolBar功能时才会生效**，至于原因，结合上面讲的结构，我想大家应该都知道为什么了。<br>
