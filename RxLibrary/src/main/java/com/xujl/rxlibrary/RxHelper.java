@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -88,20 +89,12 @@ public class RxHelper {
      * @return
      */
     public RxHelper createCountDown (final long space, final long timeLong) {
-        creatNormal(new BaseObservable<Long>() {
+        setObservable(Observable.intervalRange(0, timeLong / 1000, 0, space, TimeUnit.MILLISECONDS));
+        mapChange(new Function<Long, Long>() {
             @Override
-            public void emitAction (BaseObservableEmitter<Long> e) throws Exception {
-                boolean flag = true;
-                long count = timeLong;
-                while (flag){
-                    e.onNext(count);
-                    if(count == 0){
-                        e.onComplete();
-                        flag = false;
-                    }
-                    count-=space;
-                    Thread.sleep(space);
-                }
+            public Long apply (@NonNull Long aLong) throws Exception {
+                final long maxTime = timeLong / 1000;
+                return (maxTime - aLong) * 1000;
             }
         });
         return this;

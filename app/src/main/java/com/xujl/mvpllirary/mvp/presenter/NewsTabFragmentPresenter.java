@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.xujl.applibrary.mvp.model.CommonModel;
 import com.xujl.applibrary.mvp.presenter.CommonFragmentPresenter;
+import com.xujl.mvpllirary.R;
 import com.xujl.mvpllirary.adapter.NewsTabAdapter;
 import com.xujl.mvpllirary.mvp.model.port.INewsTabFragmentModel;
 import com.xujl.mvpllirary.mvp.view.port.INewsTabFragmentView;
@@ -62,5 +63,19 @@ public class NewsTabFragmentPresenter extends CommonFragmentPresenter<INewsTabFr
         mModel.addData(mode, json);
         mAdapter.cbNotifyDataSetChanged();
         mView.getRefreshRecyclerViewHelper().refreshLoadingComplete();
+    }
+
+    @Override
+    public void onClick (View v) {
+        super.onClick(v);
+        switch(v.getId()){
+            case  R.id.titleTV:
+            mView.getRefreshRecyclerViewHelper().startRefresh();
+            break;
+            default:
+
+            break;
+
+        }
     }
 }

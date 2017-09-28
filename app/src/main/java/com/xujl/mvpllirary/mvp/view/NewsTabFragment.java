@@ -18,28 +18,32 @@ import com.xujl.widgetlibrary.widget.RefreshLayout;
  */
 public class NewsTabFragment extends CommonView implements INewsTabFragmentView {
     private FragmentNewsTabBinding mBinding;
+
     @Override
     public void initView (IBasePresenter presenter) {
         super.initView(presenter);
-        mBinding = (FragmentNewsTabBinding) getDataBinding();
+        mBinding = getDataBinding();
         RefreshRecyclerViewHelper refreshLayoutHelper = new RefreshRecyclerViewHelper(mRootView, R.id.fragment_news_tab_refreshLayout
-                ,R.id.fragment_news_tab_recyclerView);
+                , R.id.fragment_news_tab_recyclerView);
         refreshLayoutHelper.initRefreshLayout()
                 .enableLoading(true)
                 .setLinearLayoutManager()
                 .setOnRefreshListener((RefreshLayout.RefreshListener) presenter);
-        getViewHelper().addHelper(HelperType.TYPE_ONE,refreshLayoutHelper);
-        mBinding.setTest(new NewsPayload("测试标题文字"));
+        getViewHelper().addHelper(HelperType.TYPE_ONE, refreshLayoutHelper);
+        mBinding.setTest(new NewsPayload("点击刷新"));
+        mBinding.titleTV.setOnClickListener(presenter);
     }
 
     @Override
     public int getLayoutId () {
         return R.layout.fragment_news_tab;
     }
+
     @Override
     public boolean enableDataBinding () {
         return true;
     }
+
     @Override
     public RefreshRecyclerViewHelper getRefreshRecyclerViewHelper () {
         return getViewHelper().getHelper(HelperType.TYPE_ONE);

@@ -12,8 +12,13 @@ import com.xujl.applibrary.util.CustomToast;
 import com.xujl.mvpllirary.R;
 import com.xujl.mvpllirary.mvp.model.port.IShowImageActivityModel;
 import com.xujl.mvpllirary.mvp.view.port.IShowImageActivityView;
+import com.xujl.rxlibrary.BaseObserver;
+import com.xujl.rxlibrary.RxHelper;
+import com.xujl.utilslibrary.system.Log;
 
 import java.io.File;
+
+import io.reactivex.annotations.NonNull;
 
 /**
  * Created by xujl on 2017/7/8.
@@ -30,6 +35,16 @@ public class ShowImageActivityPresenter extends CommonActivityPresenter<IShowIma
         mView.loadType(mModel.getType());
         mView.showImage(mModel.getImageUrl());
         mView.changeCollectionImage(mModel.imageIsCollection());
+        RxHelper.onCreat(mRxLife)
+                .createCountDown(1000,60000)
+                .newThreadToMain()
+                .run(new BaseObserver<Long>() {
+                    @Override
+                    public void onNext (@NonNull Long aLong) {
+                        super.onNext(aLong);
+                        Log.e("createCountDown--------------->",""+aLong);
+                    }
+                });
     }
 
     @Override
