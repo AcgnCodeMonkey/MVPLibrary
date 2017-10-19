@@ -20,11 +20,12 @@ public class MainActivity extends CommonView implements IMainActivityView {
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
+
     @Override
     public void initView (final IBasePresenter presenter) {
         super.initView(presenter);
         getToolBarModule().setTitle("妹纸");
-        mDrawerLayout =  findView(R.id.activity_main_drawerLayout);
+        mDrawerLayout = findView(R.id.activity_main_drawerLayout);
         mViewPager = findView(R.id.activity_main_viewPager);
         getToolBarModule().getActionBar().setHomeButtonEnabled(true); //设置返回键可用
         getToolBarModule().getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -32,11 +33,12 @@ public class MainActivity extends CommonView implements IMainActivityView {
         getToolBarModule().getRightIB().setOnClickListener(presenter);
         mDrawerToggle = new ActionBarDrawerToggle(presenter.exposeActivity(), mDrawerLayout, getToolBarModule().getToolbar(), R.string.open, R.string.close) {
             @Override
-            public void onDrawerOpened(View drawerView) {
+            public void onDrawerOpened (View drawerView) {
                 super.onDrawerOpened(drawerView);
             }
+
             @Override
-            public void onDrawerClosed(View drawerView) {
+            public void onDrawerClosed (View drawerView) {
                 super.onDrawerClosed(drawerView);
             }
         };
@@ -54,6 +56,7 @@ public class MainActivity extends CommonView implements IMainActivityView {
     public int getLayoutId () {
         return R.layout.activity_main;
     }
+
     @Override
     public void setAdapter (FragmentStatePagerAdapter adapter) {
         mViewPager.setAdapter(adapter);

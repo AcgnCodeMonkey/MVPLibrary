@@ -7,6 +7,7 @@ import android.support.annotation.IdRes;
 import android.view.View;
 import android.widget.RadioGroup;
 
+import com.chenenyu.router.annotation.Route;
 import com.xujl.applibrary.adapter.SimpleViewPagerAdapter;
 import com.xujl.applibrary.db.ImageBeanType;
 import com.xujl.applibrary.mvp.presenter.CommonActivityPresenter;
@@ -19,10 +20,12 @@ import com.xujl.mvpllirary.mvp.model.port.IMainActivityModel;
 import com.xujl.mvpllirary.mvp.view.MainActivity;
 import com.xujl.mvpllirary.mvp.view.port.IMainActivityView;
 import com.xujl.mvpllirary.util.IntentKey;
+import com.xujl.mvpllirary.util.RouterConst;
 
 /**
  * Created by xujl on 2017/7/4.
  */
+@Route(RouterConst.MAIN)
 public class MainActivityPresenter extends CommonActivityPresenter<IMainActivityView, IMainActivityModel>
         implements RadioGroup.OnCheckedChangeListener {
 

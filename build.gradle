@@ -13,6 +13,13 @@ buildscript {
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
         //GreenDao3依赖
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.1'
+        //路由框架
+        classpath 'com.chenenyu.router:gradle-plugin:1.2.6'
+    }
+    // 可选配置.
+    ext {
+        routerVersion = "1.2.6" // 指定特定的router版本
+        compilerVersion = "1.2.6" // 指定特定的router-compiler版本
     }
 }
 

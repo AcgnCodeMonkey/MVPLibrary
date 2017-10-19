@@ -73,7 +73,6 @@ public class NewsTabFragmentPresenter extends CommonFragmentPresenter<INewsTabFr
             mView.getRefreshRecyclerViewHelper().startRefresh();
             break;
             default:
-
             break;
 
         }

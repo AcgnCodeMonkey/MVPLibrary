@@ -47,15 +47,15 @@ public class HomeImageListFragmentModel extends CommonModel implements IHomeImag
             mBannerList.add(R.mipmap.image1);
             mBannerList.add(R.mipmap.image2);
             mBannerList.add(R.mipmap.image3);
-            mBannerList.add(R.mipmap.image4);
-            mBannerList.add(R.mipmap.image5);
-            mBannerList.add(R.mipmap.image6);
-            mBannerList.add(R.mipmap.image7);
-            mBannerList.add(R.mipmap.image8);
-            mBannerList.add(R.mipmap.image9);
-            mBannerList.add(R.mipmap.image10);
-            mBannerList.add(R.mipmap.image11);
-            mBannerList.add(R.mipmap.image12);
+//            mBannerList.add(R.mipmap.image4);
+//            mBannerList.add(R.mipmap.image5);
+//            mBannerList.add(R.mipmap.image6);
+//            mBannerList.add(R.mipmap.image7);
+//            mBannerList.add(R.mipmap.image8);
+//            mBannerList.add(R.mipmap.image9);
+//            mBannerList.add(R.mipmap.image10);
+//            mBannerList.add(R.mipmap.image11);
+//            mBannerList.add(R.mipmap.image12);
         }
         return mBannerList;
     }

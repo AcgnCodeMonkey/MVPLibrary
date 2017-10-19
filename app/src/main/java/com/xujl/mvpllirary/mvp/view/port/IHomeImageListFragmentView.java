@@ -1,6 +1,7 @@
 package com.xujl.mvpllirary.mvp.view.port;
 
 import com.xujl.applibrary.mvp.port.ICommonView;
+import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.mvpllirary.mvp.common.RefreshRecyclerViewHelper;
 import com.xujl.widgetlibrary.adapter.BaseRecyclerViewAdapter;
 
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public interface IHomeImageListFragmentView extends ICommonView {
     RefreshRecyclerViewHelper getRefreshRecyclerViewHelper();
-    void setAdapter(BaseRecyclerViewAdapter adapter);
+    void setAdapter(BaseRecyclerViewAdapter adapter,IBasePresenter presenter);
     void bannerPause();
     void bannerPlay();
     void setBannerData(List<Integer> list);

@@ -29,13 +29,7 @@ public class HomeImageListFragment extends CommonView implements IHomeImageListF
         super.initView(presenter);
         mHeader = LayoutInflater.from(presenter.exposeContext()).inflate(R.layout.part_activity_main_header, null);
         mMZBanner = (MZBannerView) mHeader.findViewById(R.id.activity_main_bannerView);
-        RefreshRecyclerViewHelper refreshLayoutHelper = new RefreshRecyclerViewHelper(mRootView,R.id.fragment_home_imagelist_refreshLayout
-                ,R.id.fragment_home_imagelist_recyclerView);
-        refreshLayoutHelper.initRefreshLayout()
-                .enableLoading(true)
-                .setGridLayoutManager(3)
-                .setOnRefreshListener((RefreshLayout.RefreshListener) presenter);
-        getViewHelper().addHelper(HelperType.TYPE_ONE,refreshLayoutHelper);
+
     }
 
     @Override
@@ -49,9 +43,17 @@ public class HomeImageListFragment extends CommonView implements IHomeImageListF
     }
 
     @Override
-    public void setAdapter (BaseRecyclerViewAdapter adapter) {
+    public void setAdapter (BaseRecyclerViewAdapter adapter,IBasePresenter presenter) {
         adapter.addHeaderView(mHeader);
         adapter.setAnimAndEmptyParentView((ViewGroup) mRootView);
+        RefreshRecyclerViewHelper refreshLayoutHelper = new RefreshRecyclerViewHelper(mRootView,R.id.fragment_home_imagelist_refreshLayout
+                ,R.id.fragment_home_imagelist_recyclerView);
+        refreshLayoutHelper.initRefreshLayout()
+                .enableLoading(true)
+                .setGridLayoutManager(3)
+                .setOnRefreshListener((RefreshLayout.RefreshListener) presenter);
+        getViewHelper().addHelper(HelperType.TYPE_ONE,refreshLayoutHelper);
+
         getRefreshRecyclerViewHelper().setAdapter(adapter);
     }
 
@@ -74,6 +76,6 @@ public class HomeImageListFragment extends CommonView implements IHomeImageListF
 
     @Override
     public void bannerPlay () {
-        mMZBanner.start();
+//        mMZBanner.start();
     }
 }
