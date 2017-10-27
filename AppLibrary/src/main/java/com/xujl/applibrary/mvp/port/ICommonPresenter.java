@@ -15,7 +15,6 @@ public interface ICommonPresenter extends IBasePresenter {
     void requestSuccess(int mode,String json);
     RxLife getRxLife ();
     void requestFailed(int mode,int errorCode,String errorMsg,String json);
-    int getLayoutId();
     <S extends Activity> void gotoActivity (Class<S> cls, Bundle bundle);
 
     <S extends Activity> void gotoActivity (Class<S> cls, Bundle bundle, int requestCode);

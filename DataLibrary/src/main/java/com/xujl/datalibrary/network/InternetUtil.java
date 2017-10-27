@@ -171,14 +171,17 @@ public class InternetUtil extends NetworkUtil {
 
 
     //取消所有请求
+    @Override
     public void cancelAllRequest () {
     }
 
     //取消指定tag的请求
+    @Override
     public void cancelRequestForTag (String tag) {
     }
 
     //添加一个请求tag
+    @Override
     public void addRequestTag (String tag) {
     }
 

@@ -176,8 +176,9 @@ public class SystemTool {
         //遍历所有应用
         List<ActivityManager.RunningAppProcessInfo> infos = manager.getRunningAppProcesses();
         for (ActivityManager.RunningAppProcessInfo info : infos) {
-            if (info.pid == pid)//得到当前应用
+            if (info.pid == pid) {//得到当前应用{
                 return info.processName;//返回包名
+            }
         }
         return "";
     }

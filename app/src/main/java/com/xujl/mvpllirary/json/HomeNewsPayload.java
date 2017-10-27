@@ -9,6 +9,7 @@ import java.util.List;
 public class HomeNewsPayload {
     public String error;
     public List<News> results;
+//    public List<String> results;
 
     public static class News {
         public String _id;

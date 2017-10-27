@@ -120,8 +120,9 @@ public class StringFormat {
     }
     //遍历集合工具类
     public static <T> void forList (List<T> list, ForListCallBack<T> f) {
-        if (list == null)
+        if (list == null) {
             return;
+        }
         for (int i = 0, length = list.size(); i < length; i++) {
             f.data(i, list.get(i));
         }

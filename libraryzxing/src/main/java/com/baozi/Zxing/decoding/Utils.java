@@ -128,8 +128,9 @@ public class Utils {
 				return cursor.getString(column_index);
 			}
 		} finally {
-			if (cursor != null)
+			if (cursor != null) {
 				cursor.close();
+			}
 		}
 		return null;
 	}

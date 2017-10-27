@@ -30,7 +30,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class Encode {
     /**
-     *   md5加密，isCapital加密后是否要全部大写
+     * md5加密，isCapital加密后是否要全部大写
      */
     public static String toMd5 (String string, boolean isCapital) {
         byte[] hash;
@@ -44,8 +44,9 @@ public class Encode {
 
         StringBuilder hex = new StringBuilder(hash.length * 2);
         for (byte b : hash) {
-            if ((b & 0xFF) < 0x10)
+            if ((b & 0xFF) < 0x10) {
                 hex.append("0");
+            }
             hex.append(Integer.toHexString(b & 0xFF));
         }
         if (isCapital) {

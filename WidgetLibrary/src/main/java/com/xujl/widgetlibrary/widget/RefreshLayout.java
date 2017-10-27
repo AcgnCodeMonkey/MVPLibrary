@@ -79,6 +79,7 @@ public class RefreshLayout extends SmartRefreshLayout {
         super.finishRefresh();
     }
 
+    @Override
     public SmartRefreshLayout finishLoadmore () {
         if (!isLoading()) {
             return null;

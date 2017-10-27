@@ -107,6 +107,7 @@ public abstract class CommonActivityPresenter<V extends ICommonView, M extends I
      *
      * @return
      */
+    @Override
     public int getLayoutId () {
         return 0;
     }
@@ -157,6 +158,7 @@ public abstract class CommonActivityPresenter<V extends ICommonView, M extends I
         return AppApplication.getInstance().getModelPackageName();
     }
 
+    @Override
     public RxLife getRxLife () {
         return mRxLife;
     }

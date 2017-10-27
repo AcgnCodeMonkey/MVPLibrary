@@ -343,6 +343,7 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
     }
 
     private final OnCompletionListener beepListener = new OnCompletionListener() {
+        @Override
         public void onCompletion(MediaPlayer mediaPlayer) {
             mediaPlayer.seekTo(0);
         }

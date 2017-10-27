@@ -118,6 +118,7 @@ public class ShowImageActivityModel extends CommonModel implements IShowImageAct
         getModelHelper().addHelper(HelperType.TYPE_ONE, new DownloadManagerHelper());
     }
 
+    @Override
     public DownloadManagerHelper getDownloadHelper () {
         return getModelHelper().getHelper(HelperType.TYPE_ONE);
     }
