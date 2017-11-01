@@ -1,10 +1,10 @@
 # MVP模式扩展-->MVPH模式
 #### 使用简单，易扩展，易维护，低耦合，高复用是MVPH的目标<br>
-![](https://img.shields.io/badge/JitPack-0.1.2-green.svg)![](https://img.shields.io/badge/DemoVersion-1.5-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
+![](https://img.shields.io/badge/JitPack-0.1.3-green.svg)![](https://img.shields.io/badge/DemoVersion-1.6-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
 
 引用方式 :<br>
 
-> **compile 'com.xujl:BaseLibrary:0.1.2'**<br>
+> **compile 'com.xujl:BaseLibrary:0.1.3'**<br>
 
 ### [架构思路简介](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/架构思路.md)
 &emsp;&emsp;MVP的基本思想这里不做过多解释，有兴趣的同学可以在网上找相应资料学习一下。<br>
@@ -68,6 +68,14 @@ Activity为Presenter则是一个Presenter对应多个View和Model),而MVPH的思
 ###### 友情鸣谢：[接口提供-http://gank.io/api](http://gank.io/api)
 ---
 ## 版本更新日志:
+
+**更新日期：2017/11/01  库版本：0.1.3  demo版本：1.6**
+* 修改demo网络请求，使用rxjava让网络请求与生命周期挂钩
+* 文档增加头部目录，方便查找
+* Demo去除AssistService服务
+* Demo统一构建版本
+* Demo增加路由框架Router使用示例
+* 加载流程新增判断，根据是否是恢复被回收的界面来决定是否加载initPresenter方法
 
 **更新日期：2017/09/25  库版本：0.1.2  demo版本：1.5**
 * presenter新增通过类名反射创建view和model，可以不用再传递类名
