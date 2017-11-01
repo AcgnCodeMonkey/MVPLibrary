@@ -25,7 +25,7 @@ import com.xujl.mvpllirary.util.RouterConst;
 /**
  * Created by xujl on 2017/7/4.
  */
-@Route(RouterConst.MAIN)
+
 public class MainActivityPresenter extends CommonActivityPresenter<IMainActivityView, IMainActivityModel>
         implements RadioGroup.OnCheckedChangeListener {
 

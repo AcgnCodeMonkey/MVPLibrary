@@ -80,8 +80,15 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
         mRootView = createLayout(inflater, container, savedInstanceState);
         //初始化控件
         mView.initView(this);
-        //初始化逻辑代码
-        initPresenter(savedInstanceState);
+        /*savedInstanceState不为空时调用界面恢复方法，如果需要重新初始化
+        则应该在resumePresenter中重新调用initPresenter
+         */
+        if (savedInstanceState == null) {
+            //初始化逻辑代码
+            initPresenter(null);
+        } else {
+            resumePresenter(savedInstanceState);
+        }
         isViewCompleted = true;
         isEveryReload = isEveryReload();
         if (mLifeCycleCallback != null) {
@@ -301,6 +308,26 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
 
     //</editor-fold>
 
+    //<editor-fold desc="其他方法">
+
+    /**
+     * 生命周期回调，设置后各个生命周期方法会回调此接口
+     *
+     * @param mLifeCycleCallback
+     */
+    protected void setmLifeCycleCallback (LifeCycleCallback mLifeCycleCallback) {
+        this.mLifeCycleCallback = mLifeCycleCallback;
+    }
+
+    /**
+     * 恢复被回收的界面
+     *
+     * @param savedInstanceState
+     */
+    protected void resumePresenter (@Nullable Bundle savedInstanceState) {
+
+    }
+    //</editor-fold>
     //<editor-fold desc="Getter方法">
     @Override
     public Context exposeContext () {
@@ -326,14 +353,6 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
 
     //<editor-fold desc="公共方法">
 
-    /**
-     * 生命周期回调，设置后各个生命周期方法会回调此接口
-     *
-     * @param mLifeCycleCallback
-     */
-    public void setmLifeCycleCallback (LifeCycleCallback mLifeCycleCallback) {
-        this.mLifeCycleCallback = mLifeCycleCallback;
-    }
 
     @Override
     public boolean isMVP () {

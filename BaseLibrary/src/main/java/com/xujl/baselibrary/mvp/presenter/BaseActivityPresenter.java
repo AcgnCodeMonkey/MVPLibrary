@@ -113,7 +113,16 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     }
 
     private void continueLoading (final Bundle savedInstanceState) {
-        initPresenter(savedInstanceState);//初始化逻辑代码
+        /*savedInstanceState不为空时调用界面恢复方法，如果需要重新初始化
+        则应该在resumePresenter中重新调用initPresenter
+         */
+        if (savedInstanceState == null) {
+            //初始化逻辑代码
+            initPresenter(null);
+        } else {
+            resumePresenter(savedInstanceState);
+        }
+
         if (mLifeCycleCallback != null) {
             mLifeCycleCallback.onCreateLife(savedInstanceState);
         }
@@ -131,7 +140,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
      */
     private void judgeLoading () {
         //已经加载过或者当前界面未获取焦点时跳出
-        if(isViewLoaded || !isViewComlpeted){
+        if (isViewLoaded || !isViewComlpeted) {
             return;
         }
         isViewLoaded = true;
@@ -333,8 +342,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         }
     }
     //</editor-fold>
-
-    //<editor-fold desc="公共方法">
+    //<editor-fold desc="其他方法">
 
     /**
      * 生命周期回调，设置后各个生命周期方法会回调此接口
@@ -344,6 +352,19 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     protected void setmLifeCycleCallback (LifeCycleCallback mLifeCycleCallback) {
         this.mLifeCycleCallback = mLifeCycleCallback;
     }
+
+    /**
+     * 恢复被回收的界面
+     *
+     * @param savedInstanceState
+     */
+    protected void resumePresenter (@Nullable Bundle savedInstanceState) {
+
+    }
+    //</editor-fold>
+    //<editor-fold desc="公共方法">
+
+
 
     @Override
     public int getToolBarId () {

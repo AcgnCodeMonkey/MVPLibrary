@@ -17,8 +17,7 @@ import com.xujl.rxlibrary.RxHelper;
 public class SplashActivityPresenter extends CommonActivityPresenter {
     @Override
     protected void initPresenter (Bundle savedInstanceState) {
-        // 初始化
-        Router.initialize(this);
+
         // 初始化
         final GranzortView granzortView = mView.findView(R.id.activity_splash_granzortView);
         RxHelper.onCreat()
@@ -37,7 +36,7 @@ public class SplashActivityPresenter extends CommonActivityPresenter {
                 exit();
                 //使用路由跳转
                 Router.build(RouterConst.MAIN).go(exposeContext());
-//                gotoActivity(MainActivityPresenter.class);
+//                gotoActivity(TestActivity.class);
             }
         });
 

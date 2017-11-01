@@ -32,6 +32,7 @@
         <activity android:name=".mvp.presenter.NewsDetailActivityPresenter"/>
         <activity android:name=".mvp.presenter.MainActivityPresenter"/>
         <activity android:name=".mvp.presenter.PersonDataBindingActivityPresenter"/>
+        <activity android:name=".mvp.presenter.TestActivity"/>
     </application>
 
 </manifest>
