@@ -1,12 +1,17 @@
 # MVP模式扩展-->MVPH模式
 #### 使用简单，易扩展，易维护，低耦合，高复用是MVPH的目标<br>
-![](https://img.shields.io/badge/JitPack-0.1.3-green.svg)![](https://img.shields.io/badge/DemoVersion-1.6-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
+![](https://img.shields.io/badge/jCenter-0.1.3-green.svg)![](https://img.shields.io/badge/DemoVersion-1.6-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
+
+基于MVPH库的快速开发框架：
+[FastDeptLibrary（研发中）](https://github.com/AcgnCodeMonkey/FastDeptLibrary)
 
 引用方式 :<br>
 
 > **compile 'com.xujl:BaseLibrary:0.1.3'**<br>
 
-### [架构思路简介](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/架构思路.md)
+### 框架思路简介
+[架构思路详解](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/架构思路.md)
+
 &emsp;&emsp;MVP的基本思想这里不做过多解释，有兴趣的同学可以在网上找相应资料学习一下。<br>
 &emsp;&emsp;比较深入学习过MVP模式的同学都知道，MVP现在比较大众的使用方法有两种:<br>
 1.  **使用activity作为view层，创建一个presenter和model与之对应，配合使用。**
@@ -51,8 +56,7 @@ Activity为Presenter则是一个Presenter对应多个View和Model),而MVPH的思
 >3. **框架中集成了activity栈管理.**可以方便的一键退出所有activity或某几个activity，具体使用参考ActivityManager类
 
 >4. **支持关闭MVP模式进行开发.**我们都知道，app中某些界面的逻辑有时候非常简单，并且基本上不用过多考虑扩展性的问题，这时，使用MVP模式进行开发无疑是臃肿的，因为你可能不得不为了几行显示数据的逻辑去给他写上几个接口和类。所以MVPH提供了方法可以关闭MVP模式，让你重回MVC模式，通常你只需要复写下面的方法并返回false就可以了。而且只需要在你自己的实现基类稍作处理，就算不使用MVP模式，你依然可以使用View和Model调用他们中基础方法。<br>
->  boolean isMVP();//是否使用MVP模式
-
+ boolean isMVP();//是否使用MVP模式
 >5. **支持DataBinding.**从0.1.0版本开始，正式兼容使用DataBinding进行开发
 
 
@@ -62,78 +66,15 @@ Activity为Presenter则是一个Presenter对应多个View和Model),而MVPH的思
 
 ***
 [1.属性方法说明](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/Method%20description.md)<br>
-[2.部分功能说明](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/special.md)
+[2.部分功能说明](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/special.md)<br>
+[3.常见问题汇总](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB.md)<br>
+[4.版本更新日志](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97.md)<br>
+[5.混淆规则示例](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/%E6%B7%B7%E6%B7%86%E8%AF%B4%E6%98%8E.md)<br>
 
 ###### 交流群:275885217&emsp;&emsp;入群密码:mvp
 ###### 友情鸣谢：[接口提供-http://gank.io/api](http://gank.io/api)
 ---
-## 版本更新日志:
 
-**更新日期：2017/11/01  库版本：0.1.3  demo版本：1.6**
-* 修改demo网络请求，使用rxjava让网络请求与生命周期挂钩
-* 文档增加头部目录，方便查找
-* Demo去除AssistService服务
-* Demo统一构建版本
-* Demo增加路由框架Router使用示例
-* 加载流程新增判断，根据是否是恢复被回收的界面来决定是否加载initPresenter方法
-
-**更新日期：2017/09/25  库版本：0.1.2  demo版本：1.5**
-* presenter新增通过类名反射创建view和model，可以不用再传递类名
-* 抽取部分方法到接口
-* 修改activity加载流程，采用界面完全可见时才进行逻辑初始化，防止初始化时进行popupWindow弹窗引起的异常
-* 增加说明文档
-
-**更新日期：2017/09/20  库版本：0.1.1  demo版本：1.4**
-* 新增mvp基础框架支持dataBinding
-* 布局加载逻辑统一由BaseViewHelper进行控制，加载配置由新增类LayoutConfig进行
-     控制
-* 优化view和presenter的部分加载逻辑，去除部分无用方法，简化调用逻辑
-* 修正部分不规范的方法名，逻辑复杂处添加更多注释
-* 修改BaseFragment懒加载的部分代码
-* demo中原dataBinding示例界面，改为直接继承CommonPresenter,去除之前封装的
-     dataBindingPresenter等类
-* 新增方法说明文档（持续更新，逐步完善）
-
-
-**更新日期：2017/09/18  库版本：0.0.9  demo版本：1.3**
-* 更改helper基类用法，基础model，view，presenter，helper类改为继承BaseMvpHelper
-     （原BaseHelper）类，新的BaseHelper类为其他自定义helper类的基类，并且只有
-     基础BaseMvpHelper的子类才具有添加BaseHelper类的功能（之前是任意BaseHelper
-     子类都可以添加）,自定义的helper类无法往自己内部添加helper类。
-* baseView新增findView方法，可以直接调用，不用再需要使用mRootView,也不需要类型强转
-* demo依赖RxLibrary方式变更
-* demo资讯新增viewPage+fragment分类，增加启动页面，首页导航增加二维码扫描
-* demo的AppLibrary新增结合DataBinding的使用封装基类，demo中新增结合DataBinding的使用
-     示例，下次更新会更改为基础库支持DataBinding。
-* 修改基础库部分字段访问权限
-* 下次更新目标：优化ToolBarModule和helper类代码，优化view和presenter的模板代码，释放
-     部分逻辑到helper类中，基类兼容DataBinding
-
-**更新日期：2017/09/6  库版本：0.0.8  demo版本：1.2**
-* 新增baseview可控制在不使用toobar时是否为布局添加父布局
-* 修复activity和fragment销毁时未清空model和view引用
-* demo更新，引入rxjava2,新增RxLibrary,修改demo部分加载逻辑
-* demo首页变更，新增安卓资讯栏目，点击跳转webview详情页,详情页采用非mvp编写
-
-**更新日期：2017/07/24  库版本：0.0.6  demo版本：1.1**
-* 修改基础库BaseView加载判断，兼容activity和fragment
-* 优化BaseToolBarModule加载逻辑，支持页面本身包含toolbar布局
-* 修复权限弹窗可以被关闭的Bug
-
-**更新日期：2017/07/14  库版本：0.0.4  demo版本：1.1**
-* 修改基础库方法加载顺序，防止动态授权时引起的空指针
-* 优化toolbar，改为view引用toolbar而不是presenter引用toolbar
-* demo新增图片搜索，收藏，下载功能
-
-**更新日期：2017/07/06  库版本：0.0.3  demo版本：1.0**
-* 修改exposeActivity方法返回值类型
-* 优化部分类方法
-* 从此版本开始，框架库接入了我自己的正式项目中
-
-**更新日期：2017/07/05  库版本：0.0.1  demo版本：1.0**
-* 上传初步基础框架
-* 完成简单demo基础Library封装
-* 编写简单demo
 
 ## Licence
 
