@@ -23,6 +23,44 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+#----------------自定义类---------------------------------------
+-keep class com.xujl.mvpllirary.json.** {*; }#实体类
+-keep public class * extends com.xujl.baselibrary.mvp.view.BaseView
+-keep public class * extends com.xujl.baselibrary.mvp.model.BaseModel
+
+#--------------------------------------------------------------------
+#okhttp
+-dontwarn okhttp3.**
+-keep class okhttp3.**{*;}
+#okio
+-dontwarn okio.**
+-keep class okio.**{*;}
+#-----------------retrofit----------------------------------
+# Retrofit
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+# Gson
+-keep class com.google.gson.stream.** { *; }
+-keepattributes EnclosingMethod
+#------------------eventbus-----------------
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(Java.lang.Throwable);
+}
+#-------greendao---------------
+-keep class org.greenrobot.greendao.**{*;}
+-keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+public static java.lang.String TABLENAME;
+}
+-keep class **$Properties
+#-----------------固定混淆规则----------------------------------------------------
 -optimizationpasses 5          # 指定代码的压缩级别
 -dontusemixedcaseclassnames   # 是否使用大小写混合
 -dontskipnonpubliclibraryclassmembers
@@ -66,43 +104,3 @@
 -keep class * implements android.os.Parcelable { # 保持 Parcelable 不被混淆
     public static final android.os.Parcelable$Creator *;
 }
-
-#----------------自定义类---------------------------------------
--keep class com.xujl.mvpllirary.json.** {*; }#实体类
--keep public class * extends com.xujl.baselibrary.mvp.view.BaseView
--keep public class * extends com.xujl.baselibrary.mvp.model.BaseModel
-#----------------MVP框架-----------------------------
-#-keep public class * extends android.app.Activity
-#-keep interface com.xujl.baselibrary.mvp.** {*; }
-
-#--------------------------------------------------------------------
-#okhttp
--dontwarn okhttp3.**
--keep class okhttp3.**{*;}
-#okio
--dontwarn okio.**
--keep class okio.**{*;}
-#-----------------retrofit----------------------------------
-# Retrofit
--dontwarn retrofit2.**
--keep class retrofit2.** { *; }
-# Gson
--keep class com.google.gson.stream.** { *; }
--keepattributes EnclosingMethod
-#------------------eventbus-----------------
--keepattributes *Annotation*
--keepclassmembers class ** {
-    @org.greenrobot.eventbus.Subscribe <methods>;
-}
--keep enum org.greenrobot.eventbus.ThreadMode { *; }
-
-# Only required if you use AsyncExecutor
--keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
-    <init>(Java.lang.Throwable);
-}
-#-------greendao---------------
--keep class org.greenrobot.greendao.**{*;}
--keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
-public static java.lang.String TABLENAME;
-}
--keep class **$Properties
