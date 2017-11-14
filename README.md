@@ -7,7 +7,8 @@
 
 引用方式 :<br>
 
-> **compile 'com.xujl:BaseLibrary:0.1.3'**<br>
+> **compile 'com.xujl:BaseLibrary:0.1.3'**//稳定版<br>
+> **compile 'com.xujl:BaseLibrary:0.1.3-alpha6'**//测试版本<br>
 
 ### 框架思路简介
 [架构思路详解](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/架构思路.md)
@@ -65,6 +66,9 @@ Activity为Presenter则是一个Presenter对应多个View和Model),而MVPH的思
 开发者们的大部分业务场景，这样大家在遇到一些特别的界面时能有一个参考进行开发。
 
 ***
+#### 文档菜单
+建议开始使用本框架前仔细阅读所有文档 ( 除版本更新日志和混淆相关外）
+
 [1.属性方法说明](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/Method%20description.md)<br>
 [2.部分功能说明](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/special.md)<br>
 [3.常见问题汇总](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB.md)<br>
