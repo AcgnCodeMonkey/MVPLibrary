@@ -67,8 +67,16 @@ public class RefreshLayout extends SmartRefreshLayout {
     }
 
     public interface RefreshListener {
+        /**
+         * 刷新
+         * @param refreshLayout
+         */
         void onRefresh (RefreshLayout refreshLayout);
 
+        /**
+         * 加载
+         * @param refreshLayout
+         */
         void onLoading (RefreshLayout refreshLayout);
     }
 

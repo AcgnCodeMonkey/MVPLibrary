@@ -12,7 +12,9 @@ import java.util.Stack;
  */
 public class ActivityManger {
     private static ActivityManger sManger;
-   //单例对象
+    /**
+     * 单例对象
+     */
     private static Stack<Activity> activityStack ;
 
     private ActivityManger () {
@@ -95,7 +97,7 @@ public class ActivityManger {
     /**
      * 退出应用程序
      */
-    public void AppExit (Context context) {
+    public void appExit (Context context) {
         try {
             finishAllActivity();
             ActivityManager activityMgr = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);

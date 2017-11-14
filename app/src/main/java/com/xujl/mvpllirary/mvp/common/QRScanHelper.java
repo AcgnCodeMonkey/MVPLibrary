@@ -60,6 +60,8 @@ public class QRScanHelper extends BaseHelper{
                     }
                 }
                 break;
+                default:
+                    break;
         }
         return result;
     }

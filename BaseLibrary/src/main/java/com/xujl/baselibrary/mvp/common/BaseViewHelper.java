@@ -38,18 +38,27 @@ import com.xujl.baselibrary.mvp.presenter.BaseFragmentPresenter;
  */
 
 public class BaseViewHelper extends BaseMvpHelper {
-    //根布局
+    /**
+     * 根布局
+     */
     protected View mRootLayout;
-    //实际布局
+    /**
+     * 实际布局
+     */
     protected View mContentLayout;
-    //导航模块
+    /**
+     * 导航模块
+     */
     protected BaseToolBarModule mToolBarModule;
-    //布局配置
+    /**
+     * 布局配置
+     */
     protected LayoutConfig mConfig;
     protected ViewDataBinding mDataBinding;
 
     /**
      * 创建视图，通过布局配置参数决定如何加载
+     *
      * @param view
      * @param presenter
      * @return
@@ -58,7 +67,7 @@ public class BaseViewHelper extends BaseMvpHelper {
         final IBaseView baseView = (IBaseView) view;
         final IBasePresenter basePresenter = (IBasePresenter) presenter;
         //初始化布局加载配置
-        initLayoutConfig(baseView,basePresenter);
+        initLayoutConfig(baseView, basePresenter);
         /**
          *   如果当前为fragment时，为当前的toobarModule赋值为activity的toolbarModule，并直接进行加载
          *   因为fragment是没有导航的
@@ -66,7 +75,7 @@ public class BaseViewHelper extends BaseMvpHelper {
         if (!mConfig.isActivity()) {
             mToolBarModule = basePresenter.exposeActivity().exposeView().getToolBarModule();
             inflateLayout(basePresenter);
-            return  mRootLayout;
+            return mRootLayout;
         }
         /**
          * 是否使用toolBar是由presenter和view共同控制的，只有当两边都返回true时才会使用toolbar
@@ -74,7 +83,7 @@ public class BaseViewHelper extends BaseMvpHelper {
          */
         if (mConfig.isEnableToolBar()) {
             //初始化导航
-            mToolBarModule = baseView.createToolBarModule(baseView, basePresenter,mConfig.getLayoutId());
+            mToolBarModule = baseView.createToolBarModule(baseView, basePresenter, mConfig.getLayoutId());
             mToolBarModule.initSetting(basePresenter.exposeActivity());
             //通过导航模块类获取根布局及内容布局
             mDataBinding = mToolBarModule.getDataBinding();
@@ -83,20 +92,22 @@ public class BaseViewHelper extends BaseMvpHelper {
         } else {
             inflateLayout(basePresenter);
         }
-        return  mRootLayout;
+        return mRootLayout;
     }
+
     /**
      * 使用dataBinding加载布局
+     *
      * @param presenter
      * @return
      */
-    private View inflateLayoutForDataBinding (IBasePresenter presenter){
+    private View inflateLayoutForDataBinding (IBasePresenter presenter) {
         //判断是activity还是fragment然后进行对应加载
-        if(mConfig.isActivity()){
-            mDataBinding = DataBindingUtil.setContentView((Activity) presenter,mConfig.getLayoutId());
-        }else{
+        if (mConfig.isActivity()) {
+            mDataBinding = DataBindingUtil.setContentView((Activity) presenter, mConfig.getLayoutId());
+        } else {
             final BaseFragmentPresenter fragmentPresenter = (BaseFragmentPresenter) presenter;
-            mDataBinding = DataBindingUtil.inflate(fragmentPresenter.getInflater(),mConfig.getLayoutId(),fragmentPresenter.getContainer(),false);
+            mDataBinding = DataBindingUtil.inflate(fragmentPresenter.getInflater(), mConfig.getLayoutId(), fragmentPresenter.getContainer(), false);
         }
         //获取根布局
         mRootLayout = mDataBinding.getRoot().findViewById(R.id.dataBindingRootLayout);
@@ -112,7 +123,7 @@ public class BaseViewHelper extends BaseMvpHelper {
      */
     public void inflateLayout (IBasePresenter basePresenter) {
         //判断是否启用dataBinding进行加载
-        if(mConfig.isEnableDataBinding()){
+        if (mConfig.isEnableDataBinding()) {
             inflateLayoutForDataBinding(basePresenter);
             return;
         }
@@ -134,26 +145,32 @@ public class BaseViewHelper extends BaseMvpHelper {
 
     /**
      * 初始化布局配置
+     *
      * @param view
      * @param presenter
      */
     protected void initLayoutConfig (IBaseView view, IBasePresenter presenter) {
-        mConfig = new LayoutConfig(view,presenter);
+        mConfig = new LayoutConfig(view, presenter);
     }
 
     //<editor-fold desc="Getter方法">
+
     public View getContentLayout () {
         return mContentLayout;
     }
+
     public BaseToolBarModule getToolBarModule () {
         return mToolBarModule;
     }
+
     public LayoutConfig getConfig () {
         return mConfig;
     }
+
     public View getRootLayout () {
         return mRootLayout;
     }
+
     public <D> D getDataBinding () {
         return (D) mDataBinding;
     }

@@ -54,8 +54,8 @@ public abstract class CommonModel extends BaseModel implements ICommonModel {
         final String apiName = getApiName(mode);
         final Map<String, Object> params = new HashMap<>();
         addParams(mode, params, paramsMapTool);
-        RxHelper.onCreat(rxLife)
-                .creatNormal(new BaseObservable<ResultEntity>() {
+        RxHelper.onCreate(rxLife)
+                .createNormal(new BaseObservable<ResultEntity>() {
                     @Override
                     public void emitAction (final BaseObservableEmitter<ResultEntity> e) throws Exception {
                         mInternetUtil.requestForGet(params, "", new RequestCallBack() {

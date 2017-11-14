@@ -23,14 +23,14 @@ public class PersonDataBindingActivityPresenter extends CommonActivityPresenter<
     @Override
     public void onClick (View v) {
         super.onClick(v);
-      switch(v.getId()){
-          case  R.id.activity_person_commitBtn:
-          mView.showResult(mModel.getPersonPayload().toString());
-          break;
-          default:
+        switch (v.getId()) {
+            case R.id.activity_person_commitBtn:
+                mView.showResult(mModel.getPersonPayload().toString());
+                break;
+            default:
 
-          break;
+                break;
 
-      }
+        }
     }
 }

@@ -38,18 +38,43 @@ import com.xujl.baselibrary.mvp.port.LifeCycleCallback;
  */
 
 public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBaseModel> extends Fragment implements IBasePresenter {
+
     //<editor-fold desc="基础变量">
-    protected V mView;//视图
-    protected M mModel;//数据
+    /**
+     * 视图
+     */
+    protected V mView;
+    /**
+     * 数据
+     */
+    protected M mModel;
     protected View mRootView;
-    protected BasePresenterHelper mPresenterHelper;//通用逻辑帮助类
-    protected boolean isVisible;//Fragment当前状态是否可见
-    protected boolean isLoaded;//是否已加载过
-    protected boolean isViewCompleted;//是否初始化完成了控件
-    protected boolean isEveryReload;//是否每次fragment重新显示都重新懒加载
+    /**
+     * 通用逻辑帮助类
+     */
+    protected BasePresenterHelper mPresenterHelper;
+    /**
+     * Fragment当前状态是否可见
+     */
+    protected boolean isVisible;
+    /**
+     * 是否已加载过
+     */
+    protected boolean isLoaded;
+    /**
+     * 是否初始化完成了控件
+     */
+    protected boolean isViewCompleted;
+    /**
+     * 是否每次fragment重新显示都重新懒加载
+     */
+    protected boolean isEveryReload;
     protected LayoutInflater inflater;
     protected ViewGroup container;
-    private LifeCycleCallback mLifeCycleCallback;//生命周期回调
+    /**
+     * 生命周期回调
+     */
+    private LifeCycleCallback mLifeCycleCallback;
     //</editor-fold>
 
     //<editor-fold desc="抽象方法">
@@ -76,10 +101,17 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
         firstLoading(savedInstanceState);
         //初始化view和model
         createViewModel();
+        if (mView == null) {
+            throw new NullPointerException("mView初始化失败");
+        }
+        if (mModel == null) {
+            throw new NullPointerException("mModel初始化失败");
+        }
         //创建布局
         mRootView = createLayout(inflater, container, savedInstanceState);
         //初始化控件
         mView.initView(this);
+        mModel.initModel(this);
         /*savedInstanceState不为空时调用界面恢复方法，如果需要重新初始化
         则应该在resumePresenter中重新调用initPresenter
          */
@@ -138,6 +170,7 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
             e.printStackTrace();
         }
     }
+
     /**
      * 获取view包路径
      *
@@ -155,12 +188,13 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
     protected String getModelClassPackageName () {
         return null;
     }
+
     /**
      * 获取view实际类型
      *
      * @return
      */
-    protected  Class<? extends V> getViewClassType (){
+    protected Class<? extends V> getViewClassType () {
         return null;
     }
 
@@ -169,9 +203,10 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
      *
      * @return
      */
-    protected  Class<? extends M> getModelClassType (){
+    protected Class<? extends M> getModelClassType () {
         return null;
     }
+
     /**
      * 尝试通过包名和presenter类名创建view的全限定名
      *
@@ -193,6 +228,7 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
     protected String classNameToCreateModel (String viewClassPackageName, String simpleName) {
         return viewClassPackageName + "." + simpleName.replace("Presenter", "") + "Model";
     }
+
     /**
      * 创建布局
      */
@@ -278,6 +314,7 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
     //</editor-fold>
 
     //<editor-fold desc="配置方法">
+
     public LayoutInflater getInflater () {
         return inflater;
     }
@@ -306,6 +343,10 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
         return false;
     }
 
+    @Override
+    public boolean isMVP () {
+        return true;
+    }
     //</editor-fold>
 
     //<editor-fold desc="其他方法">
@@ -327,7 +368,9 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
     protected void resumePresenter (@Nullable Bundle savedInstanceState) {
 
     }
+
     //</editor-fold>
+
     //<editor-fold desc="Getter方法">
     @Override
     public Context exposeContext () {
@@ -347,16 +390,6 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
     @Override
     public IBaseModel exposeModel () {
         return mModel;
-    }
-
-    //</editor-fold>
-
-    //<editor-fold desc="公共方法">
-
-
-    @Override
-    public boolean isMVP () {
-        return true;
     }
 
     //</editor-fold>

@@ -32,20 +32,23 @@ public class RxHelper {
 
     /**
      * 绑定生命周期
+     *
      * @param rxOptions
      * @return
      */
-    public static RxHelper onCreat (RxLife rxOptions) {
+    public static RxHelper onCreate (RxLife rxOptions) {
         return new RxHelper(rxOptions);
     }
 
     /**
      * 不绑定生命周期
+     *
      * @return
      */
-    public static RxHelper onCreat () {
+    public static RxHelper onCreate () {
         return new RxHelper();
     }
+
     /**
      * 标准发射器
      *
@@ -53,7 +56,7 @@ public class RxHelper {
      * @param <T>
      * @return
      */
-    public <T> RxHelper creatNormal (BaseObservable<T> source) {
+    public <T> RxHelper createNormal (BaseObservable<T> source) {
         setObservable(Observable.create(source));
         return this;
     }
@@ -65,7 +68,7 @@ public class RxHelper {
      * @param <T>
      * @return
      */
-    public <T> RxHelper creatSimple (T... source) {
+    public <T> RxHelper createSimple (T... source) {
         setObservable(Observable.fromArray(source));
         return this;
     }
@@ -77,14 +80,26 @@ public class RxHelper {
      * @param space 循环周期 单位都是毫秒
      * @return
      */
-    public RxHelper creatCircle (long delay, long space) {
+    public RxHelper createCircle (long delay, long space) {
         setObservable(Observable.interval(delay, space, TimeUnit.MILLISECONDS));
         return this;
     }
+
+    /**
+     * 创建一个延时的发射器
+     *
+     * @param delay 延迟时间
+     * @return
+     */
+    public RxHelper createDelay (long delay) {
+        setObservable(Observable.timer(delay, TimeUnit.MILLISECONDS));
+        return this;
+    }
+
     /**
      * 创建一个倒计时的发射器
      *
-     * @param space 倒计时间隔 单位都是毫秒
+     * @param space    倒计时间隔 单位都是毫秒
      * @param timeLong 倒计时长 单位都是毫秒
      * @return
      */
@@ -99,26 +114,19 @@ public class RxHelper {
         });
         return this;
     }
-    /**
-     * 定时发射器
-     *
-     * @param delay
-     * @return
-     */
-    public  RxHelper createTimer (long delay) {
-        setObservable(Observable.timer(delay,TimeUnit.MILLISECONDS));
-        return this;
-    }
+
     private void setObservable (Observable observable) {
         mObservable = observable;
     }
 
 
     //==============================================================================================================================================
-    public <R,T>RxHelper  mapChange(Function<? super T, ? extends R> mapper){
+
+    public <R, T> RxHelper mapChange (Function<? super T, ? extends R> mapper) {
         mObservable = mObservable.map(mapper);
         return this;
     }
+
     /**
      * 设置发射器在主线程
      *
@@ -203,7 +211,7 @@ public class RxHelper {
      * @return
      */
     public <T> RxHelper run (BaseObserver<T> observer) {
-        if(mRxOptions!=null){
+        if (mRxOptions != null) {
             mRxOptions.register(observer);
         }
         mObservable.subscribe(observer);

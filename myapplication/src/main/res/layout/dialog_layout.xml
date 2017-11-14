@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xujl.myapplication.BubbleLayout android:id="@+id/root"
+                            xmlns:android="http://schemas.android.com/apk/res/android"
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:bl_arrowDirection="bottom"
+                            app:bl_arrowHeight="8dp"
+                            app:bl_arrowPosition="40dp"
+                            app:bl_arrowWidth="8dp"
+                            app:bl_cornersRadius="6dp"
+                            app:bl_strokeColor="#666"
+                            app:bl_strokeWidth="0.5dp">
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="8dp"
+              android:text="sdhfklsjflksjdlkfjslkfjldkjfs"/>
+</com.xujl.myapplication.BubbleLayout>

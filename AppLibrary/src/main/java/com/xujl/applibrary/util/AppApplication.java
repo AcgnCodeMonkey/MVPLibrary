@@ -27,8 +27,6 @@ public class AppApplication extends StartUpApplication {
         super.onCreate();
 
         sApplication = this;
-        setModelPackageName("com.xujl.mvpllirary.mvp.model");
-        setViewPackageName("com.xujl.mvpllirary.mvp.view");
         DensityUtil.mContext = getApplicationContext();
         InternetState.setContext(getApplicationContext());
         setDubug(true);

@@ -26,7 +26,8 @@ public class ImageLoader {
         final DrawableTypeRequest<Integer> typeRequest = Glide.with(imageView.getContext()).load(res);
         typeRequest.error(R.drawable.icon_error)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.icon_default)//加载中显示的图片
+                //加载中显示的图片
+                .placeholder(R.drawable.icon_default)
                 .into(new GlideDrawableImageViewTarget(imageView) {
                     @Override
                     public void onResourceReady (GlideDrawable drawable, GlideAnimation anim) {
@@ -42,7 +43,8 @@ public class ImageLoader {
         final DrawableTypeRequest<String> typeRequest = Glide.with(imageView.getContext()).load(url);
         typeRequest.error(R.drawable.icon_error)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.icon_default)//加载中显示的图片
+                //加载中显示的图片
+                .placeholder(R.drawable.icon_default)
                 .into(new GlideDrawableImageViewTarget(imageView) {
                     @Override
                     public void onResourceReady (GlideDrawable drawable, GlideAnimation anim) {
@@ -60,7 +62,8 @@ public class ImageLoader {
         final DrawableTypeRequest<String> typeRequest = Glide.with(context).load(url);
         typeRequest.error(R.drawable.icon_error_another)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.icon_default_another)//加载中显示的图片
+                //加载中显示的图片
+                .placeholder(R.drawable.icon_default_another)
                 .into(new GlideDrawableImageViewTarget(imageView) {
                     @Override
                     public void onResourceReady (GlideDrawable drawable, GlideAnimation anim) {

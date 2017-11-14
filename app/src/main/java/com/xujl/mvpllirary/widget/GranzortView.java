@@ -13,6 +13,7 @@ import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -51,10 +52,19 @@ public class GranzortView extends View {
     private State mCurrentState = State.CIRCLE_STATE;
     private boolean startFlag;
 
-    //三个阶段的枚举
+
     private enum State {
+        /**
+         * 循环
+         */
         CIRCLE_STATE,
+        /**
+         * 移动
+         */
         TRANGLE_STATE,
+        /**
+         * 完成
+         */
         FINISH_STATE
     }
 
@@ -84,7 +94,7 @@ public class GranzortView extends View {
 //        if (!startFlag) {
 //            return;
 //        }
-        canvas.drawColor(getResources().getColor(R.color.colorPrimary));
+        canvas.drawColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         canvas.save();
         canvas.translate(mViewWidth / 2, mViewHeight / 2);
         switch (mCurrentState) {
@@ -123,6 +133,8 @@ public class GranzortView extends View {
                 pathMeasure.setPath(trangle2, false);
                 pathMeasure.getSegment(0, distance * pathMeasure.getLength(), drawPath, true);
                 canvas.drawPath(drawPath, paint);
+                break;
+            default:
                 break;
 
         }
@@ -165,6 +177,8 @@ public class GranzortView extends View {
                         mCurrentState = State.FINISH_STATE;
                         valueAnimator.start();
                         break;
+                    default:
+                        break;
                 }
             }
         };
@@ -181,7 +195,7 @@ public class GranzortView extends View {
             @Override
             public void onAnimationUpdate (ValueAnimator animation) {
                 distance = (float) animation.getAnimatedValue();
-                if(distance == 1 &&  mCurrentState == State.FINISH_STATE){
+                if (distance == 1 && mCurrentState == State.FINISH_STATE) {
                     postDelayed(new Runnable() {
                         @Override
                         public void run () {

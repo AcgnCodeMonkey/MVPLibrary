@@ -68,13 +68,6 @@ public class NewsTabFragmentPresenter extends CommonFragmentPresenter<INewsTabFr
     @Override
     public void onClick (View v) {
         super.onClick(v);
-        switch(v.getId()){
-            case  R.id.titleTV:
-            mView.getRefreshRecyclerViewHelper().startRefresh();
-            break;
-            default:
-            break;
 
-        }
     }
 }

@@ -9,10 +9,33 @@ import android.support.annotation.Nullable;
  */
 
 public interface LifeCycleCallback {
-    void onStartLife();
+    /**
+     * onStart
+     */
+    void onStartLife ();
+
+    /**
+     * onResume
+     */
     void onResumeLife ();
+
+    /**
+     * onCreate
+     */
     void onCreateLife (@Nullable Bundle savedInstanceState);
+
+    /**
+     * onPause
+     */
     void onPauseLife ();
+
+    /**
+     * onStop
+     */
     void onStopLife ();
+
+    /**
+     * onDestroy
+     */
     void onDestroyLife ();
 }

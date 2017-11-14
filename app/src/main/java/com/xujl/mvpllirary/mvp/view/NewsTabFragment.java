@@ -31,7 +31,6 @@ public class NewsTabFragment extends CommonView implements INewsTabFragmentView 
                 .setOnRefreshListener((RefreshLayout.RefreshListener) presenter);
         getViewHelper().addHelper(HelperType.TYPE_ONE, refreshLayoutHelper);
         mBinding.setTest(new NewsPayload("点击刷新"));
-        mBinding.titleTV.setOnClickListener(presenter);
     }
 
     @Override

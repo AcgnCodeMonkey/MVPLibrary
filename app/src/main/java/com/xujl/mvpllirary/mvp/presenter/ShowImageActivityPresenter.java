@@ -35,7 +35,7 @@ public class ShowImageActivityPresenter extends CommonActivityPresenter<IShowIma
         mView.loadType(mModel.getType());
         mView.showImage(mModel.getImageUrl());
         mView.changeCollectionImage(mModel.imageIsCollection());
-        RxHelper.onCreat(mRxLife)
+        RxHelper.onCreate(mRxLife)
                 .createCountDown(1000,60000)
                 .newThreadToMain()
                 .run(new BaseObserver<Long>() {

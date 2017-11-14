@@ -55,16 +55,31 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         implements IBasePresenter, EasyPermissions.PermissionCallbacks {
 
     //<editor-fold desc="基础变量">
-    protected V mView;//视图
-    protected M mModel;//数据
-    protected boolean isViewLoaded;//视图是否已加载过
-    protected boolean isViewComlpeted;//界面是否已经加载完成
-    protected Bundle savedInstanceState;//界面是否已经加载完成
-    protected BasePresenterHelper mPresenterHelper;//通用逻辑帮助类
+    /**
+     * 视图
+     */
+    protected V mView;
+    /**
+     * 数据
+     */
+    protected M mModel;
+    /**
+     * 视图是否已加载过
+     */
+    protected boolean isViewLoaded;
+    /**
+     * 界面是否已经加载完成
+     */
+    protected boolean isViewComlpeted;
+    protected Bundle savedInstanceState;
+    /**
+     * 通用逻辑帮助类
+     */
+    protected BasePresenterHelper mPresenterHelper;
     /**
      * 生命周期回调
      */
-    private LifeCycleCallback mLifeCycleCallback;//生命周期回调
+    private LifeCycleCallback mLifeCycleCallback;
     //</editor-fold>
 
     //<editor-fold desc="抽象方法">
@@ -104,11 +119,19 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         }
         //初始化view和model
         createViewModel();
+        if(mView == null){
+            throw new NullPointerException("mView初始化失败");
+        }
+        if(mModel == null){
+            throw new NullPointerException("mModel初始化失败");
+        }
         //创建视图
         createLayout();
         //初始化控件
         mView.initView(this);
-        ActivityManger.newInstance().addActivity(this);//管理打开的activity
+        mModel.initModel(this);
+        //管理打开的activity
+        ActivityManger.newInstance().addActivity(this);
         this.savedInstanceState = savedInstanceState;
     }
 
@@ -147,7 +170,8 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         final String[] permissions = needPermissions();
         //不需要权限或者需要的权限已全部获取到时直接继续加载
         if (ListUtils.isEmpty(permissions) || EasyPermissions.hasPermissions(exposeContext(), permissions)) {
-            continueLoading(savedInstanceState);//继续加载
+            //继续加载
+            continueLoading(savedInstanceState);
             return;
         }
         //没有授权时发起授权

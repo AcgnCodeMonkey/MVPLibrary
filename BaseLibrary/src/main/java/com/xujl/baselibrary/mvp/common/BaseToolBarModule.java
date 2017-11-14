@@ -17,9 +17,15 @@ import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
  * Created by xujl on 2017/7/4.
  */
 
-public  class BaseToolBarModule {
-    protected ViewGroup mRootView;//页面根布局
-    protected View mContentLayout;//页面内容布局
+public class BaseToolBarModule {
+    /**
+     * 页面根布局
+     */
+    protected ViewGroup mRootView;
+    /**
+     * 页面内容布局
+     */
+    protected View mContentLayout;
     protected Toolbar mToolbar;
     private ActionBar mActionBar;
     protected ViewDataBinding mDataBinding;
@@ -34,10 +40,11 @@ public  class BaseToolBarModule {
     public BaseToolBarModule (Activity activity, int layoutId, LayoutConfig config) {
 
         if (config.isEnableDataBinding()) {
-            mDataBinding = DataBindingUtil.setContentView(activity,layoutId);
+            mDataBinding = DataBindingUtil.setContentView(activity, layoutId);
             mRootView = (ViewGroup) activity.findViewById(R.id.dataBindingRootLayout);
             mContentLayout = mRootView.getChildAt(0);
-            findToolBar(activity, config);//找到导航栏控件
+            //找到导航栏控件
+            findToolBar(activity, config);
             return;
         }
         mRootView = new LinearLayout(activity);
@@ -45,11 +52,12 @@ public  class BaseToolBarModule {
         ((LinearLayout) mRootView).setOrientation(LinearLayout.VERTICAL);
         mContentLayout = LayoutInflater.from(activity).inflate(layoutId, null);
         mContentLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        findToolBar(activity, config);//找到导航栏控件
+        //找到导航栏控件
+        findToolBar(activity, config);
         mRootView.addView(mContentLayout);
     }
 
-    private void findToolBar(Activity activity,LayoutConfig config) {
+    private void findToolBar (Activity activity, LayoutConfig config) {
         int toolBarId = getToolBarId();
         //判断view或presenter是否传入了导航id，有就直接寻找导航栏
         if (config.getToolBarId() != 0) {
@@ -61,6 +69,7 @@ public  class BaseToolBarModule {
         mToolbar = (Toolbar) LayoutInflater.from(activity).inflate(getToolBarLayoutId(), null).findViewById(toolBarId);
         mRootView.addView(mToolbar, 0);
     }
+
     public ViewDataBinding getDataBinding () {
         return mDataBinding;
     }

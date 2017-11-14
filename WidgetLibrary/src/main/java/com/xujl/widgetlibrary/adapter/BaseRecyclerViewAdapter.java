@@ -52,7 +52,8 @@ public abstract class BaseRecyclerViewAdapter<T> extends BaseQuickAdapter<T, Bas
 
     public void setAnimAndEmptyParentView ( ViewGroup view) {
         mRecyclerViewParentLayout = view;
-        openLoadAnimation(com.chad.library.adapter.base.BaseQuickAdapter.SCALEIN);//设置缩放动画
+        //设置缩放动画
+        openLoadAnimation(com.chad.library.adapter.base.BaseQuickAdapter.SCALEIN);
     }
 
     public void cbNotifyDataSetChanged () {

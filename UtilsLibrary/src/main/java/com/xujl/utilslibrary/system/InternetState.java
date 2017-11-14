@@ -1,5 +1,6 @@
 package com.xujl.utilslibrary.system;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -31,6 +32,7 @@ public class InternetState {
             return false;
         } else {
             // 获取NetworkInfo对象
+            @SuppressLint("MissingPermission")
             NetworkInfo[] networkInfo = connectivityManager.getAllNetworkInfo();
 
             if (networkInfo != null && networkInfo.length > 0) {
@@ -66,7 +68,7 @@ public class InternetState {
         if (nType == ConnectivityManager.TYPE_MOBILE) {
             String extraInfo = networkInfo.getExtraInfo();
             if (!ViewTool.isEmpty(extraInfo)) {
-                if (extraInfo.toLowerCase().equals("cmnet")) {
+                if ("cmnet".equals(extraInfo.toLowerCase())) {
                     netType = NETTYPE_CMNET;
                 } else {
                     netType = NETTYPE_CMWAP;

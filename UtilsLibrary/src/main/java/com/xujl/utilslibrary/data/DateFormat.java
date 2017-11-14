@@ -13,7 +13,9 @@ import java.util.GregorianCalendar;
 @SuppressLint("SimpleDateFormat")
 public class DateFormat {
 
-    //把标准时间转换成毫秒时间
+    /**
+     * 把标准时间转换成毫秒时间
+     */
     public static String getLongTime (String time, String format) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         try {
@@ -24,11 +26,14 @@ public class DateFormat {
         return "";
     }
 
-    //获取当前时间，需要传入格式
+    /**
+     *   获取当前时间，需要传入格式
+     */
     public static String getNowTime (String format) {
         try {
             SimpleDateFormat formatter = new SimpleDateFormat(format);
-            Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+            // 获取当前时间
+            Date curDate = new Date(System.currentTimeMillis());
             return formatter.format(curDate);
         } catch (Exception e) {
             Log.e("日期格式化异常", e.toString());
@@ -36,11 +41,13 @@ public class DateFormat {
         return "";
     }
 
-    //把毫秒时间转换成指定格式时间
+    /**
+     * 把毫秒时间转换成指定格式时间
+     */
     public static String getDate (String time, String format) {
         try {
             final long aLong = Long.parseLong(time);
-            if (time == null || time.equals("")) {
+            if (time == null || "".equals(time)) {
                 return "";
             } else {
                 if (time.length() < 13) {
@@ -49,7 +56,7 @@ public class DateFormat {
                         time += "0";
                     }
                 } else if (time.length() > 13) {
-                        time = time.substring(0, 13);
+                    time = time.substring(0, 13);
                 }
                 Date d = new Date(aLong);
                 SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -61,7 +68,11 @@ public class DateFormat {
         }
     }
 
-    /*获取星期几*/
+    /**
+     * 获取星期几
+     * @param time
+     * @return
+     */
     public static String getWeek (long time) {
         Calendar calender = new GregorianCalendar();
         calender.setTimeInMillis(time);

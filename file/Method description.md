@@ -26,7 +26,7 @@
 | boolean enableDataBinding ()   | 是否使用dataBinding进行布局绑定，只有view或presenter其中一个返回true就会启用，默认是不使用 |
 | boolean isAddParentLayout ()   | 是否为当前内容布局自动添加一个父布局，只有presenter和view都返回true才会启用，默认是添加 |
 
-备注：需要view和presenter共同控制的配置中，凡是默认开启的，只要其中一方返回false就会关闭，凡是默认关闭的，只要其中一个返回true就会开启，具体配置可以参见LayoutConfig类
+备注：需要view和presenter共同控制的配置中，凡是默认开启的，只要其中一方返回false就会关闭，凡是默认关闭的，只要其中一个返回true就会开启，具体配置逻辑可以参见LayoutConfig类
 
 #### IBaseView
 &emsp;&emsp;BaseView基础接口，提供一些简单方法供外接调用
@@ -64,6 +64,7 @@
 |:---:|:---:|
 | <T> T fromJson (String json, Class<T> classOfT) | 解析json |
 | String toJson (Object src) | 生成json |
+| void initModel(IBasePresenter presenter) | model初始化方法，空实现 |
 
 备注：BaseModel中封装的方法非常少，所有网络请求和数据库操作都建议开发者自行封装以满足自身需求，这里只是规定一个结构类型
 

@@ -108,7 +108,7 @@ public class ShowImageActivityModel extends CommonModel implements IShowImageAct
 
     @Override
     public Bitmap blurImage (final String url) {
-        Bitmap bitmap = FastBlurUtil.GetUrlBitmap(url, 20);
+        Bitmap bitmap = FastBlurUtil.getUrlBitmap(url, 20);
         bitmap = FastBlurUtil.getTransparentBitmap(bitmap, 90);
         return bitmap;
     }

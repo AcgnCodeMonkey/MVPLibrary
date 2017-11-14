@@ -14,7 +14,9 @@ import java.util.List;
  * 数字处理工具类
  */
 public class StringFormat {
-    /* 字符串检测为空时需要返回何种类型的值*/
+    /**
+     * 字符串检测为空时需要返回何种类型的值
+     */
     public static final int ZERO = 0;
     public static final int NULL = 1;
     public static final int LINE = 2;
@@ -26,6 +28,7 @@ public class StringFormat {
 
     /**
      * 检测null
+     *
      * @param str
      * @param nullValue
      * @return
@@ -41,6 +44,8 @@ public class StringFormat {
                 break;
             case LINE:
                 defaultResult = "---";
+                break;
+            default:
                 break;
         }
         return (TextUtils.isEmpty(str)) ? defaultResult : str;
@@ -98,15 +103,14 @@ public class StringFormat {
         return result;
     }
 
-    // 四舍五入.传入需要保留的小数位数
-    public static String FourHomesFive (String num, int code) {
+    /**
+     * 四舍五入.传入需要保留的小数位数
+     */
+    public static String fourHomesFive (String num, int code) {
         if (!ViewTool.isEmpty(num)) {
             try {
                 BigDecimal setScale = new BigDecimal(num).setScale(code, BigDecimal.ROUND_HALF_UP);
                 String v = String.valueOf(setScale);
-//                if (v.endsWith(".00")) {
-//                    v = v.replace(".00", "");
-//                }
                 if ("0.00".equals(v)) {
                     return "0";
                 }
@@ -118,7 +122,10 @@ public class StringFormat {
         }
         return "0";
     }
-    //遍历集合工具类
+
+    /**
+     * 遍历集合工具类
+     */
     public static <T> void forList (List<T> list, ForListCallBack<T> f) {
         if (list == null) {
             return;

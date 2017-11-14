@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,9 +81,9 @@ public class TabFragmentAdapter extends ViewPagerTabView.BaseAdapter {
     public static void initTitleView (ViewPagerTabView tabView, Context context, String maxTitle) {
         float unSelectSize = 12;
         float selectSize = unSelectSize * 1.3f;
-        tabView.setOnTransitionListener(new OnTransitionTextListener().setColor(context.getResources().getColor(R.color.colorAccent),
-                context.getResources().getColor(R.color.textHintColor)).setSize(selectSize, unSelectSize));
-        final ColorBar colorBar = new ColorBar(context, context.getResources().getColor(R.color.colorAccent), 4);
+        tabView.setOnTransitionListener(new OnTransitionTextListener().setColor(ContextCompat.getColor(context,R.color.colorAccent),
+                ContextCompat.getColor(context,R.color.textHintColor)).setSize(selectSize, unSelectSize));
+        final ColorBar colorBar = new ColorBar(context, ContextCompat.getColor(context,R.color.colorAccent), 4);
         Paint paint = new Paint();
         paint.setTextSize(DensityUtil.sp2px(18));
         final float measureText = paint.measureText(maxTitle);

@@ -2,8 +2,10 @@ package com.xujl.baselibrary.mvp.view;
 
 import android.databinding.ViewDataBinding;
 import android.support.annotation.CallSuper;
+import android.util.Log;
 import android.view.View;
 
+import com.xujl.baselibrary.Logger;
 import com.xujl.baselibrary.mvp.common.BaseToolBarModule;
 import com.xujl.baselibrary.mvp.common.BaseViewHelper;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
@@ -33,8 +35,14 @@ import com.xujl.baselibrary.mvp.port.IBaseView;
  */
 
 public abstract class BaseView implements IBaseView {
-    protected View mRootView;//根布局
-    protected View mContentLayout;//实际布局
+    /**
+     * 根布局
+     */
+    protected View mRootView;
+    /**
+     * 实际布局
+     */
+    protected View mContentLayout;
     protected BaseViewHelper mViewHelper;
     private ViewDataBinding mDataBinding;
 
@@ -101,6 +109,7 @@ public abstract class BaseView implements IBaseView {
     public View exposeRootView () {
         return mRootView;
     }
+
     @Override
     public <D extends ViewDataBinding> D getDataBinding () {
         return (D) mDataBinding;
@@ -121,7 +130,10 @@ public abstract class BaseView implements IBaseView {
     @CallSuper
     @Override
     public void initView (IBasePresenter presenter) {
-        mDataBinding = getViewHelper().getDataBinding();
+        //未开启dataBinding时不调用相关方法，防止抛出异常
+        if(mViewHelper.getConfig().isEnableDataBinding()){
+            mDataBinding = getViewHelper().getDataBinding();
+        }
         mRootView = mViewHelper.getRootLayout();
         mContentLayout = mViewHelper.getContentLayout();
     }

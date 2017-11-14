@@ -29,10 +29,38 @@ import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
  */
 
 public interface IBasePresenter extends View.OnClickListener,IBaseVP {
-    void exit();//退出界面
-    Context exposeContext ();//获取context
-    BaseActivityPresenter exposeActivity ();//获取activity
-    IBaseView exposeView ();//获取视图模块
-    IBaseModel exposeModel ();//获取数据模块
-    boolean isMVP ();//设置是否MVP加载模式
+    /**
+     * 退出界面
+     */
+    void exit();
+
+    /**
+     *
+     * @return 获取context
+     */
+    Context exposeContext ();
+
+    /**
+     *
+     * @return 获取activity
+     */
+    BaseActivityPresenter exposeActivity ();
+
+    /**
+     *
+     * @return 获取视图模块
+     */
+    IBaseView exposeView ();
+
+    /**
+     *
+     * @return 获取数据模块
+     */
+    IBaseModel exposeModel ();
+
+    /**
+     *
+     * @return 设置是否MVP加载模式
+     */
+    boolean isMVP ();
 }

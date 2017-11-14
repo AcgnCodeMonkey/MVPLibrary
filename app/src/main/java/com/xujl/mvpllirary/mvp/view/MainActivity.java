@@ -43,7 +43,7 @@ public class MainActivity extends CommonView implements IMainActivityView {
             }
         };
         mDrawerToggle.syncState();
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
         mRootView.findViewById(R.id.part_activity_main_menu_downloadTV).setOnClickListener(presenter);
         mRootView.findViewById(R.id.part_activity_main_menu_collectionTV).setOnClickListener(presenter);
         mRootView.findViewById(R.id.part_activity_main_menu_personTV).setOnClickListener(presenter);

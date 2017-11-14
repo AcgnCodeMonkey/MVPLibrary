@@ -8,6 +8,8 @@ import com.xujl.mvpllirary.R;
 import com.xujl.mvpllirary.util.RouterConst;
 import com.xujl.mvpllirary.widget.GranzortView;
 import com.xujl.rxlibrary.BaseConsumer;
+import com.xujl.rxlibrary.BaseObservable;
+import com.xujl.rxlibrary.BaseObservableEmitter;
 import com.xujl.rxlibrary.RxHelper;
 
 /**
@@ -20,8 +22,8 @@ public class SplashActivityPresenter extends CommonActivityPresenter {
 
         // 初始化
         final GranzortView granzortView = mView.findView(R.id.activity_splash_granzortView);
-        RxHelper.onCreat()
-                .createTimer(1500)
+        RxHelper.onCreate()
+                .createDelay(1500)
                 .newThreadToMain()
                 .run(new BaseConsumer<Long>() {
                     @Override
@@ -39,8 +41,6 @@ public class SplashActivityPresenter extends CommonActivityPresenter {
 //                gotoActivity(TestActivity.class);
             }
         });
-
-
     }
 
 

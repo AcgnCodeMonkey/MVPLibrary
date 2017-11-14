@@ -7,13 +7,32 @@ package com.xujl.baselibrary.mvp.port;
  */
 
 public interface IBaseVP {
-    boolean enableToolBar ();//是否使用toobar
+    /**
+     * @return 页面是否使用导航
+     */
+    boolean enableToolBar ();
 
-    int getLayoutId ();//布局Id
+    /**
+     * 返回当前布局id
+     *
+     * @return
+     */
+    int getLayoutId ();
 
-    int getToolBarId ();//导航布局Id
+    /**
+     * 此方法用于当前布局自定义了导航时
+     *
+     * @return 导航布局Id
+     */
+    int getToolBarId ();
 
-    boolean isAddParentLayout ();//是否为当前布局自动添加一层线性父布局用于统一管理界面
+    /**
+     * @return 是否为当前布局自动添加一层线性父布局用于统一管理界面
+     */
+    boolean isAddParentLayout ();
 
-    boolean enableDataBinding ();//是否使用dataBinding进行布局加载
+    /**
+     * @return 是否使用dataBinding进行布局加载
+     */
+    boolean enableDataBinding ();
 }

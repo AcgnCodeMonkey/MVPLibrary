@@ -51,7 +51,7 @@ public class ShowImageActivity extends CommonView implements IShowImageActivityV
     @Override
     public void blurBackground (Bitmap bitmap) {
         final View rootView = mRootView.findViewById(R.id.activity_showimage_rootView);
-        rootView.setBackground(new BitmapDrawable(bitmap));
+        rootView.setBackground(new BitmapDrawable(mRootView.getResources(),bitmap));
     }
 
     @Override

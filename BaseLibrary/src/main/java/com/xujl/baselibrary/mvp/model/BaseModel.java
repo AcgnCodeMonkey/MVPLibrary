@@ -2,6 +2,7 @@ package com.xujl.baselibrary.mvp.model;
 
 import com.xujl.baselibrary.mvp.common.BaseModelHelper;
 import com.xujl.baselibrary.mvp.port.IBaseModel;
+import com.xujl.baselibrary.mvp.port.IBasePresenter;
 
 /**
  * ━━━━━━神兽出没━━━━━━
@@ -26,12 +27,16 @@ import com.xujl.baselibrary.mvp.port.IBaseModel;
  * Created by xujl on 2017/4/28.
  */
 
-public abstract class BaseModel implements IBaseModel{
+public abstract class BaseModel implements IBaseModel {
     protected BaseModelHelper mModelHelper;
 
+    @Override
+    public void initModel (IBasePresenter presenter) {
+
+    }
 
     public BaseModelHelper getModelHelper () {
-        if(mModelHelper == null){
+        if (mModelHelper == null) {
             mModelHelper = new BaseModelHelper();
         }
         return mModelHelper;

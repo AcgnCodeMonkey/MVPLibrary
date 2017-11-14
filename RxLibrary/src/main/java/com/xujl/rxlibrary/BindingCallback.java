@@ -5,5 +5,8 @@ package com.xujl.rxlibrary;
  */
 
 public interface BindingCallback {
-    void onDestroy ();//界面销毁
+    /**
+     * 界面销毁
+     */
+    void onDestroy ();
 }

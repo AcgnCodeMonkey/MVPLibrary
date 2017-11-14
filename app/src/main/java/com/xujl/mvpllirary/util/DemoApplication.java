@@ -1,14 +1,11 @@
 package com.xujl.mvpllirary.util;
 
-import android.content.Context;
-
-import com.chenenyu.router.RouteInterceptor;
-import com.chenenyu.router.RouteRequest;
 import com.chenenyu.router.RouteTable;
 import com.chenenyu.router.Router;
-import com.chenenyu.router.matcher.AbsExplicitMatcher;
 import com.xujl.applibrary.util.AppApplication;
+import com.xujl.mvpllirary.mvp.model.ModelPackageConfig;
 import com.xujl.mvpllirary.mvp.presenter.MainActivityPresenter;
+import com.xujl.mvpllirary.mvp.view.ViewPackageConfig;
 
 import java.util.Map;
 
@@ -32,7 +29,8 @@ public class DemoApplication extends AppApplication {
         });
         // 开启log
         Router.setDebuggable(isDubug());
-
+        setModelPackageName(ModelPackageConfig.getModelPackageName());
+        setViewPackageName(ViewPackageConfig.getViewPackageName());
     }
 
     public static DemoApplication getInstance () {

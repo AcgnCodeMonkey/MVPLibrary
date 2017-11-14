@@ -12,19 +12,33 @@ import com.xujl.baselibrary.mvp.port.IBaseView;
 
 public class LayoutConfig {
 
-    //是否为当前布局添加父布局
+    /**
+     * 是否为当前布局添加父布局
+     */
     private boolean isAddParentLayout;
-    //是否使用导航
+    /**
+     * 是否使用导航
+     */
     private boolean enableToolBar;
-    //是否使用mvp进行加载
+    /**
+     * 是否使用mvp进行加载
+     */
     private boolean enableMVP;
-    //是否使用dataBinding进行加载,只要有view或presenter开启就开启databinding
+    /**
+     * 是否使用dataBinding进行加载,只要有view或presenter开启就开启databinding
+     */
     private boolean enableDataBinding;
-    //当前布局Id
+    /**
+     * 当前布局Id
+     */
     private int layoutId;
-    //当前导航栏Id
+    /**
+     * 当前导航栏Id
+     */
     private int toolBarId;
-    //当前界面是否activity
+    /**
+     * 当前界面是否activity
+     */
     private boolean isActivity;
 
     public LayoutConfig (IBaseView view, IBasePresenter presenter) {
@@ -36,8 +50,8 @@ public class LayoutConfig {
         isActivity = presenter instanceof Activity;
         toolBarId = enableMVP ? view.getToolBarId() : presenter.getToolBarId();
     }
-
     //<editor-fold desc="getter">
+
     public boolean isAddParentLayout () {
         return isAddParentLayout;
     }
