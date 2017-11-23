@@ -1,25 +1,28 @@
-package com.xujl.test;
+package com.xujl.mvpllirary.mvp.test;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import com.xujl.applibrary.mvp.presenter.CommonActivityPresenter;
+import com.xujl.mvpllirary.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
+/**
+ * Created by xujl on 2017/11/20.
+ */
+
+public class TestActivity extends CommonActivityPresenter implements RadioGroup.OnCheckedChangeListener{
     private ViewPager mViewPager;
     private List<Fragment> mFragments;
-
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected void initPresenter (Bundle savedInstanceState) {
         mViewPager = findViewById(R.id.vp);
         final RadioGroup radioGroup = findViewById(R.id.rg);
         radioGroup.setOnCheckedChangeListener(this);
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                 return mFragments.size();
             }
         });
-        mViewPager.setOffscreenPageLimit(2);
+//        mViewPager.setOffscreenPageLimit(4);
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled (int position, float positionOffset, int positionOffsetPixels) {
@@ -57,6 +60,15 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         });
     }
 
+    @Override
+    public boolean isMVP () {
+        return false;
+    }
+
+    @Override
+    public int getLayoutId () {
+        return R.layout.activity_main2;
+    }
     private void addFragments () {
         for (int i = 1; i < 5; i++) {
             Fragment fragment = new TestFragment();

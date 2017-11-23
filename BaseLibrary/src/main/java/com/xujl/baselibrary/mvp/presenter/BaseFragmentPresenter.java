@@ -2,6 +2,7 @@ package com.xujl.baselibrary.mvp.presenter;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -115,12 +116,12 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
         /*savedInstanceState不为空时调用界面恢复方法，如果需要重新初始化
         则应该在resumePresenter中重新调用initPresenter
          */
-        if (savedInstanceState == null) {
+//        if (savedInstanceState == null) {
             //初始化逻辑代码
             initPresenter(null);
-        } else {
-            resumePresenter(savedInstanceState);
-        }
+//        } else {
+//            resumePresenter(savedInstanceState);
+//        }
         isViewCompleted = true;
         isEveryReload = isEveryReload();
         if (mLifeCycleCallback != null) {
@@ -135,6 +136,7 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
         }
         return mRootView;
     }
+
 
     /**
      * 反射实例化view和model
@@ -365,7 +367,7 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
      *
      * @param savedInstanceState
      */
-    protected void resumePresenter (@Nullable Bundle savedInstanceState) {
+    protected void resumePresenter (@NonNull Bundle savedInstanceState) {
 
     }
 

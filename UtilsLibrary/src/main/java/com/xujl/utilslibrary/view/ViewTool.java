@@ -129,7 +129,7 @@ public class ViewTool {
 
     //判断是否字符串为空
     public static boolean isEmpty (String str) {
-        return str == null || str.equals("") || str.equals("null") || str.equals("NULL");
+        return str == null || str.equals("") || str.trim().equals("") || str.equals("null") || str.equals("NULL");
     }
 
     /**

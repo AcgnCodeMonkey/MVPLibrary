@@ -45,7 +45,7 @@ public class NewsTabFragmentPresenter extends CommonFragmentPresenter<INewsTabFr
 
     @Override
     protected boolean isEveryReload () {
-        return true;
+        return false;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.xujl.mvpllirary.mvp.presenter;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -12,6 +13,8 @@ import com.xujl.mvpllirary.json.ImagePassBean;
 import com.xujl.mvpllirary.mvp.model.port.IHomeImageListFragmentModel;
 import com.xujl.mvpllirary.mvp.view.port.IHomeImageListFragmentView;
 import com.xujl.mvpllirary.util.IntentKey;
+import com.xujl.utilslibrary.system.Log;
+import com.xujl.utilslibrary.view.ViewTool;
 import com.xujl.widgetlibrary.adapter.BaseRecyclerViewAdapter;
 import com.xujl.widgetlibrary.widget.RefreshLayout;
 
@@ -36,9 +39,10 @@ public class HomeImageListFragmentPresenter extends CommonFragmentPresenter<IHom
     protected void initPresenter (Bundle savedInstanceState) {
         mAdapter = new HomeImageListAdaper(mModel.getDataList());
         mView.setBannerData(mModel.getBannerDataList());
-        mView.setAdapter(mAdapter,this);
+        mView.setAdapter(mAdapter, this);
         mView.getRefreshRecyclerViewHelper().addOnItemTouchListener(mOnItemClickListener);
         mView.getRefreshRecyclerViewHelper().startRefresh();
+
     }
 
     @Override
@@ -53,6 +57,13 @@ public class HomeImageListFragmentPresenter extends CommonFragmentPresenter<IHom
 
     @Override
     public void requestSuccess (int mode, String json) {
+//        if(mode == CommonModel.MODE_3){
+//            Log.e(" CommonModel.MODE_3"," CommonModel.MODE_3");
+//            return;
+//        }
+//        for (int i = 0; i < 20; i++) {
+//            requestForGetNoHint(CommonModel.MODE_3);
+//        }
         mModel.addData(mode, json);
         mAdapter.cbNotifyDataSetChanged();
         mView.getRefreshRecyclerViewHelper().refreshLoadingComplete();
