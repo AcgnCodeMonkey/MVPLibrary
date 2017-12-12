@@ -1,18 +1,20 @@
 package com.xujl.applibrary.util;
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import com.xujl.applibrary.db.bean.DaoMaster;
 import com.xujl.applibrary.db.bean.DaoSession;
-import com.xujl.utilslibrary.system.DensityUtil;
-import com.xujl.utilslibrary.system.InternetState;
-import com.xujl.utilslibrary.system.StartUpApplication;
+import com.xujl.utilslibrary.other.DebugConfig;
+import com.xujl.utilslibrary.system.DelegateApplication;
 
 /**
  * Created by xujl on 2017/7/6.
  */
 
-public class AppApplication extends StartUpApplication {
+public class AppApplication extends MultiDexApplication {
     private static AppApplication sApplication;
     private static DaoSession sDaoSession;//greenDao
     private String mViewPackageName;
@@ -23,13 +25,17 @@ public class AppApplication extends StartUpApplication {
     }
 
     @Override
+    protected void attachBaseContext (Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
+    @Override
     public void onCreate () {
         super.onCreate();
-
         sApplication = this;
-        DensityUtil.mContext = getApplicationContext();
-        InternetState.setContext(getApplicationContext());
-        setDubug(true);
+        DelegateApplication.getInstance().init(this);
+        DebugConfig.setDebug(true);
         setupDatabase(); //配置数据库
     }
 

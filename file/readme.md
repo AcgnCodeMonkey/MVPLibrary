@@ -85,7 +85,7 @@ Activity为Presenter则是一个Presenter对应多个View和Model),而MVPH的思
 ## Licence
 
 ```
-Copyright 2016 Shintaro Katafuchi, Marcel Schnelle, Yoshinori Isogai
+Copyright 2017 xujl
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.xujl.baselibrary.Logger;
 import com.xujl.baselibrary.mvp.common.BasePresenterHelper;
 import com.xujl.baselibrary.mvp.port.IBaseModel;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
@@ -70,7 +71,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     /**
      * 界面是否已经加载完成
      */
-    protected boolean isViewComlpeted;
+    protected boolean isViewCompleted;
     protected Bundle savedInstanceState;
     /**
      * 通用逻辑帮助类
@@ -80,6 +81,12 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
      * 生命周期回调
      */
     private LifeCycleCallback mLifeCycleCallback;
+    /**
+     * 动态申请的权限
+     * 特指界面加载完成后
+     * 单独进行的权限请求
+     */
+    private String[] varyPermissions;
     //</editor-fold>
 
     //<editor-fold desc="抽象方法">
@@ -119,10 +126,10 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         }
         //初始化view和model
         createViewModel();
-        if(mView == null){
+        if (mView == null) {
             throw new NullPointerException("mView初始化失败");
         }
-        if(mModel == null){
+        if (mModel == null) {
             throw new NullPointerException("mModel初始化失败");
         }
         //创建视图
@@ -154,7 +161,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     @Override
     public void onWindowFocusChanged (boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        isViewComlpeted = hasFocus;
+        isViewCompleted = hasFocus;
         judgeLoading();
     }
 
@@ -163,7 +170,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
      */
     private void judgeLoading () {
         //已经加载过或者当前界面未获取焦点时跳出
-        if (isViewLoaded || !isViewComlpeted) {
+        if (isViewLoaded || !isViewCompleted) {
             return;
         }
         isViewLoaded = true;
@@ -175,10 +182,9 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
             return;
         }
         //没有授权时发起授权
-        EasyPermissions.requestPermissions(this, "必要的权限:\t" +
-                PermissionsHelper.getNoPermissionsStrings(exposeContext(), permissions) +
-                "缺少权限会导致无法使用部分功能", 996, permissions);
+        requestPermissions(permissions, true);
     }
+
 
     /**
      * 实例化view和model,如果为非mvp模式，则使用子类默认的view和model
@@ -312,6 +318,51 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     //</editor-fold>
 
     //<editor-fold desc="动态权限">
+
+    /**
+     * 动态申请权限
+     *
+     * @param permissions
+     * @return isGet 是否已经获取了权限
+     */
+    protected boolean requestPermissions (String[] permissions) {
+        return requestPermissions(permissions, false);
+    }
+
+    /**
+     * @param permissions
+     * @param isInitRequest 是否动态申请？
+     * @return 是否已经获取了权限
+     */
+    private boolean requestPermissions (String[] permissions, boolean isInitRequest) {
+        //不需要权限或者需要的权限
+        if (ListUtils.isEmpty(permissions) || EasyPermissions.hasPermissions(exposeContext(), permissions)) {
+            //继续加载
+            Logger.e("requestPermissions", "已获取到申请的所有权限");
+            return true;
+        }
+        if (!isInitRequest) {
+            varyPermissions = permissions;
+        }
+        //没有授权时发起授权
+        EasyPermissions.requestPermissions(this, permissionsDescription(permissions), 996, permissions);
+        return false;
+    }
+
+    /**
+     * 申请的权限描述信息
+     * 如果需要变更权限描述，请复写此方法
+     * 并返回相关描述信息
+     *
+     * @param permissions
+     * @return
+     */
+    protected String permissionsDescription (String[] permissions) {
+        return "必要的权限:\t" +
+                PermissionsHelper.getNoPermissionsStrings(exposeContext(), permissions) +
+                "缺少权限会导致无法使用部分功能";
+    }
+
     @Override
     public void onRequestPermissionsResult (int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -326,6 +377,18 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
      */
     @Override
     public void onPermissionsGranted (int requestCode, List<String> perms) {
+        /*
+         动态申请的权限varyPermissions不为空时
+         表示当前正在进行的权限申请是动态申请
+         申请全部被通过时直接回调权限申请成功方法
+         */
+        if (!ListUtils.isEmpty(varyPermissions)) {
+            if (!ListUtils.isEmpty(perms) && perms.size() >= ListUtils.getSize(varyPermissions)) {
+                permissionsComplete(varyPermissions);
+                varyPermissions = null;
+            }
+            return;
+        }
         //获取到所有权限后进行下一步加载
         if (!ListUtils.isEmpty(perms) && perms.size() >= ListUtils.getSize(needPermissions())) {
             continueLoading(null);
@@ -335,35 +398,59 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     @Override
     public void onPermissionsDenied (final int requestCode, List<String> perms) {
         if (!ListUtils.isEmpty(perms)) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("系统提示");
-            builder.setCancelable(false);
-            builder.setMessage("缺少权限:\t" + PermissionsHelper.getNoPermissionsStrings(exposeContext(), needPermissions()) + "，是否跳转系统设置手动开启权限？");
-            builder.setPositiveButton("去设置", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick (DialogInterface dialog, int which) {
-                    Intent localIntent = new Intent();
-                    localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    if (Build.VERSION.SDK_INT >= 9) {
-                        localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-                        localIntent.setData(Uri.fromParts("package", getPackageName(), null));
-                    } else if (Build.VERSION.SDK_INT <= 8) {
-                        localIntent.setAction(Intent.ACTION_VIEW);
-                        localIntent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
-                        localIntent.putExtra("com.android.settings.ApplicationPkgName", getPackageName());
-                    }
-                    startActivity(localIntent);
-                    exit();
-                }
-            });
-            builder.setNegativeButton("退出", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick (DialogInterface dialog, int which) {
-                    exit();
-                }
-            });
-            builder.show();
+            //判断是动态还是静态申请的权限
+            if (ListUtils.isEmpty(varyPermissions)) {
+                permissionsRefuse(needPermissions());
+                return;
+            }
+            permissionsRefuse(varyPermissions);
+            varyPermissions = null;
         }
+    }
+
+    /**
+     * 权限授权成功
+     * 动态申请的权限
+     * 成功时会回调此方法
+     */
+    protected void permissionsComplete (String[] permissions) {
+
+    }
+
+    /**
+     * 申请的权限被拒绝
+     * 需要自定义显示时
+     * 复写此方法
+     */
+    protected void permissionsRefuse (String[] permissions) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("系统提示");
+        builder.setCancelable(false);
+        builder.setMessage("缺少权限:\t" + PermissionsHelper.getNoPermissionsStrings(exposeContext(), permissions) + "，是否跳转系统设置手动开启权限？");
+        builder.setPositiveButton("去设置", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick (DialogInterface dialog, int which) {
+                Intent localIntent = new Intent();
+                localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                if (Build.VERSION.SDK_INT >= 9) {
+                    localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                    localIntent.setData(Uri.fromParts("package", getPackageName(), null));
+                } else if (Build.VERSION.SDK_INT <= 8) {
+                    localIntent.setAction(Intent.ACTION_VIEW);
+                    localIntent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
+                    localIntent.putExtra("com.android.settings.ApplicationPkgName", getPackageName());
+                }
+                startActivity(localIntent);
+                exit();
+            }
+        });
+        builder.setNegativeButton("退出", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick (DialogInterface dialog, int which) {
+                exit();
+            }
+        });
+        builder.show();
     }
     //</editor-fold>
     //<editor-fold desc="其他方法">

@@ -84,11 +84,13 @@ public interface IBaseView extends IBaseVP {
 
     /**
      * toast提示用户消息
-     *
+     * 方法已经过
      * @param context
      * @param msg
      * @param code
+     * @deprecated 请使用 {@link #toast(String, int)} 代替.
      */
+    @Deprecated
     void showToastMsg (Context context, String msg, int code);
 
     /**
@@ -98,9 +100,25 @@ public interface IBaseView extends IBaseVP {
      * @param msg
      * @param code
      * @param time
+     * @deprecated 请使用 {@link #toast(String, int,int)} 代替.
      */
+    @Deprecated
     void showToastMsg (Context context, String msg, int code, int time);
 
+    /**
+     * toast提示用户消息
+     * @param msg
+     * @param code
+     */
+    void toast(String msg, int code);
+
+    /**
+     * toast提示用户消息
+     * @param msg
+     * @param code
+     * @param time
+     */
+    void toast(String msg, int code, int time);
     /**
      * 显示加载
      */

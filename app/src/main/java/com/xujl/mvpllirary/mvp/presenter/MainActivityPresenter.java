@@ -7,7 +7,6 @@ import android.support.annotation.IdRes;
 import android.view.View;
 import android.widget.RadioGroup;
 
-import com.chenenyu.router.annotation.Route;
 import com.xujl.applibrary.adapter.SimpleViewPagerAdapter;
 import com.xujl.applibrary.db.ImageBeanType;
 import com.xujl.applibrary.mvp.presenter.CommonActivityPresenter;
@@ -19,8 +18,8 @@ import com.xujl.mvpllirary.mvp.model.MainActivityModel;
 import com.xujl.mvpllirary.mvp.model.port.IMainActivityModel;
 import com.xujl.mvpllirary.mvp.view.MainActivity;
 import com.xujl.mvpllirary.mvp.view.port.IMainActivityView;
+import com.xujl.mvpllirary.util.DemoApplication;
 import com.xujl.mvpllirary.util.IntentKey;
-import com.xujl.mvpllirary.util.RouterConst;
 
 /**
  * Created by xujl on 2017/7/4.
@@ -41,7 +40,8 @@ public class MainActivityPresenter extends CommonActivityPresenter<IMainActivity
 
     @Override
     protected void initPresenter (Bundle savedInstanceState) {
-        getPresenterHelper().addHelper(HelperType.TYPE_ONE,new QRScanHelper());
+        DemoApplication.getRefWatcher(this).watch(this);
+        getPresenterHelper().addHelper(HelperType.TYPE_ONE, new QRScanHelper());
         mView.setAdapter(new SimpleViewPagerAdapter(getSupportFragmentManager(), mModel.getFragmentList()));
     }
 
@@ -53,6 +53,7 @@ public class MainActivityPresenter extends CommonActivityPresenter<IMainActivity
                 final Bundle bundle = new Bundle();
                 bundle.putInt(IntentKey.TYPE, ImageBeanType.TYPE_DOWNLOADED);
                 gotoActivity(ImageListActivityPresenter.class, bundle);
+
                 break;
             case R.id.part_activity_main_menu_collectionTV:
                 final Bundle bundle2 = new Bundle();
@@ -63,7 +64,10 @@ public class MainActivityPresenter extends CommonActivityPresenter<IMainActivity
                 gotoActivity(PersonDataBindingActivityPresenter.class);
                 break;
             case R.id.toolbar_layout_rightImageBtn:
-                getQRScanHelper().openScanner(exposeActivity());
+                final boolean permissionsGet = requestPermissions(new String[]{Manifest.permission.CAMERA});
+                if (permissionsGet) {
+                    getQRScanHelper().openScanner(exposeActivity());
+                }
                 break;
             default:
 
@@ -72,10 +76,15 @@ public class MainActivityPresenter extends CommonActivityPresenter<IMainActivity
         }
     }
 
+    @Override
+    protected void permissionsComplete (String[] permissions) {
+        super.permissionsComplete(permissions);
+        getQRScanHelper().openScanner(exposeActivity());
+    }
 
     @Override
     protected String[] needPermissions () {
-        return new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA};
+        return new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
     }
 
     @Override
@@ -101,9 +110,10 @@ public class MainActivityPresenter extends CommonActivityPresenter<IMainActivity
         if (result == null) {
             return;
         }
-        mView.showToastMsg(exposeContext(),result, CustomToast.SUCCESS);
+        mView.showToastMsg(exposeContext(), result, CustomToast.SUCCESS);
     }
-    private QRScanHelper getQRScanHelper(){
+
+    private QRScanHelper getQRScanHelper () {
         return getPresenterHelper().getHelper(HelperType.TYPE_ONE);
     }
 }

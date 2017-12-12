@@ -1,19 +1,31 @@
 package com.xujl.baselibrary.mvp.presenter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.xujl.baselibrary.Logger;
 import com.xujl.baselibrary.mvp.common.BasePresenterHelper;
 import com.xujl.baselibrary.mvp.port.IBaseModel;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.baselibrary.mvp.port.IBaseView;
 import com.xujl.baselibrary.mvp.port.LifeCycleCallback;
+import com.xujl.baselibrary.utils.ListUtils;
+import com.xujl.baselibrary.utils.PermissionsHelper;
+
+import java.util.List;
+
+import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * ━━━━━━神兽出没━━━━━━
@@ -38,7 +50,8 @@ import com.xujl.baselibrary.mvp.port.LifeCycleCallback;
  * Created by xujl on 2017/4/28.
  */
 
-public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBaseModel> extends Fragment implements IBasePresenter {
+public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBaseModel> extends Fragment implements IBasePresenter
+        , EasyPermissions.PermissionCallbacks {
 
     //<editor-fold desc="基础变量">
     /**
@@ -76,6 +89,12 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
      * 生命周期回调
      */
     private LifeCycleCallback mLifeCycleCallback;
+    /**
+     * 动态申请的权限
+     * 特指界面加载完成后
+     * 单独进行的权限请求
+     */
+    private String[] varyPermissions;
     //</editor-fold>
 
     //<editor-fold desc="抽象方法">
@@ -117,8 +136,8 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
         则应该在resumePresenter中重新调用initPresenter
          */
 //        if (savedInstanceState == null) {
-            //初始化逻辑代码
-            initPresenter(null);
+        //初始化逻辑代码
+        initPresenter(null);
 //        } else {
 //            resumePresenter(savedInstanceState);
 //        }
@@ -348,6 +367,121 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
     @Override
     public boolean isMVP () {
         return true;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="动态权限">
+
+    /**
+     *
+     * @param permissions
+     * @return 是否已经获取所有权限
+     */
+    protected boolean requestPermissions (String[] permissions) {
+        //不需要权限或者需要的权限
+        if (ListUtils.isEmpty(permissions) || EasyPermissions.hasPermissions(exposeContext(), permissions)) {
+            //继续加载
+            Logger.e("requestPermissions", "已获取到申请的所有权限");
+            return true;
+        }
+        varyPermissions = permissions;
+        //没有授权时发起授权
+        EasyPermissions.requestPermissions(this, permissionsDescription(varyPermissions), 995, varyPermissions);
+        return false;
+    }
+
+    /**
+     * 申请的权限描述信息
+     * 如果需要变更权限描述，请复写此方法
+     * 并返回相关描述信息
+     *
+     * @param permissions
+     * @return
+     */
+    protected String permissionsDescription (String[] permissions) {
+        return "必要的权限:\t" +
+                PermissionsHelper.getNoPermissionsStrings(exposeContext(), permissions) +
+                "缺少权限会导致无法使用部分功能";
+    }
+
+    @Override
+    public void onRequestPermissionsResult (int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    /**
+     * 下面两个方法是实现EasyPermissions的EasyPermissions.PermissionCallbacks接口
+     * 分别返回授权成功和失败的权限
+     */
+    @Override
+    public void onPermissionsGranted (int requestCode, List<String> perms) {
+        /*
+         动态申请的权限varyPermissions不为空时
+         表示当前正在进行的权限申请是动态申请
+         申请全部被通过时直接回调权限申请成功方法
+         */
+        if (!ListUtils.isEmpty(varyPermissions)) {
+            if (!ListUtils.isEmpty(perms) && perms.size() >= ListUtils.getSize(varyPermissions)) {
+                permissionsComplete(varyPermissions);
+                varyPermissions = null;
+            }
+        }
+    }
+
+    @Override
+    public void onPermissionsDenied (final int requestCode, List<String> perms) {
+        if (!ListUtils.isEmpty(perms)) {
+            permissionsRefuse(varyPermissions);
+            varyPermissions = null;
+        }
+    }
+
+    /**
+     * 权限授权成功
+     * 动态申请的权限
+     * 成功时会回调此方法
+     */
+    protected void permissionsComplete (String[] permissions) {
+
+    }
+
+    /**
+     * 申请的权限被拒绝
+     * 需要自定义显示时
+     * 复写此方法
+     */
+    protected void permissionsRefuse (String[] permissions) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("系统提示");
+        builder.setCancelable(false);
+        builder.setMessage("缺少权限:\t" + PermissionsHelper.getNoPermissionsStrings(exposeContext(), permissions) + "，是否跳转系统设置手动开启权限？");
+        builder.setPositiveButton("去设置", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick (DialogInterface dialog, int which) {
+                Intent localIntent = new Intent();
+                localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                if (Build.VERSION.SDK_INT >= 9) {
+                    localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                    localIntent.setData(Uri.fromParts("package", getActivity().getPackageName(), null));
+                } else if (Build.VERSION.SDK_INT <= 8) {
+                    localIntent.setAction(Intent.ACTION_VIEW);
+                    localIntent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
+                    localIntent.putExtra("com.android.settings.ApplicationPkgName", getActivity().getPackageName());
+                }
+                startActivity(localIntent);
+                exit();
+            }
+        });
+        builder.setNegativeButton("退出", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick (DialogInterface dialog, int which) {
+                exit();
+            }
+        });
+        builder.show();
     }
     //</editor-fold>
 

@@ -6,10 +6,10 @@ import com.google.gson.JsonObject;
 import com.xujl.datalibrary.network.port.RequestForNetwork;
 import com.xujl.datalibrary.network.port.UploadImageInterface;
 import com.xujl.utilslibrary.data.NetworkUtil;
+import com.xujl.utilslibrary.other.DebugConfig;
 import com.xujl.utilslibrary.port.RequestCallBack;
 import com.xujl.utilslibrary.system.InternetState;
 import com.xujl.utilslibrary.system.Log;
-import com.xujl.utilslibrary.system.StartUpApplication;
 
 import java.io.File;
 import java.util.HashMap;
@@ -64,7 +64,7 @@ public class InternetUtil extends NetworkUtil {
             @Override
             public void onResponse (Call<JsonObject> call, Response<JsonObject> response) {
                 String resultStr = null;
-                if (StartUpApplication.isDubug()) {
+                if (DebugConfig.isDebug()) {
                     resultStr = response.body().toString();
                     requestCallBack.notice(resultStr);
                     return;
@@ -103,7 +103,7 @@ public class InternetUtil extends NetworkUtil {
             @Override
             public void onResponse (Call<JsonObject> call, Response<JsonObject> response) {
                 String resultStr = null;
-                if (StartUpApplication.isDubug()) {
+                if (DebugConfig.isDebug()) {
                     resultStr = response.body().toString();
                     requestCallBack.notice(resultStr);
                     return;

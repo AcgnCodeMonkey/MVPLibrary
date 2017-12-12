@@ -33,6 +33,16 @@ public abstract class CommonView extends BaseView implements ICommonView {
     }
 
     @Override
+    public void toast (String msg, int code) {
+        getViewHelper().toast(msg, code);
+    }
+
+    @Override
+    public void toast (String msg, int code, int time) {
+        getViewHelper().toast(msg, code,time);
+    }
+
+    @Override
     public void showLoading () {
         getViewHelper().showLoading();
     }

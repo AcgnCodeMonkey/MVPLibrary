@@ -11,13 +11,8 @@
             <option value="$PROJECT_DIR$/AppLibrary" />
             <option value="$PROJECT_DIR$/BaseLibrary" />
             <option value="$PROJECT_DIR$/DataLibrary" />
-            <option value="$PROJECT_DIR$/RxLibrary" />
-            <option value="$PROJECT_DIR$/Test" />
-            <option value="$PROJECT_DIR$/UtilsLibrary" />
-            <option value="$PROJECT_DIR$/WidgetLibrary" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/libraryzxing" />
-            <option value="$PROJECT_DIR$/myapplication" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
