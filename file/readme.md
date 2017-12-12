@@ -8,7 +8,7 @@
 引用方式 :<br>
 
 > **compile 'com.xujl:BaseLibrary:0.1.3'**//稳定版<br>
-> **compile 'com.xujl:BaseLibrary:0.1.3-alpha6'**//测试版本<br>
+> **compile 'com.xujl:BaseLibrary:0.1.3-alpha7'**//测试版本<br>
 
 ### 框架思路简介
 [架构思路详解](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/架构思路.md)
