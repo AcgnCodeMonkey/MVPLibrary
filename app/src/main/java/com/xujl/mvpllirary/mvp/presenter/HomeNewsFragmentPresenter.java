@@ -16,9 +16,14 @@ public class HomeNewsFragmentPresenter extends CommonFragmentPresenter<IHomeNews
 
     @Override
     protected void initPresenter (Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void lazyLoad () {
+        super.lazyLoad();
         mAdapter = new TabFragmentAdapter(getFragmentManager(), exposeContext()
                 , mModel.getTabTitle(), mModel.getFragmentList());
         mView.setViewPagerAdapter(mAdapter,mModel.getMaxTitle());
     }
-
 }

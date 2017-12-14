@@ -3,19 +3,23 @@ package com.xujl.baselibrary.utils;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.Application;
 import android.content.Context;
+import android.os.Bundle;
+
+import com.xujl.baselibrary.mvp.port.IBaseModel;
 
 import java.util.Stack;
 
 /**
  * activity管理工具类，用于关闭所有界面
  */
-public class ActivityManger {
-    private static ActivityManger sManger;
+public class ActivityManger implements Application.ActivityLifecycleCallbacks {
+    private static volatile ActivityManger sManger;
     /**
      * 单例对象
      */
-    private static Stack<Activity> activityStack ;
+    private static volatile Stack<Activity> activityStack;
 
     private ActivityManger () {
     }
@@ -64,7 +68,7 @@ public class ActivityManger {
     public void finishActivity (Activity activity) {
         if (activity != null) {
             activityStack.remove(activity);
-            if(!activity.isFinishing()){
+            if (!activity.isFinishing()) {
                 activity.finish();
             }
             activity = null;
@@ -144,7 +148,7 @@ public class ActivityManger {
     /**
      * 保留指定类名的Activity,并关闭其他所有的activity
      */
-    public void keepActivity (String cls) {
+    public <M extends IBaseModel> void keepActivity (String cls) {
         Activity retainActivity = null;
         for (Activity activity : activityStack) {
             if (activity.getClass().toString().equals(cls)) {
@@ -159,5 +163,50 @@ public class ActivityManger {
         }
 
 
+    }
+
+    /**
+     * 清空栈内指定activity
+     * @param activity
+     */
+    public void removeActivity (Activity activity) {
+        if (activity != null) {
+            activityStack.remove(activity);
+        }
+    }
+
+    @Override
+    public void onActivityCreated (Activity activity, Bundle savedInstanceState) {
+        addActivity(activity);
+    }
+
+    @Override
+    public void onActivityStarted (Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityResumed (Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityPaused (Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityStopped (Activity activity) {
+
+    }
+
+    @Override
+    public void onActivitySaveInstanceState (Activity activity, Bundle outState) {
+
+    }
+
+    @Override
+    public void onActivityDestroyed (Activity activity) {
+        removeActivity(activity);
     }
 }

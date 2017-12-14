@@ -13,6 +13,8 @@ import com.xujl.applibrary.mvp.port.ICommonView;
 import com.xujl.applibrary.mvp.view.CommonView;
 import com.xujl.applibrary.util.AppApplication;
 import com.xujl.applibrary.util.CustomToast;
+import com.xujl.baselibrary.mvp.port.IBaseModel;
+import com.xujl.baselibrary.mvp.port.IBaseView;
 import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
 import com.xujl.rxlibrary.RxLife;
 import com.xujl.utilslibrary.data.ParamsMapTool;
@@ -82,10 +84,15 @@ public abstract class CommonActivityPresenter<V extends ICommonView, M extends I
         return (CommonPresenterHelper) super.getPresenterHelper();
     }
 
+    @Override
+    protected IBaseModel autoCreateModel () {
+        return  new CommonModel() {
+        };
+    }
 
     @Override
-    protected void autoCreateViewModel () {
-        mView = (V) new CommonView() {
+    protected IBaseView autoCreateView () {
+        return new CommonView() {
 
             @Override
             public int getLayoutId () {
@@ -97,8 +104,6 @@ public abstract class CommonActivityPresenter<V extends ICommonView, M extends I
                 return 0;
             }
 
-        };
-        mModel = (M) new CommonModel() {
         };
     }
 

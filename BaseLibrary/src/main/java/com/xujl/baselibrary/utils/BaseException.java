@@ -5,7 +5,6 @@ package com.xujl.baselibrary.utils;
  * 自定义异常基类
  */
 public class BaseException extends Exception {
-
     public BaseException () {
     }
 

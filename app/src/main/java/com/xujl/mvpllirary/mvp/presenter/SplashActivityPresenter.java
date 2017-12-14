@@ -1,6 +1,7 @@
 package com.xujl.mvpllirary.mvp.presenter;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.chenenyu.router.Router;
 import com.xujl.applibrary.mvp.presenter.CommonActivityPresenter;
@@ -32,12 +33,19 @@ public class SplashActivityPresenter extends CommonActivityPresenter {
                         granzortView.startAnim();
                     }
                 });
+        granzortView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                //使用路由跳转
+                Router.build(RouterConst.MAIN).go(exposeContext());
+            }
+        });
         granzortView.setCallback(new GranzortView.Callback() {
             @Override
             public void end () {
-                exit();
-                //使用路由跳转
-                Router.build(RouterConst.MAIN).go(exposeContext());
+//                exit();
+//                //使用路由跳转
+//                Router.build(RouterConst.MAIN).go(exposeContext());
 //                gotoActivity(TestActivity.class);
             }
         });

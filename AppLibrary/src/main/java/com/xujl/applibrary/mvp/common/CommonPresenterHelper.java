@@ -47,7 +47,7 @@ public class CommonPresenterHelper extends BasePresenterHelper {
     }
 
     public void exit (BaseActivityPresenter activity) {
-        ActivityManger.newInstance().finishActivity(activity);
+        activity.finish();
     }
 
 

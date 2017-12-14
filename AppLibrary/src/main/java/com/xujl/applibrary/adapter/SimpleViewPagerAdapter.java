@@ -24,10 +24,10 @@ public class SimpleViewPagerAdapter extends FragmentStatePagerAdapter {
         return mFragmentList.get(arg0);
     }
 
-    @Override
-    public int getItemPosition (Object object) {
-        return PagerAdapter.POSITION_NONE;
-    }
+//    @Override
+//    public int getItemPosition (Object object) {
+//        return PagerAdapter.POSITION_NONE;
+//    }
 
     @Override
     public int getCount () {

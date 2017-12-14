@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 
 import com.xujl.baselibrary.Logger;
 import com.xujl.baselibrary.mvp.common.BasePresenterHelper;
+import com.xujl.baselibrary.mvp.port.Callback;
 import com.xujl.baselibrary.mvp.port.IBaseModel;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.baselibrary.mvp.port.IBaseView;
@@ -23,6 +25,11 @@ import com.xujl.baselibrary.mvp.port.LifeCycleCallback;
 import com.xujl.baselibrary.utils.ActivityManger;
 import com.xujl.baselibrary.utils.ListUtils;
 import com.xujl.baselibrary.utils.PermissionsHelper;
+import com.xujl.rxlibrary.BaseObservable;
+import com.xujl.rxlibrary.BaseObservableEmitter;
+import com.xujl.rxlibrary.BaseObserver;
+import com.xujl.rxlibrary.RxHelper;
+import com.xujl.rxlibrary.RxLife;
 
 import java.util.List;
 
@@ -87,6 +94,8 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
      * 单独进行的权限请求
      */
     private String[] varyPermissions;
+
+    protected RxLife mRxLife = new RxLife();
     //</editor-fold>
 
     //<editor-fold desc="抽象方法">
@@ -100,9 +109,14 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     protected abstract void initPresenter (Bundle savedInstanceState);
 
     /**
-     * 自动创建view和model实例，用于关闭mvp模式下。抽象基类应实现此方法
+     * 自动创建view实例，用于关闭mvp模式下。抽象基类应实现此方法
      */
-    protected abstract void autoCreateViewModel ();
+    protected abstract IBaseView autoCreateView ();
+
+    /**
+     * 自动创建model实例，用于关闭mvp模式下。抽象基类应实现此方法
+     */
+    protected abstract IBaseModel autoCreateModel ();
 
 
     //</editor-fold>
@@ -124,38 +138,45 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
             finish();
             return;
         }
-        //初始化view和model
-        createViewModel();
-        if (mView == null) {
-            throw new NullPointerException("mView初始化失败");
-        }
-        if (mModel == null) {
-            throw new NullPointerException("mModel初始化失败");
-        }
+        //初始化view
+        createView();
         //创建视图
         createLayout();
+        mView.showLoading();
         //初始化控件
         mView.initView(this);
-        mModel.initModel(this);
-        //管理打开的activity
-        ActivityManger.newInstance().addActivity(this);
         this.savedInstanceState = savedInstanceState;
-    }
-
-    private void continueLoading (final Bundle savedInstanceState) {
-        /*savedInstanceState不为空时调用界面恢复方法，如果需要重新初始化
-        则应该在resumePresenter中重新调用initPresenter
-         */
-        if (savedInstanceState == null) {
-            //初始化逻辑代码
-            initPresenter(null);
-        } else {
-            resumePresenter(savedInstanceState);
-        }
-
         if (mLifeCycleCallback != null) {
             mLifeCycleCallback.onCreateLife(savedInstanceState);
         }
+    }
+
+    private void continueLoading (final Bundle savedInstanceState) {
+        //子线程初始化model并回归主线程初始化逻辑
+        subToMain(new Callback() {
+            @Override
+            public void callback () {
+                //创建model
+                createModel();
+                //初始化model
+                mModel.initModel(BaseActivityPresenter.this);
+            }
+        }, new Callback() {
+            @Override
+            public void callback () {
+                /*savedInstanceState不为空时调用界面恢复方法，如果需要重新初始化
+                则应该在resumePresenter中重新调用initPresenter
+                */
+                if (savedInstanceState == null) {
+                    //初始化逻辑代码
+                    initPresenter(null);
+                    mView.dismissLoading();
+                } else {
+                    resumePresenter(savedInstanceState);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -186,30 +207,56 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     }
 
 
-    /**
-     * 实例化view和model,如果为非mvp模式，则使用子类默认的view和model
-     */
-    private void createViewModel () {
+
+
+    private void createView () {
         //不是mvp模式时，直接创建子类实例，不使用反射
         if (!isMVP()) {
-            autoCreateViewModel();
+            mView = (V) autoCreateView();
             return;
         }
         try {
             final Class<? extends V> viewClassType = getViewClassType();
-            final Class<? extends M> modelClassType = getModelClassType();
-            /**
-             *   判断是否返回了model与view的实际类型的，返回则通过类类型反射创建实例,
+            /*
+             *   判断是否返回了view的实际类型的，返回则通过类类型反射创建实例,
              *   否则尝试使用全限定名进行反射创建对象
              */
-
-            if (viewClassType != null && modelClassType != null) {
+            if (viewClassType != null) {
                 mView = viewClassType.newInstance();
-                mModel = modelClassType.newInstance();
             } else {
                 String className = getClass().getSimpleName();
                 String viewClassName = classNameToCreateView(getViewClassPackageName(), className);
                 mView = (V) Class.forName(viewClassName).newInstance();
+            }
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (mView == null) {
+            throw new NullPointerException("mView初始化失败");
+        }
+    }
+
+    private void createModel () {
+        //不是mvp模式时，直接创建子类实例，不使用反射
+        if (!isMVP()) {
+            mModel = (M) autoCreateModel();
+            return;
+        }
+        try {
+            final Class<? extends M> modelClassType = getModelClassType();
+            /*
+             *   判断是否返回了model的实际类型的，返回则通过类类型反射创建实例,
+             *   否则尝试使用全限定名进行反射创建对象
+             */
+
+            if (modelClassType != null) {
+                mModel = modelClassType.newInstance();
+            } else {
+                String className = getClass().getSimpleName();
                 String modelClassName = classNameToCreateModel(getModelClassPackageName(), className);
                 mModel = (M) Class.forName(modelClassName).newInstance();
             }
@@ -219,6 +266,9 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        }
+        if (mModel == null) {
+            throw new NullPointerException("mModel初始化失败");
         }
     }
 
@@ -561,6 +611,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
 
     @Override
     protected void onDestroy () {
+        mRxLife.destroyAll();
         super.onDestroy();
         if (mLifeCycleCallback != null) {
             mLifeCycleCallback.onDestroyLife();
@@ -615,5 +666,35 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
             }
         }
         return false;
+    }
+
+    /**
+     * 子线程任务，完成后回调主线程
+     *
+     * @param taskCallback
+     * @param callback
+     */
+    protected void subToMain (final Callback taskCallback, final Callback callback) {
+        RxHelper.onCreate(mRxLife)
+                .createNormal(new BaseObservable<Object>() {
+                    @Override
+                    public void emitAction (BaseObservableEmitter<Object> e) throws Exception {
+                        if (taskCallback != null) {
+                            taskCallback.callback();
+                        }
+                        Thread.sleep(70);
+                        e.onComplete();
+                    }
+                })
+                .newThreadToMain()
+                .run(new BaseObserver<Object>() {
+                    @Override
+                    public void onComplete () {
+                        super.onComplete();
+                        if (callback != null) {
+                            callback.callback();
+                        }
+                    }
+                });
     }
 }

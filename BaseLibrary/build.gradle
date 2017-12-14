@@ -39,6 +39,7 @@ dependencies {
     compile mainGroup.SupportV4
     compile 'pub.devrel:easypermissions:1.0.0'
     //权限管理
+    compile 'com.xujl.rxlibrary:RxLibrary:0.0.1-alpha6'
 }
 //方法1
 def siteUrl = 'https://github.com/AcgnCodeMonkey/MVPLibrary'      // 项目的主页   这个是说明，可随便填

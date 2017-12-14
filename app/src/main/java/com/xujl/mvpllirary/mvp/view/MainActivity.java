@@ -60,7 +60,7 @@ public class MainActivity extends CommonView implements IMainActivityView {
     @Override
     public void setAdapter (FragmentStatePagerAdapter adapter) {
         mViewPager.setAdapter(adapter);
-        mViewPager.setOffscreenPageLimit(2);
+//        mViewPager.setOffscreenPageLimit(2);
     }
 
     @Override

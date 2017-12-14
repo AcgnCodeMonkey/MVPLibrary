@@ -4,9 +4,11 @@ import android.content.Context;
 
 import com.chenenyu.router.RouteTable;
 import com.chenenyu.router.Router;
+import com.github.zhangjianli.stallbuster.StallBuster;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import com.xujl.applibrary.util.AppApplication;
+import com.xujl.baselibrary.utils.ActivityManger;
 import com.xujl.mvpllirary.mvp.model.ModelPackageConfig;
 import com.xujl.mvpllirary.mvp.presenter.MainActivityPresenter;
 import com.xujl.mvpllirary.mvp.view.ViewPackageConfig;
@@ -24,6 +26,8 @@ public class DemoApplication extends AppApplication {
     @Override
     public void onCreate () {
         super.onCreate();
+        registerActivityLifecycleCallbacks(ActivityManger.newInstance());
+        StallBuster.getInstance().init(this);
         refWatcher = LeakCanary.install(this);
         sApplication = this;
         Router.initialize(this);

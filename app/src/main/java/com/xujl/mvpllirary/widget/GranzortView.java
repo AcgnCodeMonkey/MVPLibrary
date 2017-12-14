@@ -91,9 +91,9 @@ public class GranzortView extends View {
     @Override
     protected void onDraw (Canvas canvas) {
         super.onDraw(canvas);
-//        if (!startFlag) {
-//            return;
-//        }
+        if (!startFlag) {
+            return;
+        }
         canvas.drawColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         canvas.save();
         canvas.translate(mViewWidth / 2, mViewHeight / 2);
