@@ -204,9 +204,6 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         requestPermissions(permissions, true);
     }
 
-
-
-
     private void createView () {
         //不是mvp模式时，直接创建子类实例，不使用反射
         if (!isMVP()) {

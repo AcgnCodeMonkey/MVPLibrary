@@ -103,14 +103,19 @@
 |             方法名        | 说明           |
 |:---:|:---:|
 | abstract void initPresenter (Bundle savedInstanceState) | Activity逻辑初始化抽象方法，通常需要最终子类实现此方法 |
-| abstract void autoCreateViewModel () | 关闭mvp进行开发时，此方法会被调用，用来创建model和view实例，因此需要自己的抽象基类实现此方法，参考demo中的CommonActivityPresenter类中用法 |
+| abstract void autoCreateView () | 关闭mvp进行开发时，此方法会被调用，用来创建model和view实例，因此需要自己的抽象基类实现此方法，参考demo中的CommonActivityPresenter类中用法 |
+| abstract void autoCreateModel () | 关闭mvp进行开发时，此方法会被调用，用来创建model和view实例，因此需要自己的抽象基类实现此方法，参考demo中的CommonActivityPresenter类中用法 |
 | void continueLoading (final Bundle savedInstanceState) | 私有化方法，此方法中会调用initPresenter方法 |
-| void createViewModel () | 实例化model和view，会根据是否开启mvp，来判断使用反射创建还是调用autoCreateViewModel进行创建 |
+| void createView () | 实例化view，会根据是否开启mvp，来判断使用反射创建还是调用autoCreateView进行创建 |
+| void createModel () | 实例化model，会根据是否开启mvp，来判断使用反射创建还是调用autoCreateModel进行创建 |
 | void setmLifeCycleCallback (LifeCycleCallback mLifeCycleCallback) | 设置生命周期回调，此回调可以获取activity中所有生命周期回调 |
 | BasePresenterHelper getPresenterHelper () | 获取当前类helper |
 | void setPresenterHelper (BasePresenterHelper presenterHelper) | 设置当前类helper |
 | void firstLoading (Bundle savedInstanceState) | 初始加载方法空实现，此方法会位于super.onCreate前被调用，可以用来满足某些特殊功能 |
-| String[] needPermissions () | 页面需要申请的权限数组 |
+| String[] needPermissions () | 页面需要申请的权限数组（静态申请（初始化时申请）） |
+| boolean requestPermissions (String[] permissions) | 页面需要申请的权限数组（动态申请（事件触发申请）），返回值为true时表示当前已经获取了权限 |
+| void permissionsComplete (String[] permissions) | 权限申请成功，复写此方法实现自己的业务逻辑 |
+| void permissionsRefuse (String[] permissions) | 申请的权限被拒绝，复写此方法实现自己的逻辑（默认为弹窗提示） |
 | void createLayout () | 创建视图 |
 | Class<? extends V> getViewClassType () | 子类可以复写此方法返回view的类类型 |
 | Class<? extends M> getModelClassType () | 子类可以复写此方法返回model的类类型 |
