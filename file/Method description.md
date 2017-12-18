@@ -25,6 +25,8 @@
 | int getToolBarId ()   | 导航栏toolBarId,调用规则同上 |
 | boolean enableDataBinding ()   | 是否使用dataBinding进行布局绑定，只有view或presenter其中一个返回true就会启用，默认是不使用 |
 | boolean isAddParentLayout ()   | 是否为当前内容布局自动添加一个父布局，只有presenter和view都返回true才会启用，默认是添加 |
+|boolean enableDataBinding ()|是否启用dataBinding,默认是关闭的|
+|boolean enableUseLoadingLayout ()|是否启用空布局，默认是开启的|
 
 备注：需要view和presenter共同控制的配置中，凡是默认开启的，只要其中一方返回false就会关闭，凡是默认关闭的，只要其中一个返回true就会开启，具体配置逻辑可以参见LayoutConfig类
 
@@ -33,17 +35,22 @@
 
 |             方法名        | 说明           |
 |:---:|:---:|
-| void initView (IBasePresenter presenter)   | 初始化控件，子类复写此方法时必须调用super方法 |
-| View createUI (IBasePresenter presenter)   | 创建视图UI，调用此方法会返回根视图，通常此方法由框架内部调用 |
+| void initView (IBasePresenter presenter)   | 初始化控件，子类复写此方法时必须调用super方法，请不要在此方法内做耗时操作 |
+| View createUI (IBasePresenter presenter)   | 创建视图UI，调用此方法会返回根视图，通常此方法由框架内部调用，使用者无需调用 |
 | View exposeRootView ()   | 获取当前界面根布局 |
 | <T extends View> T findView (int id)   | 通过id获取控件，直接调用此方法找控件可以免去强转和对mRootView的调用 |
 | <D extends ViewDataBinding> D getDataBinding ()   | 获取界面dataBinding |
 | BaseToolBarModule getToolBarModule ()   | 获取当导航模块，用以修改导航属性 |
 | BaseToolBarModule createToolBarModule (IBaseView view, IBasePresenter presenter, int layoutId)   | 创建导航模块，此方法由BaseViewHelper类调用，需要修改默认的导航模块类时可以复写此方法 |
-| void showToastMsg (Context context, String msg, int code)  | 显示toast消息，code为消息分级 |
-| void showToastMsg (Context context, String msg, int code, int time)   | 上面方法的重载方法，可以自定义显示时间长度 |
+| void ~~showToastMsg~~ (Context context, String msg, int code)  | （废弃方法，请使用toast方法替代）显示toast消息，code为消息分级 |
+| void ~~showToastMsg~~ (Context context, String msg, int code, int time)   | （废弃方法，请使用toast方法替代）上面方法的重载方法，可以自定义显示时间长度 |
+| void toast ( String msg, int code)  | 显示toast消息，code为消息分级 |
+| void toast ( String msg, int code, int time)   | 上面方法的重载方法，可以自定义显示时间长度 |
 | void showLoading ()   | 显示界面加载，由子类实现，具体实现根据自己需求来定 |
 | void dismissLoading ()   | 隐藏界面加载 |
+| void showNullView (@NullLayoutModule.Code int code)   | 显示空布局 |
+| void dismissNullView (@NullLayoutModule.Code int code)   | 隐藏空布局 |
+|  Map<Integer,View> nullLayoutSetting (Context context)   | 空布局配置 |
 
 #### IBasePresenter
 &emsp;&emsp;BaseActivityPresenter和BaseFragmentPresenter的基础接口
@@ -96,14 +103,19 @@
 |             方法名        | 说明           |
 |:---:|:---:|
 | abstract void initPresenter (Bundle savedInstanceState) | Activity逻辑初始化抽象方法，通常需要最终子类实现此方法 |
-| abstract void autoCreateViewModel () | 关闭mvp进行开发时，此方法会被调用，用来创建model和view实例，因此需要自己的抽象基类实现此方法，参考demo中的CommonActivityPresenter类中用法 |
+| abstract void autoCreateView () | 关闭mvp进行开发时，此方法会被调用，用来创建model和view实例，因此需要自己的抽象基类实现此方法，参考demo中的CommonActivityPresenter类中用法 |
+| abstract void autoCreateModel () | 关闭mvp进行开发时，此方法会被调用，用来创建model和view实例，因此需要自己的抽象基类实现此方法，参考demo中的CommonActivityPresenter类中用法 |
 | void continueLoading (final Bundle savedInstanceState) | 私有化方法，此方法中会调用initPresenter方法 |
-| void createViewModel () | 实例化model和view，会根据是否开启mvp，来判断使用反射创建还是调用autoCreateViewModel进行创建 |
+| void createView () | 实例化view，会根据是否开启mvp，来判断使用反射创建还是调用autoCreateView进行创建 |
+| void createModel () | 实例化model，会根据是否开启mvp，来判断使用反射创建还是调用autoCreateModel进行创建 |
 | void setmLifeCycleCallback (LifeCycleCallback mLifeCycleCallback) | 设置生命周期回调，此回调可以获取activity中所有生命周期回调 |
 | BasePresenterHelper getPresenterHelper () | 获取当前类helper |
 | void setPresenterHelper (BasePresenterHelper presenterHelper) | 设置当前类helper |
 | void firstLoading (Bundle savedInstanceState) | 初始加载方法空实现，此方法会位于super.onCreate前被调用，可以用来满足某些特殊功能 |
-| String[] needPermissions () | 页面需要申请的权限数组 |
+| String[] needPermissions () | 页面需要申请的权限数组（静态申请（初始化时申请）） |
+| boolean requestPermissions (String[] permissions) | 页面需要申请的权限数组（动态申请（事件触发申请）），返回值为true时表示当前已经获取了权限 |
+| void permissionsComplete (String[] permissions) | 权限申请成功，复写此方法实现自己的业务逻辑 |
+| void permissionsRefuse (String[] permissions) | 申请的权限被拒绝，复写此方法实现自己的逻辑（默认为弹窗提示） |
 | void createLayout () | 创建视图 |
 | Class<? extends V> getViewClassType () | 子类可以复写此方法返回view的类类型 |
 | Class<? extends M> getModelClassType () | 子类可以复写此方法返回model的类类型 |
