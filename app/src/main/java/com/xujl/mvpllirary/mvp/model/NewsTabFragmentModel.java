@@ -3,6 +3,7 @@ package com.xujl.mvpllirary.mvp.model;
 import android.os.Bundle;
 
 import com.xujl.applibrary.mvp.model.CommonModel;
+import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.datalibrary.network.ApiName;
 import com.xujl.mvpllirary.json.HomeNewsPayload;
 import com.xujl.mvpllirary.mvp.model.port.INewsTabFragmentModel;
@@ -21,8 +22,16 @@ public class NewsTabFragmentModel extends CommonModel implements INewsTabFragmen
     private String apiNameType;//资讯类型
     private int nowPage = 1;
 
-    public NewsTabFragmentModel () {
+
+    @Override
+    public void initModel (IBasePresenter presenter) {
+        super.initModel(presenter);
         mDataList = new ArrayList<>();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

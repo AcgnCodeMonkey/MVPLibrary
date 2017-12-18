@@ -43,6 +43,7 @@ public class MainActivityPresenter extends CommonActivityPresenter<IMainActivity
         DemoApplication.getRefWatcher(this).watch(this);
         getPresenterHelper().addHelper(HelperType.TYPE_ONE, new QRScanHelper());
         mView.setAdapter(new SimpleViewPagerAdapter(getSupportFragmentManager(), mModel.getFragmentList()));
+
     }
 
     @Override
@@ -82,10 +83,10 @@ public class MainActivityPresenter extends CommonActivityPresenter<IMainActivity
         getQRScanHelper().openScanner(exposeActivity());
     }
 
-    @Override
-    protected String[] needPermissions () {
-        return new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    }
+//    @Override
+//    protected String[] needPermissions () {
+//        return new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+//    }
 
     @Override
     public void onCheckedChanged (RadioGroup group, @IdRes int checkedId) {

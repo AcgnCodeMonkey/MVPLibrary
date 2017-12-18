@@ -5,6 +5,9 @@ import android.databinding.ViewDataBinding;
 import android.view.View;
 
 import com.xujl.baselibrary.mvp.common.BaseToolBarModule;
+import com.xujl.baselibrary.mvp.common.NullLayoutModule;
+
+import java.util.Map;
 
 /**
  * ━━━━━━神兽出没━━━━━━
@@ -129,4 +132,20 @@ public interface IBaseView extends IBaseVP {
      */
     void dismissLoading ();
 
+    /**
+     * 显示空布局
+     * @param code
+     */
+    void showNullView (@NullLayoutModule.Code int code);
+    /**
+     * 隐藏空布局
+     * @param code
+     */
+    void dismissNullView (@NullLayoutModule.Code int code);
+
+    /**
+     * 空布局配置
+     * @return
+     */
+    Map<Integer,View> nullLayoutSetting (Context context);
 }

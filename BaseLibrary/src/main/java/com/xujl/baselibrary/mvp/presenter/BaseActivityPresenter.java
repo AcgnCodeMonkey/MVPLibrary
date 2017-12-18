@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -17,12 +16,12 @@ import android.widget.EditText;
 
 import com.xujl.baselibrary.Logger;
 import com.xujl.baselibrary.mvp.common.BasePresenterHelper;
+import com.xujl.baselibrary.mvp.common.NullLayoutModule;
 import com.xujl.baselibrary.mvp.port.Callback;
 import com.xujl.baselibrary.mvp.port.IBaseModel;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.baselibrary.mvp.port.IBaseView;
 import com.xujl.baselibrary.mvp.port.LifeCycleCallback;
-import com.xujl.baselibrary.utils.ActivityManger;
 import com.xujl.baselibrary.utils.ListUtils;
 import com.xujl.baselibrary.utils.PermissionsHelper;
 import com.xujl.rxlibrary.BaseObservable;
@@ -142,7 +141,6 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         createView();
         //创建视图
         createLayout();
-        mView.showLoading();
         //初始化控件
         mView.initView(this);
         this.savedInstanceState = savedInstanceState;
@@ -168,9 +166,9 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
                 则应该在resumePresenter中重新调用initPresenter
                 */
                 if (savedInstanceState == null) {
+                    mView.dismissNullView(NullLayoutModule.LOADING);
                     //初始化逻辑代码
                     initPresenter(null);
-                    mView.dismissLoading();
                 } else {
                     resumePresenter(savedInstanceState);
                 }
@@ -503,6 +501,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         builder.show();
     }
     //</editor-fold>
+
     //<editor-fold desc="其他方法">
 
     /**
@@ -522,7 +521,14 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     protected void resumePresenter (@Nullable Bundle savedInstanceState) {
 
     }
+
+    @Override
+    public void nullViewClick (View view, int code) {
+
+    }
+
     //</editor-fold>
+
     //<editor-fold desc="公共方法">
 
 
@@ -573,6 +579,10 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         return true;
     }
 
+    @Override
+    public boolean enableUseLoadingLayout () {
+        return true;
+    }
 
     //</editor-fold>
 

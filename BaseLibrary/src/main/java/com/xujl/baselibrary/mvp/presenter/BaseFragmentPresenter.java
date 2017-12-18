@@ -10,13 +10,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.xujl.baselibrary.Logger;
 import com.xujl.baselibrary.mvp.common.BasePresenterHelper;
+import com.xujl.baselibrary.mvp.common.NullLayoutModule;
 import com.xujl.baselibrary.mvp.port.Callback;
 import com.xujl.baselibrary.mvp.port.IBaseModel;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
@@ -149,7 +149,6 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
     @Override
     public void onActivityCreated (@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mView.showLoading();
         //初始化控件
         mView.initView(this);
         isViewCompleted = true;
@@ -406,6 +405,11 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
     public boolean isMVP () {
         return true;
     }
+
+    @Override
+    public boolean enableUseLoadingLayout () {
+        return true;
+    }
     //</editor-fold>
 
     //<editor-fold desc="动态权限">
@@ -542,6 +546,11 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
 
     }
 
+    @Override
+    public void nullViewClick (View view, int code) {
+
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="Getter方法">
@@ -597,8 +606,8 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
                 new Callback() {
                     @Override
                     public void callback () {
+                        mView.dismissNullView(NullLayoutModule.LOADING);
                         initPresenter(null);
-                        mView.dismissLoading();
                         //判断界面是否可见，如果需要在界面可见时才加载某些功能需要把相关代码写在lazyLoad ()方法中
                         isVisible = getUserVisibleHint();
                         if (isVisible) {

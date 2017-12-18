@@ -3,6 +3,7 @@ package com.xujl.baselibrary.mvp.port;
 import android.content.Context;
 import android.view.View;
 
+import com.xujl.baselibrary.mvp.common.NullLayoutModule;
 import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
 
 /**
@@ -28,7 +29,7 @@ import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
  * Created by xujl on 2017/4/28.
  */
 
-public interface IBasePresenter extends View.OnClickListener,IBaseVP {
+public interface IBasePresenter extends View.OnClickListener,IBaseVP,NullLayoutModule.NullViewClickListener {
     /**
      * 退出界面
      */
@@ -63,4 +64,5 @@ public interface IBasePresenter extends View.OnClickListener,IBaseVP {
      * @return 设置是否MVP加载模式
      */
     boolean isMVP ();
+
 }

@@ -8,7 +8,7 @@
 引用方式 :<br>
 
 > **compile 'com.xujl:BaseLibrary:0.1.3'**//稳定版<br>
-> **compile 'com.xujl:BaseLibrary:0.1.3-alpha7'**//测试版本<br>
+> **compile 'com.xujl:BaseLibrary:0.1.3-subAlpha3'**//测试版本<br>
 
 ### 框架思路简介
 [架构思路详解](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/架构思路.md)
@@ -59,6 +59,7 @@ Activity为Presenter则是一个Presenter对应多个View和Model),而MVPH的思
 >4. **支持关闭MVP模式进行开发.**我们都知道，app中某些界面的逻辑有时候非常简单，并且基本上不用过多考虑扩展性的问题，这时，使用MVP模式进行开发无疑是臃肿的，因为你可能不得不为了几行显示数据的逻辑去给他写上几个接口和类。所以MVPH提供了方法可以关闭MVP模式，让你重回MVC模式，通常你只需要复写下面的方法并返回false就可以了。而且只需要在你自己的实现基类稍作处理，就算不使用MVP模式，你依然可以使用View和Model调用他们中基础方法。<br>
  boolean isMVP();//是否使用MVP模式
 >5. **支持DataBinding.**从0.1.0版本开始，正式兼容使用DataBinding进行开发
+>6. **支持空布局。**从0.1.3-subAlpha3版本开始，支持加载布局，空布局，等实现。
 
 
 &emsp;&emsp;由于为了提高框架的自由度与可扩展度，所以MVPH本身并没有封装太多功能，仅仅提供了基本的MVPH架构思路。不过在demo里

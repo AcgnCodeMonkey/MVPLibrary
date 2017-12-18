@@ -35,4 +35,9 @@ public interface IBaseVP {
      * @return 是否使用dataBinding进行布局加载
      */
     boolean enableDataBinding ();
+
+    /**
+     * 是否使用加载布局
+     */
+    boolean enableUseLoadingLayout ();
 }

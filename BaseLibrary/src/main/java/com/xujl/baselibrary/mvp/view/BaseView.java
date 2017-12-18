@@ -1,15 +1,20 @@
 package com.xujl.baselibrary.mvp.view;
 
+import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.CallSuper;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 
-import com.xujl.baselibrary.Logger;
+import com.xujl.baselibrary.R;
 import com.xujl.baselibrary.mvp.common.BaseToolBarModule;
 import com.xujl.baselibrary.mvp.common.BaseViewHelper;
+import com.xujl.baselibrary.mvp.common.NullLayoutModule;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.baselibrary.mvp.port.IBaseView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * ━━━━━━神兽出没━━━━━━
@@ -83,6 +88,10 @@ public abstract class BaseView implements IBaseView {
         return true;
     }
 
+    @Override
+    public boolean enableUseLoadingLayout () {
+        return true;
+    }
     //</editor-fold>
     //<editor-fold desc="其他方法">
 
@@ -115,6 +124,16 @@ public abstract class BaseView implements IBaseView {
         return (D) mDataBinding;
     }
 
+    @Override
+    public void showNullView (int code) {
+        mViewHelper.showNullView(code);
+    }
+
+    @Override
+    public void dismissNullView (int code) {
+        mViewHelper.dismissNullView(code);
+    }
+
     //</editor-fold>
     @Override
     public <T extends View> T findView (int id) {
@@ -131,10 +150,20 @@ public abstract class BaseView implements IBaseView {
     @Override
     public void initView (IBasePresenter presenter) {
         //未开启dataBinding时不调用相关方法，防止抛出异常
-        if(mViewHelper.getConfig().isEnableDataBinding()){
+        if (mViewHelper.getConfig().isEnableDataBinding()) {
             mDataBinding = getViewHelper().getDataBinding();
         }
         mRootView = mViewHelper.getRootLayout();
         mContentLayout = mViewHelper.getContentLayout();
     }
+
+    @Override
+    public Map<Integer, View> nullLayoutSetting (Context context) {
+        final Map<Integer, View> viewMap = new HashMap<>();
+        final View view = LayoutInflater.from(context)
+                .inflate(R.layout.progress_layout, null);
+        viewMap.put(NullLayoutModule.LOADING, view);
+        return viewMap;
+    }
+
 }

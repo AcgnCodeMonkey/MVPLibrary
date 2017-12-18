@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chenenyu.router.Router;
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.xujl.applibrary.mvp.presenter.CommonActivityPresenter;
 import com.xujl.mvpllirary.R;
 import com.xujl.mvpllirary.util.RouterConst;
@@ -49,6 +50,7 @@ public class SplashActivityPresenter extends CommonActivityPresenter {
 //                gotoActivity(TestActivity.class);
             }
         });
+
     }
 
 
@@ -67,4 +69,8 @@ public class SplashActivityPresenter extends CommonActivityPresenter {
         return false;
     }
 
+    @Override
+    public boolean enableUseLoadingLayout () {
+        return false;
+    }
 }

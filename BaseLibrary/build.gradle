@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 //提交到仓库中的版本号
-version = "0.1.3-subAlpha2"
+version = "0.1.3-subAlpha3"
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -40,6 +40,9 @@ dependencies {
     compile 'pub.devrel:easypermissions:1.1.1'
     //权限管理
     compile 'com.xujl.rxlibrary:RxLibrary:0.0.1-alpha6'
+    //rx工具类
+    compile 'com.github.ybq:Android-SpinKit:1.1.0'
+    //加载动画控件
 }
 //方法1
 def siteUrl = 'https://github.com/AcgnCodeMonkey/MVPLibrary'      // 项目的主页   这个是说明，可随便填

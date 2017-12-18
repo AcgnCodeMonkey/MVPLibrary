@@ -40,6 +40,10 @@ public class LayoutConfig {
      * 当前界面是否activity
      */
     private boolean isActivity;
+    /**
+     * 是否使用加载布局
+     */
+    private boolean isUseLoadingLayout;
 
     public LayoutConfig (IBaseView view, IBasePresenter presenter) {
         isAddParentLayout = view.isAddParentLayout() && presenter.isAddParentLayout();
@@ -49,6 +53,7 @@ public class LayoutConfig {
         layoutId = enableMVP ? view.getLayoutId() : presenter.getLayoutId();
         isActivity = presenter instanceof Activity;
         toolBarId = enableMVP ? view.getToolBarId() : presenter.getToolBarId();
+        isUseLoadingLayout = view.enableUseLoadingLayout() && presenter.enableUseLoadingLayout();
     }
     //<editor-fold desc="getter">
 
@@ -79,5 +84,10 @@ public class LayoutConfig {
     public int getToolBarId () {
         return toolBarId;
     }
+
+    public boolean isUseLoadingLayout () {
+        return isUseLoadingLayout;
+    }
+
     //</editor-fold>
 }

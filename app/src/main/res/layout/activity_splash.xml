@@ -5,5 +5,6 @@
                 android:orientation="vertical">
     <com.xujl.mvpllirary.widget.GranzortView android:id="@+id/activity_splash_granzortView"
                                              android:layout_width="match_parent"
-                                             android:layout_height="match_parent"/>
+                                             android:layout_height="match_parent"
+                                             />
 </RelativeLayout>
