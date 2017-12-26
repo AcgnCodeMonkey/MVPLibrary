@@ -92,8 +92,8 @@ public class BaseViewHelper extends BaseMvpHelper {
         //初始化导航
         mToolBarModule = view.createToolBarModule(view, presenter, mConfig.getLayoutId());
         final View toolBar = mToolBarModule.findToolBar(presenter.exposeActivity(), mConfig, mRootLayout);
-        mToolBarModule.initSetting(presenter.exposeActivity());
-        if (toolBar != null) {
+        mToolBarModule.initSetting(presenter);
+        if (toolBar != null && toolBar.getParent() == null) {
             mRootLayout.addView(toolBar, 0);
         }
     }
@@ -103,9 +103,20 @@ public class BaseViewHelper extends BaseMvpHelper {
      * 因为fragment是没有导航的
      */
     public void fragmentMode (IBaseView view, IBasePresenter presenter) {
-        mToolBarModule = presenter.exposeActivity().exposeView().getToolBarModule();
         inflateLayout(presenter);
+        if (!mConfig.isEnableToolBar()) {
+            return;
+        }
+//        mToolBarModule = presenter.exposeActivity().exposeView().getToolBarModule();
+        //初始化导航
+        mToolBarModule = view.createToolBarModule(view, presenter, mConfig.getLayoutId());
+        final View toolBar = mToolBarModule.findToolBar(presenter.exposeContext(), mConfig, mRootLayout);
+        mToolBarModule.initSetting(presenter);
+        if (toolBar != null && toolBar.getParent() == null) {
+            mRootLayout.addView(toolBar, 0);
+        }
     }
+
 
     /**
      * 使用dataBinding加载布局
@@ -124,7 +135,7 @@ public class BaseViewHelper extends BaseMvpHelper {
         //获取根布局
         mRootLayout = mDataBinding.getRoot().findViewById(R.id.dataBindingRootLayout);
         mContentLayout = mRootLayout.getChildAt(0);
-        loadNullLayout(presenter.exposeView(),mRootLayout,mContentLayout,presenter);
+        loadNullLayout(presenter.exposeView(), mRootLayout, mContentLayout, presenter);
         return mRootLayout;
     }
 
@@ -145,7 +156,7 @@ public class BaseViewHelper extends BaseMvpHelper {
             mRootLayout = (ViewGroup) LayoutInflater.from(basePresenter.exposeContext()).inflate(mConfig.getLayoutId(), null);
             mRootLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             mContentLayout = mRootLayout;
-            loadNullLayout(basePresenter.exposeView(), (ViewGroup) mContentLayout.getParent(), mContentLayout,basePresenter);
+            loadNullLayout(basePresenter.exposeView(), (ViewGroup) mContentLayout.getParent(), mContentLayout, basePresenter);
             return;
         }
         mRootLayout = new LinearLayout(basePresenter.exposeContext());
@@ -154,13 +165,13 @@ public class BaseViewHelper extends BaseMvpHelper {
 
         mContentLayout = LayoutInflater.from(basePresenter.exposeContext()).inflate(mConfig.getLayoutId(), null);
         mContentLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        loadNullLayout(basePresenter.exposeView(), mRootLayout, mContentLayout,basePresenter);
+        loadNullLayout(basePresenter.exposeView(), mRootLayout, mContentLayout, basePresenter);
         //添加真实布局
         mRootLayout.addView(mContentLayout);
 
     }
 
-    private void loadNullLayout (IBaseView view, ViewGroup parent, View content,IBasePresenter presenter) {
+    private void loadNullLayout (IBaseView view, ViewGroup parent, View content, IBasePresenter presenter) {
         if (mConfig.isUseLoadingLayout()) {
             //隐藏真实布局
             content.setVisibility(View.GONE);

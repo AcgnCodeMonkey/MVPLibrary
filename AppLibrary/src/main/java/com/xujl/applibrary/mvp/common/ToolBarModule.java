@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.xujl.applibrary.R;
 import com.xujl.baselibrary.mvp.common.BaseToolBarModule;
 import com.xujl.baselibrary.mvp.common.LayoutConfig;
-import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
+import com.xujl.baselibrary.mvp.port.IBasePresenter;
 
 /**
  * Created by xujl on 2017/7/4.
@@ -18,7 +18,7 @@ public class ToolBarModule extends BaseToolBarModule {
     private TextView mTitleTV;
     private ImageButton mLeftIB;
     private ImageButton mRightIB;
-    private BaseActivityPresenter mPresenter;
+    private IBasePresenter mPresenter;
 
     /**
      * 使用此构造器会根据子类返回的toolBar的布局id自动创建toolBar并和内容布局拼接
@@ -34,24 +34,32 @@ public class ToolBarModule extends BaseToolBarModule {
 
 
     @Override
-    public void initSetting (BaseActivityPresenter presenter) {
+    public void initSetting (IBasePresenter presenter) {
         super.initSetting(presenter);
         mTitleTV = (TextView) getToolbar().findViewById(R.id.toolbar_layout_titleTV);
         mLeftIB = (ImageButton) getToolbar().findViewById(R.id.toolbar_layout_leftImageBtn);
         mRightIB = (ImageButton) getToolbar().findViewById(R.id.toolbar_layout_rightImageBtn);
         mPresenter = presenter;
-        getActionBar().setDisplayShowTitleEnabled(false);
-        getToolbar().setTitle("");
+        if (presenter instanceof Activity) {
+            getActionBar().setDisplayShowTitleEnabled(false);
+            getToolbar().setTitle("");
+        }
     }
-    public void showBackBtn(boolean isShow){
+
+    public void showBackBtn (boolean isShow) {
+
+        if (!(mPresenter instanceof Activity)) {
+            return;
+        }
         getActionBar().setDisplayHomeAsUpEnabled(isShow);
         getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick (View v) {
                 mPresenter.exit();
             }
         });
     }
+
     @Override
     protected int getToolBarId () {
         return R.id.toolbar;
@@ -70,7 +78,7 @@ public class ToolBarModule extends BaseToolBarModule {
         return mRightIB;
     }
 
-    public void setTitle(String title){
+    public void setTitle (String title) {
         mTitleTV.setText(title);
     }
 

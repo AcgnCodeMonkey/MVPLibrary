@@ -6,7 +6,7 @@ import com.xujl.mvpllirary.json.PersonPayload;
 /**
  * Created by xujl on 2017/9/12.
  */
-public interface IPersonDataBindingActivityView extends ICommonView {
+public interface IPersonDataBindingFragmentView extends ICommonView {
     void showResult(String result);
 
     void setPerson (PersonPayload personPayload);

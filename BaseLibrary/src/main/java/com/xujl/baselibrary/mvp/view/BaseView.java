@@ -85,7 +85,7 @@ public abstract class BaseView implements IBaseView {
      */
     @Override
     public boolean enableToolBar () {
-        return true;
+        return false;
     }
 
     @Override

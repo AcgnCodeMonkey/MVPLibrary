@@ -4,12 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <com.xujl.widgetlibrary.widget.ViewPagerTabView
-        android:id="@+id/fragment_home_news_viewPagerTab"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@color/transparent">
-    </com.xujl.widgetlibrary.widget.ViewPagerTabView>
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:tabIndicatorColor="@color/colorAccent"
+        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabTextColor="@color/textHintColor"
+        android:layout_height="45dp"/>
     <include layout="@layout/include_line_v"/>
     <android.support.v4.view.ViewPager android:id="@+id/fragment_home_news_viewPager"
                                                      android:layout_width="match_parent"

@@ -1,14 +1,13 @@
 package com.xujl.mvpllirary.mvp.presenter;
 
-import android.Manifest;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.xujl.applibrary.mvp.model.CommonModel;
 import com.xujl.applibrary.mvp.presenter.CommonFragmentPresenter;
-import com.xujl.mvpllirary.R;
 import com.xujl.mvpllirary.adapter.NewsTabAdapter;
 import com.xujl.mvpllirary.mvp.model.port.INewsTabFragmentModel;
 import com.xujl.mvpllirary.mvp.view.port.INewsTabFragmentView;
@@ -20,34 +19,33 @@ import com.xujl.widgetlibrary.widget.RefreshLayout;
  * Created by xujl on 2017/9/6.
  */
 public class NewsTabFragmentPresenter extends CommonFragmentPresenter<INewsTabFragmentView, INewsTabFragmentModel>
-        implements RefreshLayout.RefreshListener{
+        implements RefreshLayout.RefreshListener {
     private BaseRecyclerViewAdapter mAdapter;
     private OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
         @Override
         public void onSimpleItemClick (BaseQuickAdapter adapter, View view, int position) {
             Bundle bundle = new Bundle();
             bundle.putString(IntentKey.URL, mModel.getDataList().get(position).url);
-            gotoActivity(NewsDetailActivityPresenter.class, bundle);
+            ((MainFragmentPresenter) getParentFragment()).start(NewsDetailFragmentPresenter.newInstance(bundle));
         }
     };
 
     @Override
     protected void initPresenter (Bundle savedInstanceState) {
+
+    }
+
+
+    @Override
+    public void onLazyInitView (@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
         mModel.initType(getArguments());
         mAdapter = new NewsTabAdapter(mModel.getDataList());
         mView.setAdapter(mAdapter);
         mView.getRefreshRecyclerViewHelper().addOnItemTouchListener(mOnItemClickListener);
-    }
-
-    @Override
-    protected void lazyLoad () {
         mView.getRefreshRecyclerViewHelper().startRefresh();
     }
 
-    @Override
-    protected boolean isEveryReload () {
-        return false;
-    }
 
     @Override
     public void onRefresh (RefreshLayout refreshLayout) {

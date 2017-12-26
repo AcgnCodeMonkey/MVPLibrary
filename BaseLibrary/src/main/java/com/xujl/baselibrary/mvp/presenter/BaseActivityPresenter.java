@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -18,6 +17,7 @@ import com.xujl.baselibrary.Logger;
 import com.xujl.baselibrary.mvp.common.BasePresenterHelper;
 import com.xujl.baselibrary.mvp.common.NullLayoutModule;
 import com.xujl.baselibrary.mvp.port.Callback;
+import com.xujl.baselibrary.mvp.port.IBaseActivityPresenter;
 import com.xujl.baselibrary.mvp.port.IBaseModel;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.baselibrary.mvp.port.IBaseView;
@@ -32,6 +32,10 @@ import com.xujl.rxlibrary.RxLife;
 
 import java.util.List;
 
+import me.yokeyword.fragmentation.SupportActivity;
+import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
+import me.yokeyword.fragmentation.anim.FragmentAnimator;
+import me.yokeyword.fragmentation_swipeback.SwipeBackActivity;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
@@ -58,9 +62,13 @@ import pub.devrel.easypermissions.EasyPermissions;
  * Created by xujl on 2017/4/28.
  */
 
-public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBaseModel> extends AppCompatActivity
-        implements IBasePresenter, EasyPermissions.PermissionCallbacks {
-
+public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBaseModel> extends SwipeBackActivity
+        implements IBaseActivityPresenter, EasyPermissions.PermissionCallbacks {
+    private final String TAG = getClass().getSimpleName() + "----------->";
+    /**
+     * 界面创建时间统计变量
+     */
+    private long oldTime;
     //<editor-fold desc="基础变量">
     /**
      * 视图
@@ -129,6 +137,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
      */
     @Override
     protected void onCreate (@Nullable Bundle savedInstanceState) {
+        oldTime = System.currentTimeMillis();
         //首选加载项，在布局加载之前需要加载的内容可以复写此方法
         firstLoading(savedInstanceState);
         super.onCreate(savedInstanceState);
@@ -144,6 +153,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         //初始化控件
         mView.initView(this);
         this.savedInstanceState = savedInstanceState;
+        mLifeCycleCallback = setmLifeCycleCallback();
         if (mLifeCycleCallback != null) {
             mLifeCycleCallback.onCreateLife(savedInstanceState);
         }
@@ -165,13 +175,13 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
                 /*savedInstanceState不为空时调用界面恢复方法，如果需要重新初始化
                 则应该在resumePresenter中重新调用initPresenter
                 */
-                if (savedInstanceState == null) {
-                    mView.dismissNullView(NullLayoutModule.LOADING);
-                    //初始化逻辑代码
-                    initPresenter(null);
-                } else {
-                    resumePresenter(savedInstanceState);
-                }
+//                if (savedInstanceState == null) {
+                mView.dismissNullView(NullLayoutModule.LOADING);
+                //初始化逻辑代码
+                initPresenter(null);
+//                } else {
+//                    resumePresenter(savedInstanceState);
+//                }
             }
         });
 
@@ -504,10 +514,10 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     /**
      * 生命周期回调，设置后各个生命周期方法会回调此接口
      *
-     * @param mLifeCycleCallback
+     * @return LifeCycleCallback
      */
-    protected void setmLifeCycleCallback (LifeCycleCallback mLifeCycleCallback) {
-        this.mLifeCycleCallback = mLifeCycleCallback;
+    protected LifeCycleCallback setmLifeCycleCallback () {
+        return null;
     }
 
     /**
@@ -542,7 +552,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
 
     @Override
     public boolean enableToolBar () {
-        return true;
+        return false;
     }
 
     @Override
@@ -597,6 +607,11 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         super.onResume();
         if (mLifeCycleCallback != null) {
             mLifeCycleCallback.onResumeLife();
+        }
+
+        if (oldTime != 0) {
+            Logger.e(TAG, "界面创建耗时:" + (System.currentTimeMillis() - oldTime) + "毫秒");
+            oldTime = 0 ;
         }
     }
 
@@ -704,4 +719,12 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
                     }
                 });
     }
+
+    //<editor-fold desc="fragment管理">
+    @Override
+    public FragmentAnimator onCreateFragmentAnimator () {
+        // 设置横向(和安卓4.x动画相同)
+        return new DefaultHorizontalAnimator();
+    }
+    //</editor-fold>
 }

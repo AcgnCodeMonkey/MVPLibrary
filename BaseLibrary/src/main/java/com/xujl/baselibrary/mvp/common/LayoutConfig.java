@@ -47,7 +47,7 @@ public class LayoutConfig {
 
     public LayoutConfig (IBaseView view, IBasePresenter presenter) {
         isAddParentLayout = view.isAddParentLayout() && presenter.isAddParentLayout();
-        enableToolBar = view.enableToolBar() && presenter.enableToolBar();
+        enableToolBar = view.enableToolBar() || presenter.enableToolBar();
         enableMVP = presenter.isMVP();
         enableDataBinding = view.enableDataBinding() || presenter.enableDataBinding();
         layoutId = enableMVP ? view.getLayoutId() : presenter.getLayoutId();

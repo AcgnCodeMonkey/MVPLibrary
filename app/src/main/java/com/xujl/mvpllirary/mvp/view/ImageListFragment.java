@@ -8,14 +8,14 @@ import com.xujl.baselibrary.mvp.port.HelperType;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.mvpllirary.R;
 import com.xujl.mvpllirary.mvp.common.RefreshRecyclerViewHelper;
-import com.xujl.mvpllirary.mvp.view.port.IImageListActivityView;
+import com.xujl.mvpllirary.mvp.view.port.IImageListFragmentView;
 import com.xujl.widgetlibrary.adapter.BaseRecyclerViewAdapter;
 import com.xujl.widgetlibrary.widget.RefreshLayout;
 
 /**
  * Created by xujl on 2017/7/10.
  */
-public class ImageListActivity extends CommonView implements IImageListActivityView {
+public class ImageListFragment extends CommonView implements IImageListFragmentView {
     @Override
     public void initView (IBasePresenter presenter) {
         super.initView(presenter);
@@ -31,7 +31,7 @@ public class ImageListActivity extends CommonView implements IImageListActivityV
 
     @Override
     public int getLayoutId () {
-        return R.layout.activity_image_list;
+        return R.layout.fragment_image_list;
     }
 
     @Override

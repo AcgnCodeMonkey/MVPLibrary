@@ -6,6 +6,9 @@ import android.view.View;
 import com.xujl.baselibrary.mvp.common.NullLayoutModule;
 import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
 
+import me.yokeyword.fragmentation.ExtraTransaction;
+import me.yokeyword.fragmentation.anim.FragmentAnimator;
+
 /**
  * ━━━━━━神兽出没━━━━━━
  * 　　　┏┓　　　┏┓
@@ -31,7 +34,7 @@ import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
 
 public interface IBasePresenter extends View.OnClickListener,IBaseVP,NullLayoutModule.NullViewClickListener {
     /**
-     * 退出界面
+     * 退出activity
      */
     void exit();
 
@@ -64,5 +67,6 @@ public interface IBasePresenter extends View.OnClickListener,IBaseVP,NullLayoutM
      * @return 设置是否MVP加载模式
      */
     boolean isMVP ();
+
 
 }

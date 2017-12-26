@@ -6,7 +6,8 @@ import android.os.Bundle;
 import com.xujl.applibrary.db.DBUtils;
 import com.xujl.applibrary.db.bean.ImageBean;
 import com.xujl.applibrary.mvp.model.CommonModel;
-import com.xujl.mvpllirary.mvp.model.port.IImageListActivityModel;
+import com.xujl.mvpllirary.json.ImagePassBean;
+import com.xujl.mvpllirary.mvp.model.port.IImageListFragmentModel;
 import com.xujl.mvpllirary.util.IntentKey;
 
 import java.util.ArrayList;
@@ -15,16 +16,12 @@ import java.util.List;
 /**
  * Created by xujl on 2017/7/10.
  */
-public class ImageListActivityModel extends CommonModel implements IImageListActivityModel {
+public class ImageListFragmentModel extends CommonModel implements IImageListFragmentModel {
     private int type;
     private List<ImageBean> mDataList;
 
     @Override
-    public void saveType (Intent intent) {
-        if (intent == null) {
-            return;
-        }
-        final Bundle bundle = intent.getExtras();
+    public void saveType (Bundle bundle) {
         if (bundle != null) {
             type = bundle.getInt(IntentKey.TYPE);
         }
@@ -48,5 +45,14 @@ public class ImageListActivityModel extends CommonModel implements IImageListAct
             mDataList = new ArrayList<>();
         }
         return mDataList;
+    }
+
+    @Override
+    public ArrayList<ImagePassBean> getImagePassBeans () {
+        ArrayList<ImagePassBean> list = new ArrayList<>();
+        for (ImageBean imageBean : mDataList) {
+            list.add(new ImagePassBean(imageBean));
+        }
+        return list;
     }
 }

@@ -16,11 +16,11 @@ import java.util.List;
  * Created by xujl on 2017/9/6.
  */
 public class HomeNewsFragmentModel extends CommonModel implements IHomeNewsFragmentModel {
-    private List<String> mTabTitles = Arrays.asList("all", "Android", "iOS", "前端", "休息视频", "拓展资源");
+    private String[] mTabTitles =new String[]{"all", "Android", "iOS", "前端", "休息视频", "拓展资源"};
 
 
     @Override
-    public List<String> getTabTitle () {
+    public String[] getTabTitle () {
         return mTabTitles;
     }
 
@@ -37,14 +37,4 @@ public class HomeNewsFragmentModel extends CommonModel implements IHomeNewsFragm
         return fragmentList;
     }
 
-    @Override
-    public String getMaxTitle () {
-        String result = "";
-        for (String tabTitle : mTabTitles) {
-            if (tabTitle.length() > result.length()) {
-                result = tabTitle;
-            }
-        }
-        return result;
-    }
 }

@@ -3,22 +3,25 @@ package com.xujl.mvpllirary.mvp.presenter;
 import android.os.Bundle;
 import android.view.View;
 
-import com.chenenyu.router.Router;
-import com.github.ybq.android.spinkit.SpinKitView;
-import com.xujl.applibrary.mvp.presenter.CommonActivityPresenter;
+import com.xujl.applibrary.mvp.presenter.CommonFragmentPresenter;
 import com.xujl.mvpllirary.R;
-import com.xujl.mvpllirary.util.RouterConst;
 import com.xujl.mvpllirary.widget.GranzortView;
 import com.xujl.rxlibrary.BaseConsumer;
-import com.xujl.rxlibrary.BaseObservable;
-import com.xujl.rxlibrary.BaseObservableEmitter;
 import com.xujl.rxlibrary.RxHelper;
 
 /**
  * Created by xujl on 2017/9/8.
  */
 
-public class SplashActivityPresenter extends CommonActivityPresenter {
+public class SplashFragmentPresenter extends CommonFragmentPresenter {
+
+    public static SplashFragmentPresenter newInstance () {
+        Bundle args = new Bundle();
+        SplashFragmentPresenter fragment = new SplashFragmentPresenter();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     protected void initPresenter (Bundle savedInstanceState) {
 
@@ -38,7 +41,9 @@ public class SplashActivityPresenter extends CommonActivityPresenter {
             @Override
             public void onClick (View v) {
                 //使用路由跳转
-                Router.build(RouterConst.MAIN).go(exposeContext());
+//                Router.build(RouterConst.MAIN).go(exposeContext());
+
+                SplashFragmentPresenter.this.start(MainFragmentPresenter.newInstance());
             }
         });
         granzortView.setCallback(new GranzortView.Callback() {
@@ -56,7 +61,7 @@ public class SplashActivityPresenter extends CommonActivityPresenter {
 
     @Override
     public int getLayoutId () {
-        return R.layout.activity_splash;
+        return R.layout.fragment_splash;
     }
 
     @Override

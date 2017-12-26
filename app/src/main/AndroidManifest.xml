@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:name=".util.DemoApplication"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvp.presenter.SplashActivityPresenter">
+        <activity android:name=".mvp.presenter.SingleActivityPresenter">
         <!--<activity android:name=".mvp.test.TestActivity">-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -28,11 +28,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".mvp.presenter.ShowImageActivityPresenter" android:theme="@style/TranslucentStyle"/>
-        <activity android:name=".mvp.presenter.ImageListActivityPresenter"/>
-        <activity android:name=".mvp.presenter.NewsDetailActivityPresenter"/>
-        <activity android:name=".mvp.presenter.MainActivityPresenter"/>
-        <activity android:name=".mvp.presenter.PersonDataBindingActivityPresenter"/>
     </application>
 
 </manifest>

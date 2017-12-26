@@ -7,42 +7,53 @@ import android.support.annotation.IdRes;
 import android.view.View;
 import android.widget.RadioGroup;
 
-import com.xujl.applibrary.adapter.SimpleViewPagerAdapter;
 import com.xujl.applibrary.db.ImageBeanType;
-import com.xujl.applibrary.mvp.presenter.CommonActivityPresenter;
+import com.xujl.applibrary.mvp.presenter.CommonFragmentPresenter;
 import com.xujl.applibrary.util.CustomToast;
 import com.xujl.baselibrary.mvp.port.HelperType;
 import com.xujl.mvpllirary.R;
 import com.xujl.mvpllirary.mvp.common.QRScanHelper;
-import com.xujl.mvpllirary.mvp.model.MainActivityModel;
-import com.xujl.mvpllirary.mvp.model.port.IMainActivityModel;
-import com.xujl.mvpllirary.mvp.view.MainActivity;
-import com.xujl.mvpllirary.mvp.view.port.IMainActivityView;
-import com.xujl.mvpllirary.util.DemoApplication;
+import com.xujl.mvpllirary.mvp.model.MainFragmentModel;
+import com.xujl.mvpllirary.mvp.model.port.IMainFragmentModel;
+import com.xujl.mvpllirary.mvp.view.MainFragment;
+import com.xujl.mvpllirary.mvp.view.port.IMainFragmentView;
 import com.xujl.mvpllirary.util.IntentKey;
 
 /**
  * Created by xujl on 2017/7/4.
  */
 
-public class MainActivityPresenter extends CommonActivityPresenter<IMainActivityView, IMainActivityModel>
+public class MainFragmentPresenter extends CommonFragmentPresenter<IMainFragmentView, IMainFragmentModel>
         implements RadioGroup.OnCheckedChangeListener {
+    public static MainFragmentPresenter newInstance () {
 
-    @Override
-    protected Class<? extends IMainActivityView> getViewClassType () {
-        return MainActivity.class;
+        Bundle args = new Bundle();
+
+        MainFragmentPresenter fragment = new MainFragmentPresenter();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
-    protected Class<? extends IMainActivityModel> getModelClassType () {
-        return MainActivityModel.class;
+    protected Class<? extends IMainFragmentView> getViewClassType () {
+        return MainFragment.class;
+    }
+
+    @Override
+    protected Class<? extends IMainFragmentModel> getModelClassType () {
+        return MainFragmentModel.class;
     }
 
     @Override
     protected void initPresenter (Bundle savedInstanceState) {
-        DemoApplication.getRefWatcher(this).watch(this);
+        final HomeImageListFragmentPresenter homeImageListFragmentPresenter = findChildFragment(HomeImageListFragmentPresenter.class);
+        if (homeImageListFragmentPresenter == null) {
+            mModel.setFragments(MainFragmentPresenter.this, true);
+            mView.loadMultipleRootFragment(MainFragmentPresenter.this, mModel.getFragments());
+        } else {
+            mModel.setFragments(MainFragmentPresenter.this, false);
+        }
         getPresenterHelper().addHelper(HelperType.TYPE_ONE, new QRScanHelper());
-        mView.setAdapter(new SimpleViewPagerAdapter(getSupportFragmentManager(), mModel.getFragmentList()));
 
     }
 
@@ -53,16 +64,15 @@ public class MainActivityPresenter extends CommonActivityPresenter<IMainActivity
             case R.id.part_activity_main_menu_downloadTV:
                 final Bundle bundle = new Bundle();
                 bundle.putInt(IntentKey.TYPE, ImageBeanType.TYPE_DOWNLOADED);
-                gotoActivity(ImageListActivityPresenter.class, bundle);
-
+                start(ImageListFragmentPresenter.newInstance(bundle));
                 break;
             case R.id.part_activity_main_menu_collectionTV:
                 final Bundle bundle2 = new Bundle();
                 bundle2.putInt(IntentKey.TYPE, ImageBeanType.TYPE_COLLECTION);
-                gotoActivity(ImageListActivityPresenter.class, bundle2);
+                start(ImageListFragmentPresenter.newInstance(bundle2));
                 break;
             case R.id.part_activity_main_menu_personTV:
-                gotoActivity(PersonDataBindingActivityPresenter.class);
+                start(PersonDataBindingFragmentPresenter.newInstance());
                 break;
             case R.id.toolbar_layout_rightImageBtn:
                 final boolean permissionsGet = requestPermissions(new String[]{Manifest.permission.CAMERA});
@@ -92,10 +102,10 @@ public class MainActivityPresenter extends CommonActivityPresenter<IMainActivity
     public void onCheckedChanged (RadioGroup group, @IdRes int checkedId) {
         switch (checkedId) {
             case R.id.activity_main_radioButton1:
-                mView.setCurrentItem(0, "妹纸");
+                mView.setCurrentItem(MainFragmentPresenter.this, mModel.getFragments(), 0, "妹纸");
                 break;
             case R.id.activity_main_radioButton2:
-                mView.setCurrentItem(1, "资讯");
+                mView.setCurrentItem(MainFragmentPresenter.this, mModel.getFragments(), 1, "资讯");
                 break;
             default:
 
@@ -104,9 +114,10 @@ public class MainActivityPresenter extends CommonActivityPresenter<IMainActivity
         }
     }
 
+
     @Override
-    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void onFragmentResult (int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
         final String result = getQRScanHelper().onActivityResult(requestCode, resultCode, data);
         if (result == null) {
             return;
@@ -116,5 +127,10 @@ public class MainActivityPresenter extends CommonActivityPresenter<IMainActivity
 
     private QRScanHelper getQRScanHelper () {
         return getPresenterHelper().getHelper(HelperType.TYPE_ONE);
+    }
+
+    @Override
+    public boolean enableToolBar () {
+        return true;
     }
 }

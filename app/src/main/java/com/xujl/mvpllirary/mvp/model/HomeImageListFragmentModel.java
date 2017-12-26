@@ -1,9 +1,11 @@
 package com.xujl.mvpllirary.mvp.model;
 
+import com.xujl.applibrary.db.bean.ImageBean;
 import com.xujl.applibrary.mvp.model.CommonModel;
 import com.xujl.datalibrary.network.ApiName;
 import com.xujl.mvpllirary.R;
 import com.xujl.mvpllirary.json.HomeImagelistPayload;
+import com.xujl.mvpllirary.json.ImagePassBean;
 import com.xujl.mvpllirary.mvp.model.port.IHomeImageListFragmentModel;
 import com.xujl.utilslibrary.data.ListUtils;
 import com.xujl.utilslibrary.data.ParamsMapTool;
@@ -58,6 +60,15 @@ public class HomeImageListFragmentModel extends CommonModel implements IHomeImag
 //            mBannerList.add(R.mipmap.image12);
         }
         return mBannerList;
+    }
+
+    @Override
+    public ArrayList<ImagePassBean> getImagePassBeans () {
+        ArrayList<ImagePassBean> list = new ArrayList<>();
+        for (HomeImagelistPayload.Images imageBean : mDataList) {
+            list.add(new ImagePassBean(imageBean));
+        }
+        return list;
     }
 
     @Override

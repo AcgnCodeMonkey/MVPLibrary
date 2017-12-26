@@ -44,12 +44,13 @@ dependencies {
     })
     testCompile mainGroup.Junit
     compile mainGroup.ConstraintLayout
+    compile mainGroup.Design
     compile project(':AppLibrary')
     compile project(':libraryzxing')
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3'
     compile 'com.android.support:multidex:1.0.2'
     //64K方法限制兼容库
-    compile 'com.github.zhangjianli:stallbuster:1.1'
+//    compile 'com.github.zhangjianli:stallbuster:1.1'
     //界面创建时间测试工具
 }

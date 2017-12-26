@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -105,6 +107,7 @@ public class NullLayoutModule {
     }
 
     @IntDef({LOADING, NO_NETWORK, NO_DATA, ERROR})
+    @Retention(RetentionPolicy.SOURCE)
     public @interface Code {
 
     }

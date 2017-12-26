@@ -1,7 +1,6 @@
 package com.xujl.mvpllirary.mvp.model;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,20 +11,30 @@ import com.xujl.applibrary.db.bean.ImageBean;
 import com.xujl.applibrary.mvp.common.DownloadManagerHelper;
 import com.xujl.applibrary.mvp.model.CommonModel;
 import com.xujl.baselibrary.mvp.port.HelperType;
+import com.xujl.baselibrary.mvp.port.IBasePresenter;
+import com.xujl.baselibrary.utils.ListUtils;
 import com.xujl.mvpllirary.json.ImagePassBean;
-import com.xujl.mvpllirary.mvp.model.port.IShowImageActivityModel;
+import com.xujl.mvpllirary.mvp.model.port.IShowImageFragmentModel;
 import com.xujl.mvpllirary.util.DownloadFilePath;
 import com.xujl.mvpllirary.util.FastBlurUtil;
 import com.xujl.mvpllirary.util.IntentKey;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by xujl on 2017/7/8.
  */
-public class ShowImageActivityModel extends CommonModel implements IShowImageActivityModel {
+public class ShowImageFragmentModel extends CommonModel implements IShowImageFragmentModel {
+    private ArrayList<ImagePassBean> mImagePassBeanList;
     private ImagePassBean mImageEntity;
     private int type;
+
+    @Override
+    public void initModel (IBasePresenter presenter) {
+        super.initModel(presenter);
+        mImagePassBeanList = new ArrayList<>();
+    }
 
     @Override
     public boolean imageIsDownload () {
@@ -84,15 +93,14 @@ public class ShowImageActivityModel extends CommonModel implements IShowImageAct
     }
 
     @Override
-    public void savePassData (Intent intent) {
-        if (intent == null) {
+    public void savePassData (Bundle bundle) {
+        if (bundle == null) {
             return;
         }
-        if (intent.getExtras() == null) {
-            return;
+        ArrayList<ImagePassBean> list = bundle.getParcelableArrayList(IntentKey.IMAGE_ENTITY);
+        if (!ListUtils.isEmpty(list)) {
+            mImagePassBeanList.addAll(list);
         }
-        final Bundle bundle = intent.getExtras();
-        mImageEntity = bundle.getParcelable(IntentKey.IMAGE_ENTITY);
         type = bundle.getInt(IntentKey.TYPE);
     }
 
@@ -108,7 +116,7 @@ public class ShowImageActivityModel extends CommonModel implements IShowImageAct
 
     @Override
     public Bitmap blurImage (final String url) {
-        Bitmap bitmap = FastBlurUtil.getUrlBitmap(url, 20);
+        Bitmap bitmap = FastBlurUtil.getUrlBitmap(url, 15);
         bitmap = FastBlurUtil.getTransparentBitmap(bitmap, 90);
         return bitmap;
     }
@@ -135,6 +143,16 @@ public class ShowImageActivityModel extends CommonModel implements IShowImageAct
             DBUtils.delete(imageBean.getId());
         }
         return delete;
+    }
+
+    @Override
+    public ArrayList<ImagePassBean> getImages () {
+        return mImagePassBeanList;
+    }
+
+    @Override
+    public void setNewImage (int position) {
+        mImageEntity = mImagePassBeanList.get(position);
     }
 
     @Override

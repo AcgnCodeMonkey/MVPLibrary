@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.webkit.WebView;
 
 import com.just.library.ChromeClientCallbackManager;
-import com.xujl.applibrary.mvp.presenter.CommonActivityPresenter;
+import com.xujl.applibrary.mvp.presenter.CommonFragmentPresenter;
 import com.xujl.applibrary.mvp.view.CommonView;
 import com.xujl.baselibrary.mvp.port.HelperType;
 import com.xujl.mvpllirary.R;
@@ -15,8 +15,12 @@ import com.xujl.mvpllirary.util.IntentKey;
  * Created by xujl on 2017/9/6.
  * 资讯详情网页，使用非mvp模式
  */
-public class NewsDetailActivityPresenter extends CommonActivityPresenter implements ChromeClientCallbackManager.ReceivedTitleCallback {
-
+public class NewsDetailFragmentPresenter extends CommonFragmentPresenter implements ChromeClientCallbackManager.ReceivedTitleCallback {
+    public static NewsDetailFragmentPresenter newInstance (Bundle bundle) {
+        NewsDetailFragmentPresenter fragment = new NewsDetailFragmentPresenter();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
     @Override
     public boolean isMVP () {
         return false;
@@ -24,7 +28,7 @@ public class NewsDetailActivityPresenter extends CommonActivityPresenter impleme
 
     @Override
     public int getLayoutId () {
-        return R.layout.activity_news_detail;
+        return R.layout.fragment_news_detail;
     }
 
     @Override
@@ -35,8 +39,13 @@ public class NewsDetailActivityPresenter extends CommonActivityPresenter impleme
         getWebViewHelper().goWeb(getUrl());
     }
 
+    @Override
+    public boolean enableToolBar () {
+        return true;
+    }
+
     private String getUrl () {
-        final Bundle bundle = getIntent().getExtras();
+        final Bundle bundle = getArguments();
         return bundle == null ? null : bundle.getString(IntentKey.URL);
     }
 

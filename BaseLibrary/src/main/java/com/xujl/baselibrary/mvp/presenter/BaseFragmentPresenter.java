@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +17,7 @@ import com.xujl.baselibrary.Logger;
 import com.xujl.baselibrary.mvp.common.BasePresenterHelper;
 import com.xujl.baselibrary.mvp.common.NullLayoutModule;
 import com.xujl.baselibrary.mvp.port.Callback;
+import com.xujl.baselibrary.mvp.port.IBaseFragmentPresenter;
 import com.xujl.baselibrary.mvp.port.IBaseModel;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.baselibrary.mvp.port.IBaseView;
@@ -32,6 +32,9 @@ import com.xujl.rxlibrary.RxLife;
 
 import java.util.List;
 
+import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
+import me.yokeyword.fragmentation.anim.FragmentAnimator;
+import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
 import pub.devrel.easypermissions.EasyPermissions;
 
 /**
@@ -57,9 +60,13 @@ import pub.devrel.easypermissions.EasyPermissions;
  * Created by xujl on 2017/4/28.
  */
 
-public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBaseModel> extends Fragment implements IBasePresenter
-        , EasyPermissions.PermissionCallbacks {
-
+public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBaseModel> extends SwipeBackFragment
+        implements IBaseFragmentPresenter, EasyPermissions.PermissionCallbacks {
+    private final String TAG = getClass().getSimpleName() + "----------->";
+    /**
+     * 界面创建时间统计变量
+     */
+    private long oldTime;
     //<editor-fold desc="基础变量">
     /**
      * 视图
@@ -74,26 +81,6 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
      * 通用逻辑帮助类
      */
     protected BasePresenterHelper mPresenterHelper;
-    /**
-     * Fragment当前状态是否可见
-     */
-    protected boolean isVisible;
-    /**
-     * 是否已加载过
-     */
-    protected boolean isLoaded;
-    /**
-     * 是否初始化完成了控件
-     */
-    protected boolean isViewCompleted;
-    /**
-     * model是否已经初始化
-     */
-    protected boolean isModelInit;
-    /**
-     * 是否每次fragment重新显示都重新懒加载
-     */
-    protected boolean isEveryReload;
     protected LayoutInflater inflater;
     protected ViewGroup container;
     /**
@@ -134,15 +121,14 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
     @Nullable
     @Override
     public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        oldTime = System.currentTimeMillis();
         //首选加载项，在布局加载之前需要加载的东西
         firstLoading(savedInstanceState);
         //初始化view
         createView();
         //创建布局
         mRootView = createLayout(inflater, container, savedInstanceState);
-        if (mLifeCycleCallback != null) {
-            mLifeCycleCallback.onCreateLife(savedInstanceState);
-        }
+
         return mRootView;
     }
 
@@ -151,8 +137,24 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
         super.onActivityCreated(savedInstanceState);
         //初始化控件
         mView.initView(this);
-        isViewCompleted = true;
-        isEveryReload = isEveryReload();
+        mLifeCycleCallback = setmLifeCycleCallback();
+        if (mLifeCycleCallback != null) {
+            mLifeCycleCallback.onCreateLife(savedInstanceState);
+        }
+        subToMain(new Callback() {
+                      @Override
+                      public void callback () {
+                          createModel();
+                          mModel.initModel(BaseFragmentPresenter.this);
+                      }
+                  },
+                new Callback() {
+                    @Override
+                    public void callback () {
+                        mView.dismissNullView(NullLayoutModule.LOADING);
+                        initPresenter(null);
+                    }
+                });
     }
 
     private void createView () {
@@ -305,69 +307,10 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
         mPresenterHelper = presenterHelper;
     }
 
-    /**
-     * fragment不可见回调
-     */
-    protected void onInVisible () {
-        //TO DO
-        if (isLoaded && isViewCompleted && isEveryReload) {
-            isLoaded = false;
-        }
-    }
-
-    /**
-     * fragment可见回调
-     */
-    protected void onVisible () {
-        //数据未加载过并且控件已经初始化完成时，进行懒加载
-        if (!isLoaded && isViewCompleted) {
-            isLoaded = true;
-            RxHelper.onCreate(mRxLife)
-                    .createDelay(120)
-                    .newThreadToMain()
-                    .run(new BaseObserver<Object>() {
-                        @Override
-                        public void onComplete () {
-                            super.onComplete();
-                            lazyLoad();
-                            mView.dismissLoading();
-                        }
-                    });
-
-        }
-    }
-
-    /**
-     * 复写此方法实现懒加载数据
-     */
-    protected void lazyLoad () {
-    }
-
-    /**
-     * 是否每次显示fragment都重新加载
-     *
-     * @return
-     */
-    protected boolean isEveryReload () {
-        return false;
-    }
-
-    /**
-     * 重置当前的加载状态标识，让下次fragment再次显示时重新加载
-     */
-    protected void resetLoadingState () {
-        isLoaded = false;
-    }
 
     @Override
     public void setUserVisibleHint (boolean isVisibleToUser) {//设置fragment是否可见
         super.setUserVisibleHint(isVisibleToUser);
-        isVisible = isVisibleToUser;
-        if (isVisible) {
-            onVisible();
-        } else {
-            onInVisible();
-        }
     }
     //</editor-fold>
 
@@ -388,7 +331,7 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
 
     @Override
     public boolean enableToolBar () {
-        return true;
+        return false;
     }
 
     @Override
@@ -531,10 +474,10 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
     /**
      * 生命周期回调，设置后各个生命周期方法会回调此接口
      *
-     * @param mLifeCycleCallback
+     * @return
      */
-    protected void setmLifeCycleCallback (LifeCycleCallback mLifeCycleCallback) {
-        this.mLifeCycleCallback = mLifeCycleCallback;
+    protected LifeCycleCallback setmLifeCycleCallback () {
+        return null;
     }
 
     /**
@@ -592,32 +535,10 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
         if (mLifeCycleCallback != null) {
             mLifeCycleCallback.onResumeLife();
         }
-        if (isModelInit) {
-            return;
+        if (oldTime != 0) {
+            Logger.e(TAG, "界面创建耗时:" + (System.currentTimeMillis() - oldTime) + "毫秒");
+            oldTime = 0;
         }
-        isModelInit = true;
-        subToMain(new Callback() {
-                      @Override
-                      public void callback () {
-                          createModel();
-                          mModel.initModel(BaseFragmentPresenter.this);
-                      }
-                  },
-                new Callback() {
-                    @Override
-                    public void callback () {
-                        mView.dismissNullView(NullLayoutModule.LOADING);
-                        initPresenter(null);
-                        //判断界面是否可见，如果需要在界面可见时才加载某些功能需要把相关代码写在lazyLoad ()方法中
-                        isVisible = getUserVisibleHint();
-                        if (isVisible) {
-                            onVisible();
-                        } else {
-                            onInVisible();
-                        }
-                    }
-                });
-
     }
 
     @Override
@@ -677,4 +598,22 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
                     }
                 });
     }
+
+    //<editor-fold desc="fragment管理">
+    @Override
+    public FragmentAnimator onCreateFragmentAnimator () {
+        // 设置横向(和安卓4.x动画相同)
+        return new DefaultHorizontalAnimator();
+    }
+
+    @Override
+    public void exitFragment () {
+        pop();
+    }
+
+    @Override
+    public void setFragmentResult (int resultCode) {
+        super.setFragmentResult(resultCode,null);
+    }
+    //</editor-fold>
 }

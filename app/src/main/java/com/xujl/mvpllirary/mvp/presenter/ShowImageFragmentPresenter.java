@@ -1,50 +1,54 @@
 package com.xujl.mvpllirary.mvp.presenter;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.xujl.applibrary.mvp.common.DownloadManagerHelper;
-import com.xujl.applibrary.mvp.presenter.CommonActivityPresenter;
+import com.xujl.applibrary.mvp.presenter.CommonFragmentPresenter;
 import com.xujl.applibrary.util.CustomToast;
 import com.xujl.mvpllirary.R;
-import com.xujl.mvpllirary.mvp.model.port.IShowImageActivityModel;
-import com.xujl.mvpllirary.mvp.view.port.IShowImageActivityView;
+import com.xujl.mvpllirary.adapter.ShowImagesAdapter;
+import com.xujl.mvpllirary.mvp.model.port.IShowImageFragmentModel;
+import com.xujl.mvpllirary.mvp.view.port.IShowImageFragmentView;
+import com.xujl.mvpllirary.util.IntentKey;
+import com.xujl.rxlibrary.BaseObservable;
+import com.xujl.rxlibrary.BaseObservableEmitter;
 import com.xujl.rxlibrary.BaseObserver;
 import com.xujl.rxlibrary.RxHelper;
-import com.xujl.utilslibrary.system.Log;
+import com.xujl.widgetlibrary.adapter.BaseRecyclerViewAdapter;
 
 import java.io.File;
-
-import io.reactivex.annotations.NonNull;
 
 /**
  * Created by xujl on 2017/7/8.
  */
-public class ShowImageActivityPresenter extends CommonActivityPresenter<IShowImageActivityView, IShowImageActivityModel> {
+public class ShowImageFragmentPresenter extends CommonFragmentPresenter<IShowImageFragmentView, IShowImageFragmentModel> {
     public static final int RESULT_CODE = 9;
+    private BaseRecyclerViewAdapter mAdapter;
 
+
+    public static ShowImageFragmentPresenter newInstance (Bundle bundle) {
+
+        ShowImageFragmentPresenter fragment = new ShowImageFragmentPresenter();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Override
     protected void initPresenter (Bundle savedInstanceState) {
-        mModel.savePassData(getIntent());
+        mModel.savePassData(getArguments());
         mModel.initDownloadHelper(exposeContext());
-//        mView.blurBackground(mModel.blurImage(mModel.getImageUrl()));
+        mView.setOnScrollListener(mListener);
+        mAdapter = new ShowImagesAdapter(mModel.getImages());
         mView.loadType(mModel.getType());
-        mView.showImage(mModel.getImageUrl());
-        mView.changeCollectionImage(mModel.imageIsCollection());
-        RxHelper.onCreate(mRxLife)
-                .createCountDown(1000,60000)
-                .newThreadToMain()
-                .run(new BaseObserver<Long>() {
-                    @Override
-                    public void onNext (@NonNull Long aLong) {
-                        super.onNext(aLong);
-                        Log.e("createCountDown--------------->",""+aLong);
-                    }
-                });
+        final int position = getArguments().getInt(IntentKey.POSITION);
+        mView.showImage(mAdapter, position);
+        changeState(position);
     }
 
     @Override
@@ -62,7 +66,7 @@ public class ShowImageActivityPresenter extends CommonActivityPresenter<IShowIma
                 mView.changeCollectionImage(mModel.imageIsCollection());
                 break;
             case R.id.activity_showimage_deleteIBtn:
-                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(exposeContext());
                 builder.setTitle("系统提示");
                 builder.setMessage("确定要删除此图片？");
                 builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -72,7 +76,7 @@ public class ShowImageActivityPresenter extends CommonActivityPresenter<IShowIma
                         final boolean b = mModel.deleteImage();
                         if (b) {
                             mView.showToastMsg(exposeContext(), "删除成功！", CustomToast.SUCCESS);
-                            backForResult(RESULT_CODE);
+                            setFragmentResult(RESULT_CODE);
                         } else {
                             mView.showToastMsg(exposeContext(), "删除失败！", CustomToast.ERROR);
                         }
@@ -88,7 +92,7 @@ public class ShowImageActivityPresenter extends CommonActivityPresenter<IShowIma
                 break;
             case R.id.activity_showimage_downloadIBtn:
                 if (mModel.imageIsDownload()) {
-                    final AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+                    final AlertDialog.Builder builder2 = new AlertDialog.Builder(exposeContext());
                     builder2.setTitle("系统提示");
                     builder2.setMessage("此图片已经下载过了，需要重新下载吗？");
                     builder2.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -116,6 +120,35 @@ public class ShowImageActivityPresenter extends CommonActivityPresenter<IShowIma
         }
     }
 
+    private RecyclerView.OnScrollListener mListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged (RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            if (newState == 0) {
+                changeState(mView.getPosition());
+            }
+        }
+    };
+
+    private void changeState (int position) {
+        mModel.setNewImage(position);
+        RxHelper.onCreate(mRxLife)
+                .createNormal(new BaseObservable<Bitmap>() {
+                    @Override
+                    public void emitAction (BaseObservableEmitter<Bitmap> e) throws Exception {
+                        e.onNext(mModel.blurImage(mModel.getImageUrl()));
+                    }
+                })
+                .newThreadToMain()
+                .run(new BaseObserver<Bitmap>() {
+                    @Override
+                    public void onNext (Bitmap bitmap) {
+                        super.onNext(bitmap);
+                        mView.blurBackground(bitmap);
+                        mView.changeCollectionImage(mModel.imageIsCollection());
+                    }
+                });
+    }
 
     private void downloadImage () {
         mModel.downloadImage(exposeContext(), mModel.getImageUrl(), new DownloadManagerHelper.DownloadCallback() {

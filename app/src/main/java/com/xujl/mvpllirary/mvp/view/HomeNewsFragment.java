@@ -6,9 +6,10 @@ import android.support.v4.view.ViewPager;
 import com.xujl.applibrary.mvp.view.CommonView;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.mvpllirary.R;
+import com.xujl.mvpllirary.adapter.TabAdapter;
 import com.xujl.mvpllirary.adapter.TabFragmentAdapter;
 import com.xujl.mvpllirary.mvp.view.port.IHomeNewsFragmentView;
-import com.xujl.widgetlibrary.widget.ViewPagerTabView;
+import android.support.design.widget.TabLayout;
 
 import java.util.ArrayList;
 
@@ -17,16 +18,19 @@ import java.util.ArrayList;
  */
 public class HomeNewsFragment extends CommonView implements IHomeNewsFragmentView {
     private ViewPager mViewPager;
-    private ViewPagerTabView mPagerTabView;
+    private TabLayout mTab;
     @Override
     public void initView (IBasePresenter presenter) {
         super.initView(presenter);
         mViewPager = (ViewPager) findView(R.id.fragment_home_news_viewPager);
-        mPagerTabView = (ViewPagerTabView) findView(R.id.fragment_home_news_viewPagerTab);
-        mPagerTabView.setIndicatorViewPager(mViewPager);
-        mPagerTabView.setAdapter(new TabFragmentAdapter(((Fragment) presenter).getFragmentManager(),
-                presenter.exposeContext(), new ArrayList<String>(), new ArrayList<Fragment>()));
-        mViewPager.setOffscreenPageLimit(6);
+        mTab = findView(R.id.tab);
+        mTab.setupWithViewPager(mViewPager);
+        mTab.addTab(mTab.newTab());
+        mTab.addTab(mTab.newTab());
+        mTab.addTab(mTab.newTab());
+        mTab.addTab(mTab.newTab());
+        mTab.addTab(mTab.newTab());
+        mTab.addTab(mTab.newTab());
     }
 
     @Override
@@ -36,14 +40,12 @@ public class HomeNewsFragment extends CommonView implements IHomeNewsFragmentVie
 
 
     @Override
-    public void setViewPagerAdapter (TabFragmentAdapter adapter, String maxTitle) {
-        TabFragmentAdapter.initTitleView(mPagerTabView,mRootView.getContext(),maxTitle);
-        mPagerTabView.setAdapter(adapter);
+    public void setViewPagerAdapter (TabAdapter adapter) {
+        mViewPager.setAdapter(adapter);
     }
 
     @Override
     public void setPage (int position) {
-        mPagerTabView.setCurrentItem(position, true);
         mViewPager.setCurrentItem(position);
     }
 }

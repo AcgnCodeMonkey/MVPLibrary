@@ -1,17 +1,15 @@
 package com.xujl.baselibrary.mvp.common;
 
 import android.app.Activity;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
+import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
-import com.xujl.baselibrary.R;
-import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
+import com.xujl.baselibrary.mvp.port.IBasePresenter;
 
 /**
  * Created by xujl on 2017/7/4.
@@ -48,25 +46,29 @@ public class BaseToolBarModule {
 //        mRootView.addView(mContentLayout);
     }
 
-    public View findToolBar (Activity activity, LayoutConfig config,View rootView) {
+    public View findToolBar (Context context, LayoutConfig config, View rootView) {
         int toolBarId = getToolBarId();
         //判断view或presenter是否传入了导航id，有就直接寻找导航栏
         if (config.getToolBarId() != 0) {
             toolBarId = config.getToolBarId();
             mToolbar = (Toolbar) rootView.findViewById(toolBarId);
-            return mToolbar ;
+            return mToolbar;
         }
         //没有则采用动态加载默认导航栏
-        mToolbar = (Toolbar) LayoutInflater.from(activity).inflate(getToolBarLayoutId(), null).findViewById(toolBarId);
+        mToolbar = (Toolbar) LayoutInflater.from(context).inflate(getToolBarLayoutId(), null).findViewById(toolBarId);
         return mToolbar;
     }
 
 
 
 
-    public void initSetting (BaseActivityPresenter presenter) {
-        presenter.setSupportActionBar(mToolbar);
-        mActionBar = presenter.getSupportActionBar();
+    public void initSetting (IBasePresenter presenter) {
+        if (presenter instanceof Fragment) {
+            return;
+        }
+        AppCompatActivity activity = (AppCompatActivity) presenter;
+        activity.setSupportActionBar(mToolbar);
+        mActionBar = activity.getSupportActionBar();
     }
 
     /**

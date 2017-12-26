@@ -1,7 +1,6 @@
 package com.xujl.mvpllirary.mvp.presenter;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -13,8 +12,6 @@ import com.xujl.mvpllirary.json.ImagePassBean;
 import com.xujl.mvpllirary.mvp.model.port.IHomeImageListFragmentModel;
 import com.xujl.mvpllirary.mvp.view.port.IHomeImageListFragmentView;
 import com.xujl.mvpllirary.util.IntentKey;
-import com.xujl.utilslibrary.system.Log;
-import com.xujl.utilslibrary.view.ViewTool;
 import com.xujl.widgetlibrary.adapter.BaseRecyclerViewAdapter;
 import com.xujl.widgetlibrary.widget.RefreshLayout;
 
@@ -29,11 +26,20 @@ public class HomeImageListFragmentPresenter extends CommonFragmentPresenter<IHom
         @Override
         public void onSimpleItemClick (BaseQuickAdapter adapter, View view, int position) {
             Bundle bundle = new Bundle();
-            bundle.putParcelable(IntentKey.IMAGE_ENTITY, new ImagePassBean(mModel.getDataList().get(position)));
-            gotoActivity(ShowImageActivityPresenter.class, bundle);
+            bundle.putParcelableArrayList(IntentKey.IMAGE_ENTITY, mModel.getImagePassBeans());
+            bundle.putInt(IntentKey.POSITION,position);
+            ((MainFragmentPresenter) getParentFragment()).start(ShowImageFragmentPresenter.newInstance(bundle));
         }
     };
 
+    public static HomeImageListFragmentPresenter newInstance () {
+
+        Bundle args = new Bundle();
+
+        HomeImageListFragmentPresenter fragment = new HomeImageListFragmentPresenter();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     protected void initPresenter (Bundle savedInstanceState) {

@@ -6,6 +6,6 @@ import com.xujl.mvpllirary.json.PersonPayload;
 /**
  * Created by xujl on 2017/9/12.
  */
-public interface IPersonDataBindingActivityModel extends ICommonModel {
+public interface IPersonDataBindingFragmentModel extends ICommonModel {
     PersonPayload getPersonPayload();
 }

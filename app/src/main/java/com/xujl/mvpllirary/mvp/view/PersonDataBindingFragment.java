@@ -3,15 +3,15 @@ package com.xujl.mvpllirary.mvp.view;
 import com.xujl.applibrary.mvp.view.CommonView;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.mvpllirary.R;
-import com.xujl.mvpllirary.databinding.ActivityPersonBinding;
+import com.xujl.mvpllirary.databinding.FragmentPersonBinding;
 import com.xujl.mvpllirary.json.PersonPayload;
-import com.xujl.mvpllirary.mvp.view.port.IPersonDataBindingActivityView;
+import com.xujl.mvpllirary.mvp.view.port.IPersonDataBindingFragmentView;
 
 /**
  * Created by xujl on 2017/9/12.
  */
-public class PersonDataBindingActivity extends CommonView implements IPersonDataBindingActivityView {
-    private ActivityPersonBinding mBinding;
+public class PersonDataBindingFragment extends CommonView implements IPersonDataBindingFragmentView {
+    private FragmentPersonBinding mBinding;
     @Override
     public void initView (IBasePresenter presenter) {
         super.initView(presenter);
@@ -21,7 +21,7 @@ public class PersonDataBindingActivity extends CommonView implements IPersonData
 
     @Override
     public int getLayoutId () {
-        return R.layout.activity_person;
+        return R.layout.fragment_person;
     }
 
     @Override
