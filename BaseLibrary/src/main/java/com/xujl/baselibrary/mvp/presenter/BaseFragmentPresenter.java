@@ -19,7 +19,6 @@ import com.xujl.baselibrary.mvp.common.NullLayoutModule;
 import com.xujl.baselibrary.mvp.port.Callback;
 import com.xujl.baselibrary.mvp.port.IBaseFragmentPresenter;
 import com.xujl.baselibrary.mvp.port.IBaseModel;
-import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.baselibrary.mvp.port.IBaseView;
 import com.xujl.baselibrary.mvp.port.LifeCycleCallback;
 import com.xujl.baselibrary.utils.ListUtils;
@@ -584,14 +583,15 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
                             taskCallback.callback();
                         }
                         Thread.sleep(70);
+                        e.onNext(new Object());
                         e.onComplete();
                     }
                 })
                 .newThreadToMain()
                 .run(new BaseObserver<Object>() {
                     @Override
-                    public void onComplete () {
-                        super.onComplete();
+                    public void onNext (Object o) {
+                        super.onNext(o);
                         if (callback != null) {
                             callback.callback();
                         }
@@ -613,7 +613,7 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
 
     @Override
     public void setFragmentResult (int resultCode) {
-        super.setFragmentResult(resultCode,null);
+        super.setFragmentResult(resultCode, null);
     }
     //</editor-fold>
 }

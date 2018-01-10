@@ -178,7 +178,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
 //                if (savedInstanceState == null) {
                 mView.dismissNullView(NullLayoutModule.LOADING);
                 //初始化逻辑代码
-                initPresenter(null);
+                initPresenter(savedInstanceState);
 //                } else {
 //                    resumePresenter(savedInstanceState);
 //                }
@@ -705,14 +705,15 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
                             taskCallback.callback();
                         }
                         Thread.sleep(70);
+                        e.onNext(new Object());
                         e.onComplete();
                     }
                 })
                 .newThreadToMain()
                 .run(new BaseObserver<Object>() {
                     @Override
-                    public void onComplete () {
-                        super.onComplete();
+                    public void onNext (Object o) {
+                        super.onNext(o);
                         if (callback != null) {
                             callback.callback();
                         }
