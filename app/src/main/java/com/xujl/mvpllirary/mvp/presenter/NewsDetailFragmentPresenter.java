@@ -6,7 +6,6 @@ import android.webkit.WebView;
 import com.just.library.ChromeClientCallbackManager;
 import com.xujl.applibrary.mvp.presenter.CommonFragmentPresenter;
 import com.xujl.applibrary.mvp.view.CommonView;
-import com.xujl.baselibrary.mvp.port.HelperType;
 import com.xujl.mvpllirary.R;
 import com.xujl.mvpllirary.mvp.common.WebViewHelper;
 import com.xujl.mvpllirary.util.IntentKey;
@@ -33,7 +32,7 @@ public class NewsDetailFragmentPresenter extends CommonFragmentPresenter impleme
 
     @Override
     protected void initPresenter (Bundle savedInstanceState) {
-        getPresenterHelper().addHelper(HelperType.TYPE_ONE,
+        getPresenterHelper().addHelper(
                 new WebViewHelper(this, new WebView(exposeContext()), R.id.activity_news_detail_rootView));
         getWebViewHelper().setTitleCallback(this);
         getWebViewHelper().goWeb(getUrl());
@@ -50,7 +49,7 @@ public class NewsDetailFragmentPresenter extends CommonFragmentPresenter impleme
     }
 
     private WebViewHelper getWebViewHelper () {
-        return getPresenterHelper().getHelper(HelperType.TYPE_ONE);
+        return getPresenterHelper().getHelper(WebViewHelper.class);
     }
 
     @Override

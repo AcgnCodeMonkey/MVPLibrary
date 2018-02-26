@@ -10,7 +10,6 @@ import com.xujl.applibrary.db.ImageBeanType;
 import com.xujl.applibrary.db.bean.ImageBean;
 import com.xujl.applibrary.mvp.common.DownloadManagerHelper;
 import com.xujl.applibrary.mvp.model.CommonModel;
-import com.xujl.baselibrary.mvp.port.HelperType;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.baselibrary.utils.ListUtils;
 import com.xujl.mvpllirary.json.ImagePassBean;
@@ -123,12 +122,12 @@ public class ShowImageFragmentModel extends CommonModel implements IShowImageFra
 
     @Override
     public void initDownloadHelper (Context context) {
-        getModelHelper().addHelper(HelperType.TYPE_ONE, new DownloadManagerHelper());
+        getModelHelper().addHelper(new DownloadManagerHelper());
     }
 
     @Override
     public DownloadManagerHelper getDownloadHelper () {
-        return getModelHelper().getHelper(HelperType.TYPE_ONE);
+        return getModelHelper().getHelper(DownloadManagerHelper.class);
     }
 
     @Override

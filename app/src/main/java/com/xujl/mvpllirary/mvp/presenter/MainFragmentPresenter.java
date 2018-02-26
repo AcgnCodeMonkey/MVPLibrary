@@ -1,7 +1,6 @@
 package com.xujl.mvpllirary.mvp.presenter;
 
 import android.Manifest;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.RadioGroup;
 import com.xujl.applibrary.db.ImageBeanType;
 import com.xujl.applibrary.mvp.presenter.CommonFragmentPresenter;
 import com.xujl.applibrary.util.CustomToast;
-import com.xujl.baselibrary.mvp.port.HelperType;
 import com.xujl.mvpllirary.R;
 import com.xujl.mvpllirary.mvp.common.QRScanHelper;
 import com.xujl.mvpllirary.mvp.model.MainFragmentModel;
@@ -53,7 +51,7 @@ public class MainFragmentPresenter extends CommonFragmentPresenter<IMainFragment
         } else {
             mModel.setFragments(MainFragmentPresenter.this, false);
         }
-        getPresenterHelper().addHelper(HelperType.TYPE_ONE, new QRScanHelper());
+        getPresenterHelper().addHelper(new QRScanHelper());
 
     }
 
@@ -126,7 +124,7 @@ public class MainFragmentPresenter extends CommonFragmentPresenter<IMainFragment
     }
 
     private QRScanHelper getQRScanHelper () {
-        return getPresenterHelper().getHelper(HelperType.TYPE_ONE);
+        return getPresenterHelper().getHelper(QRScanHelper.class);
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.xujl.mvpllirary.mvp.view;
 import android.view.ViewGroup;
 
 import com.xujl.applibrary.mvp.view.CommonView;
-import com.xujl.baselibrary.mvp.port.HelperType;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.mvpllirary.R;
 import com.xujl.mvpllirary.databinding.FragmentNewsTabBinding;
@@ -29,7 +28,7 @@ public class NewsTabFragment extends CommonView implements INewsTabFragmentView 
                 .enableLoading(true)
                 .setLinearLayoutManager()
                 .setOnRefreshListener((RefreshLayout.RefreshListener) presenter);
-        getViewHelper().addHelper(HelperType.TYPE_ONE, refreshLayoutHelper);
+        getViewHelper().addHelper(refreshLayoutHelper);
         mBinding.setTest(new NewsPayload("点击刷新"));
     }
 
@@ -45,7 +44,7 @@ public class NewsTabFragment extends CommonView implements INewsTabFragmentView 
 
     @Override
     public RefreshRecyclerViewHelper getRefreshRecyclerViewHelper () {
-        return getViewHelper().getHelper(HelperType.TYPE_ONE);
+        return getViewHelper().getHelper(RefreshRecyclerViewHelper.class);
     }
 
     @Override

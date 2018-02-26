@@ -4,7 +4,6 @@ import android.view.ViewGroup;
 
 import com.xujl.applibrary.db.ImageBeanType;
 import com.xujl.applibrary.mvp.view.CommonView;
-import com.xujl.baselibrary.mvp.port.HelperType;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.mvpllirary.R;
 import com.xujl.mvpllirary.mvp.common.RefreshRecyclerViewHelper;
@@ -25,7 +24,7 @@ public class ImageListFragment extends CommonView implements IImageListFragmentV
                 .enableLoading(false)
                 .setGridLayoutManager(3)
                 .setOnRefreshListener((RefreshLayout.RefreshListener) presenter);
-        getViewHelper().addHelper(HelperType.TYPE_ONE, refreshLayoutHelper);
+        getViewHelper().addHelper(refreshLayoutHelper);
         getToolBarModule().showBackBtn(true);
     }
 
@@ -36,7 +35,7 @@ public class ImageListFragment extends CommonView implements IImageListFragmentV
 
     @Override
     public RefreshRecyclerViewHelper getRefreshRecyclerViewHelper () {
-        return getViewHelper().getHelper(HelperType.TYPE_ONE);
+        return getViewHelper().getHelper(RefreshRecyclerViewHelper.class);
     }
 
     @Override

@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.xujl.applibrary.mvp.view.CommonView;
-import com.xujl.baselibrary.mvp.port.HelperType;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.mvpllirary.R;
 import com.xujl.mvpllirary.adapter.BannerViewHolder;
@@ -39,7 +38,7 @@ public class HomeImageListFragment extends CommonView implements IHomeImageListF
 
     @Override
     public RefreshRecyclerViewHelper getRefreshRecyclerViewHelper () {
-        return getViewHelper().getHelper(HelperType.TYPE_ONE);
+        return getViewHelper().getHelper(RefreshRecyclerViewHelper.class);
     }
 
     @Override
@@ -52,7 +51,7 @@ public class HomeImageListFragment extends CommonView implements IHomeImageListF
                 .enableLoading(true)
                 .setGridLayoutManager(3)
                 .setOnRefreshListener((RefreshLayout.RefreshListener) presenter);
-        getViewHelper().addHelper(HelperType.TYPE_ONE,refreshLayoutHelper);
+        getViewHelper().addHelper(refreshLayoutHelper);
 
         getRefreshRecyclerViewHelper().setAdapter(adapter);
     }
