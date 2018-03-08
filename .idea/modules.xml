@@ -3,17 +3,12 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AppLibrary/AppLibrary.iml" filepath="$PROJECT_DIR$/AppLibrary/AppLibrary.iml" />
-      <module fileurl="file://F:\workplace\MVPLibrary2\AppLibrary\AppLibrary.iml" filepath="F:\workplace\MVPLibrary2\AppLibrary\AppLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/BaseLibrary/BaseLibrary.iml" filepath="$PROJECT_DIR$/BaseLibrary/BaseLibrary.iml" />
-      <module fileurl="file://F:\workplace\MVPLibrary2\BaseLibrary\BaseLibrary.iml" filepath="F:\workplace\MVPLibrary2\BaseLibrary\BaseLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/DataLibrary/DataLibrary.iml" filepath="$PROJECT_DIR$/DataLibrary/DataLibrary.iml" />
-      <module fileurl="file://F:\workplace\MVPLibrary2\DataLibrary\DataLibrary.iml" filepath="F:\workplace\MVPLibrary2\DataLibrary\DataLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/MVPLibrary2.iml" filepath="$PROJECT_DIR$/MVPLibrary2.iml" />
       <module fileurl="file://F:\workplace\MVPLibrary2\MVPLlirary.iml" filepath="F:\workplace\MVPLibrary2\MVPLlirary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://F:\workplace\MVPLibrary2\app\app.iml" filepath="F:\workplace\MVPLibrary2\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraryzxing/libraryzxing.iml" filepath="$PROJECT_DIR$/libraryzxing/libraryzxing.iml" />
-      <module fileurl="file://F:\workplace\MVPLibrary2\libraryzxing\libraryzxing.iml" filepath="F:\workplace\MVPLibrary2\libraryzxing\libraryzxing.iml" />
     </modules>
   </component>
 </project>

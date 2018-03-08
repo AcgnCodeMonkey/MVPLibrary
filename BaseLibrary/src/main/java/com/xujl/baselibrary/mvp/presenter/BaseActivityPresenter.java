@@ -19,7 +19,6 @@ import com.xujl.baselibrary.mvp.common.NullLayoutModule;
 import com.xujl.baselibrary.mvp.port.Callback;
 import com.xujl.baselibrary.mvp.port.IBaseActivityPresenter;
 import com.xujl.baselibrary.mvp.port.IBaseModel;
-import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.baselibrary.mvp.port.IBaseView;
 import com.xujl.baselibrary.mvp.port.LifeCycleCallback;
 import com.xujl.baselibrary.utils.ListUtils;
@@ -32,7 +31,6 @@ import com.xujl.rxlibrary.RxLife;
 
 import java.util.List;
 
-import me.yokeyword.fragmentation.SupportActivity;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 import me.yokeyword.fragmentation_swipeback.SwipeBackActivity;
@@ -153,7 +151,6 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         //初始化控件
         mView.initView(this);
         this.savedInstanceState = savedInstanceState;
-        mLifeCycleCallback = setmLifeCycleCallback();
         if (mLifeCycleCallback != null) {
             mLifeCycleCallback.onCreateLife(savedInstanceState);
         }
@@ -190,6 +187,10 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
     @Override
     public void onWindowFocusChanged (boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
+        if (oldTime != 0) {
+            Logger.e(TAG, "界面创建耗时:" + (System.currentTimeMillis() - oldTime) + "毫秒");
+            oldTime = 0;
+        }
         isViewCompleted = hasFocus;
         judgeLoading();
     }
@@ -511,13 +512,8 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
 
     //<editor-fold desc="其他方法">
 
-    /**
-     * 生命周期回调，设置后各个生命周期方法会回调此接口
-     *
-     * @return LifeCycleCallback
-     */
-    protected LifeCycleCallback setmLifeCycleCallback () {
-        return null;
+    protected void setLifeCycleCallback (LifeCycleCallback lifeCycleCallback) {
+        mLifeCycleCallback = lifeCycleCallback;
     }
 
     /**
@@ -591,6 +587,11 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         return true;
     }
 
+    @Override
+    public void back () {
+        onBackPressed();
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="生命周期">
@@ -607,11 +608,6 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         super.onResume();
         if (mLifeCycleCallback != null) {
             mLifeCycleCallback.onResumeLife();
-        }
-
-        if (oldTime != 0) {
-            Logger.e(TAG, "界面创建耗时:" + (System.currentTimeMillis() - oldTime) + "毫秒");
-            oldTime = 0 ;
         }
     }
 

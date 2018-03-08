@@ -127,33 +127,21 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
         createView();
         //创建布局
         mRootView = createLayout(inflater, container, savedInstanceState);
-
+        //初始化控件
+        mView.initView(this);
+        if (mLifeCycleCallback != null) {
+            mLifeCycleCallback.onCreateLife(savedInstanceState);
+        }
+        createModel();
+        mModel.initModel(BaseFragmentPresenter.this);
+        initPresenter(null);
         return mRootView;
     }
 
     @Override
     public void onActivityCreated (@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //初始化控件
-        mView.initView(this);
-        mLifeCycleCallback = setmLifeCycleCallback();
-        if (mLifeCycleCallback != null) {
-            mLifeCycleCallback.onCreateLife(savedInstanceState);
-        }
-        subToMain(new Callback() {
-                      @Override
-                      public void callback () {
-                          createModel();
-                          mModel.initModel(BaseFragmentPresenter.this);
-                      }
-                  },
-                new Callback() {
-                    @Override
-                    public void callback () {
-                        mView.dismissNullView(NullLayoutModule.LOADING);
-                        initPresenter(null);
-                    }
-                });
+        mView.dismissNullView(NullLayoutModule.LOADING);
     }
 
     private void createView () {
@@ -470,13 +458,8 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
 
     //<editor-fold desc="其他方法">
 
-    /**
-     * 生命周期回调，设置后各个生命周期方法会回调此接口
-     *
-     * @return
-     */
-    protected LifeCycleCallback setmLifeCycleCallback () {
-        return null;
+    protected void setLifeCycleCallback (LifeCycleCallback lifeCycleCallback) {
+        mLifeCycleCallback = lifeCycleCallback;
     }
 
     /**
@@ -609,6 +592,11 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
     @Override
     public void exitFragment () {
         pop();
+    }
+
+    @Override
+    public void back () {
+        exposeActivity().back();
     }
 
     @Override

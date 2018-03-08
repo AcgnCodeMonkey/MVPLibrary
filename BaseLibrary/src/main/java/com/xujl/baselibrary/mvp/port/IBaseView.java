@@ -113,7 +113,7 @@ public interface IBaseView extends IBaseVP {
      * @param msg
      * @param code
      */
-    void toast(String msg, int code);
+    void toast (String msg, int code);
 
     /**
      * toast提示用户消息
@@ -121,7 +121,7 @@ public interface IBaseView extends IBaseVP {
      * @param code
      * @param time
      */
-    void toast(String msg, int code, int time);
+    void toast (String msg, int code, int time);
     /**
      * 显示加载
      */

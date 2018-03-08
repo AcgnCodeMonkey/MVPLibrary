@@ -10,11 +10,11 @@ public interface IBaseFragmentPresenter extends IBasePresenter,ISupportFragment 
     /**
      * 退出当前fragment
      */
-    void exitFragment();
+    void exitFragment ();
 
     /**
      * 设置返回码
      * @param resultCode
      */
-    void setFragmentResult(int resultCode);
+    void setFragmentResult (int resultCode);
 }

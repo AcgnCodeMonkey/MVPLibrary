@@ -27,7 +27,7 @@ public interface IBaseModel {
     /**
      * 初始化model（空实现，非必选）
      */
-    void initModel(IBasePresenter presenter);
+    void initModel (IBasePresenter presenter);
     /**
      * json转实体类
      * @param json 数据源

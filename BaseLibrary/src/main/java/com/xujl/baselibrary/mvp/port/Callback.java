@@ -5,5 +5,5 @@ package com.xujl.baselibrary.mvp.port;
  */
 
 public interface Callback {
-    void callback();
+    void callback ();
 }

@@ -36,7 +36,7 @@ public interface IBasePresenter extends View.OnClickListener,IBaseVP,NullLayoutM
     /**
      * 退出activity
      */
-    void exit();
+    void exit ();
 
     /**
      *
@@ -67,6 +67,11 @@ public interface IBasePresenter extends View.OnClickListener,IBaseVP,NullLayoutM
      * @return 设置是否MVP加载模式
      */
     boolean isMVP ();
+
+    /**
+     * 回退栈
+     */
+    void back ();
 
 
 }
