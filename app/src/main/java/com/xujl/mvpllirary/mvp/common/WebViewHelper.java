@@ -9,7 +9,9 @@ import android.widget.LinearLayout;
 
 import com.just.library.AgentWeb;
 import com.just.library.ChromeClientCallbackManager;
+import com.xujl.applibrary.mvp.presenter.CommonFragmentPresenter;
 import com.xujl.baselibrary.mvp.common.BaseHelper;
+import com.xujl.baselibrary.mvp.port.IBaseView;
 
 /**
  * Created by xujl on 2017/9/6.
@@ -75,8 +77,9 @@ public class WebViewHelper extends BaseHelper {
                     .ready();
             //传入AgentWeb 的父控件 ，如果父控件为 RelativeLayout ， 那么第二参数需要传入 RelativeLayout.LayoutParams;
         } else {
+            final IBaseView baseView = ((CommonFragmentPresenter) mFragment).exposeView();
             preAgentWeb = AgentWeb.with(mFragment)
-                    .setAgentWebParent((ViewGroup) mFragment.getView().findViewById(parentId),
+                    .setAgentWebParent((ViewGroup) baseView.findView(parentId),
                             new LinearLayout.LayoutParams(-1, -1)).useDefaultIndicator()
 //                    .useDefaultIndicator()// 使用默认进度条
 //                    .defaultProgressBarColor() // 使用默认进度条颜色
