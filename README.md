@@ -1,6 +1,6 @@
 # MVP模式扩展-->MVPH模式
 #### 使用简单，易扩展，易维护，低耦合，高复用是MVPH的目标<br>
-![](https://img.shields.io/badge/jCenter-0.1.3-green.svg)![](https://img.shields.io/badge/DemoVersion-1.6-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
+![](https://img.shields.io/badge/jCenter-0.1.4-green.svg)![](https://img.shields.io/badge/DemoVersion-1.8-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
 
 基于MVPH库的快速开发框架：
 [FastDeptLibrary（研发中）](https://github.com/AcgnCodeMonkey/FastDeptLibrary)
@@ -8,7 +8,7 @@
 引用方式 :<br>
 
 > ~~compile 'com.xujl:BaseLibrary:0.1.3'~~//后面版本升级较大，请勿再使用此版本<br>
-> **compile 'com.xujl:BaseLibrary:0.1.3-subAlpha13'**//稳定版<br>
+> **compile 'com.xujl:BaseLibrary:0.1.4'**//稳定版<br>
 
 ### 框架思路简介
 [架构思路详解](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/架构思路.md)
