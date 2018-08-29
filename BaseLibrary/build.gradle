@@ -38,7 +38,7 @@ android {
         //权限管理
         compile 'pub.devrel:easypermissions:1.1.1'
         //rx工具类
-        compile 'com.xujl.rxlibrary:RxLibrary:0.0.1-alpha8'
+        compile 'com.xujl:task:0.0.1-alpha'
         //加载动画控件
         compile 'com.github.ybq:Android-SpinKit:1.1.0'
         /*fragment管理库*/

@@ -5,16 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
-import com.xujl.rxlibrary.RxLife;
+import com.xujl.task.RxLifeList;
 
 /**
  * Created by xujl on 2017/7/4.
  */
 
 public interface ICommonPresenter extends IBasePresenter {
-    void requestSuccess(int mode,String json);
-    RxLife getRxLife ();
-    void requestFailed(int mode,int errorCode,String errorMsg,String json);
+    void requestSuccess (int mode, String json);
+
+    RxLifeList getRxLife ();
+
+    void requestFailed (int mode, int errorCode, String errorMsg, String json);
+
     <S extends Activity> void gotoActivity (Class<S> cls, Bundle bundle);
 
     <S extends Activity> void gotoActivity (Class<S> cls, Bundle bundle, int requestCode);

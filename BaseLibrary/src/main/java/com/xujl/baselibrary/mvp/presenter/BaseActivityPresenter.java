@@ -16,18 +16,15 @@ import android.widget.EditText;
 import com.xujl.baselibrary.Logger;
 import com.xujl.baselibrary.mvp.common.BasePresenterHelper;
 import com.xujl.baselibrary.mvp.common.NullLayoutModule;
-import com.xujl.baselibrary.mvp.port.Callback;
 import com.xujl.baselibrary.mvp.port.IBaseActivityPresenter;
 import com.xujl.baselibrary.mvp.port.IBaseModel;
 import com.xujl.baselibrary.mvp.port.IBaseView;
 import com.xujl.baselibrary.mvp.port.LifeCycleCallback;
 import com.xujl.baselibrary.utils.ListUtils;
 import com.xujl.baselibrary.utils.PermissionsHelper;
-import com.xujl.rxlibrary.BaseObservable;
-import com.xujl.rxlibrary.BaseObservableEmitter;
-import com.xujl.rxlibrary.BaseObserver;
-import com.xujl.rxlibrary.RxHelper;
-import com.xujl.rxlibrary.RxLife;
+import com.xujl.task.Emitter;
+import com.xujl.task.RxExecutor;
+import com.xujl.task.Task;
 
 import java.util.List;
 
@@ -100,7 +97,6 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
      */
     private String[] varyPermissions;
 
-    protected RxLife mRxLife = new RxLife();
     //</editor-fold>
 
     //<editor-fold desc="抽象方法">
@@ -158,30 +154,32 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
 
     private void continueLoading (final Bundle savedInstanceState) {
         //子线程初始化model并回归主线程初始化逻辑
-        subToMain(new Callback() {
-            @Override
-            public void callback () {
-                //创建model
-                createModel();
-                //初始化model
-                mModel.initModel(BaseActivityPresenter.this);
-            }
-        }, new Callback() {
-            @Override
-            public void callback () {
-                /*savedInstanceState不为空时调用界面恢复方法，如果需要重新初始化
-                则应该在resumePresenter中重新调用initPresenter
-                */
-//                if (savedInstanceState == null) {
-                mView.dismissNullView(NullLayoutModule.LOADING);
-                //初始化逻辑代码
-                initPresenter(savedInstanceState);
-//                } else {
-//                    resumePresenter(savedInstanceState);
-//                }
-            }
-        });
+        RxExecutor.getInstance()
+                .executeTask(new Task<Object>() {
+                    @Override
+                    public void run (Emitter emitter) throws Exception {
+                        super.run(emitter);
+                        //创建model
+                        createModel();
+                        //初始化model
+                        mModel.initModel(BaseActivityPresenter.this);
+                        emitter.next(0);
+                        Thread.sleep(200);
+                    }
 
+                    @Override
+                    public void onNext (Object object) {
+                        super.onNext(object);
+                        //初始化逻辑代码
+                        initPresenter(savedInstanceState);
+                    }
+
+                    @Override
+                    public void onFinished () {
+                        super.onFinished();
+                        mView.dismissNullView(NullLayoutModule.LOADING);
+                    }
+                });
     }
 
     @Override
@@ -629,7 +627,6 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
 
     @Override
     protected void onDestroy () {
-        mRxLife.destroyAll();
         super.onDestroy();
         if (mLifeCycleCallback != null) {
             mLifeCycleCallback.onDestroyLife();
@@ -684,37 +681,6 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
             }
         }
         return false;
-    }
-
-    /**
-     * 子线程任务，完成后回调主线程
-     *
-     * @param taskCallback
-     * @param callback
-     */
-    protected void subToMain (final Callback taskCallback, final Callback callback) {
-        RxHelper.onCreate(mRxLife)
-                .createNormal(new BaseObservable<Object>() {
-                    @Override
-                    public void emitAction (BaseObservableEmitter<Object> e) throws Exception {
-                        if (taskCallback != null) {
-                            taskCallback.callback();
-                        }
-                        Thread.sleep(70);
-                        e.onNext(new Object());
-                        e.onComplete();
-                    }
-                })
-                .newThreadToMain()
-                .run(new BaseObserver<Object>() {
-                    @Override
-                    public void onNext (Object o) {
-                        super.onNext(o);
-                        if (callback != null) {
-                            callback.callback();
-                        }
-                    }
-                });
     }
 
     //<editor-fold desc="fragment管理">

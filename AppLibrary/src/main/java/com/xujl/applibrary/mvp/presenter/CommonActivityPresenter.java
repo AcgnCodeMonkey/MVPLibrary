@@ -16,7 +16,7 @@ import com.xujl.applibrary.util.CustomToast;
 import com.xujl.baselibrary.mvp.port.IBaseModel;
 import com.xujl.baselibrary.mvp.port.IBaseView;
 import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
-import com.xujl.rxlibrary.RxLife;
+import com.xujl.task.RxLifeList;
 import com.xujl.utilslibrary.data.ParamsMapTool;
 
 /**
@@ -25,6 +25,7 @@ import com.xujl.utilslibrary.data.ParamsMapTool;
 
 public abstract class CommonActivityPresenter<V extends ICommonView, M extends ICommonModel>
         extends BaseActivityPresenter<V, M> implements ICommonPresenter {
+    private RxLifeList mRxLife = new RxLifeList();
     @Override
     public <S extends Activity> void gotoActivity (Class<S> cls, Bundle bundle) {
         getPresenterHelper().gotoActivity(this, cls, bundle);
@@ -149,7 +150,7 @@ public abstract class CommonActivityPresenter<V extends ICommonView, M extends I
 
     @Override
     protected void onDestroy () {
-        mRxLife.destroyAll();
+        mRxLife.onDestroy();
         super.onDestroy();
     }
     @Override
@@ -163,7 +164,12 @@ public abstract class CommonActivityPresenter<V extends ICommonView, M extends I
     }
 
     @Override
-    public RxLife getRxLife () {
+    public RxLifeList getRxLife () {
         return mRxLife;
+    }
+
+    @Override
+    public boolean enableUseLoadingLayout () {
+        return false;
     }
 }

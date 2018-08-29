@@ -16,10 +16,9 @@ import com.xujl.mvpllirary.adapter.ShowImagesAdapter;
 import com.xujl.mvpllirary.mvp.model.port.IShowImageFragmentModel;
 import com.xujl.mvpllirary.mvp.view.port.IShowImageFragmentView;
 import com.xujl.mvpllirary.util.IntentKey;
-import com.xujl.rxlibrary.BaseObservable;
-import com.xujl.rxlibrary.BaseObservableEmitter;
-import com.xujl.rxlibrary.BaseObserver;
-import com.xujl.rxlibrary.RxHelper;
+import com.xujl.task.Emitter;
+import com.xujl.task.RxExecutor;
+import com.xujl.task.Task;
 import com.xujl.widgetlibrary.adapter.BaseRecyclerViewAdapter;
 
 import java.io.File;
@@ -132,19 +131,18 @@ public class ShowImageFragmentPresenter extends CommonFragmentPresenter<IShowIma
 
     private void changeState (int position) {
         mModel.setNewImage(position);
-        RxHelper.onCreate(mRxLife)
-                .createNormal(new BaseObservable<Bitmap>() {
+        RxExecutor.getInstance()
+                .executeTask(new Task<Object>() {
                     @Override
-                    public void emitAction (BaseObservableEmitter<Bitmap> e) throws Exception {
-                        e.onNext(mModel.blurImage(mModel.getImageUrl()));
+                    public void run (Emitter emitter) throws Exception {
+                        super.run(emitter);
+                        emitter.next(mModel.blurImage(mModel.getImageUrl()));
                     }
-                })
-                .newThreadToMain()
-                .run(new BaseObserver<Bitmap>() {
+
                     @Override
-                    public void onNext (Bitmap bitmap) {
-                        super.onNext(bitmap);
-                        mView.blurBackground(bitmap);
+                    public void onNext (Object object) {
+                        super.onNext(object);
+                        mView.blurBackground((Bitmap) object);
                         mView.changeCollectionImage(mModel.imageIsCollection());
                     }
                 });

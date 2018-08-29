@@ -4,15 +4,15 @@ import android.support.annotation.Nullable;
 
 import com.xujl.applibrary.mvp.common.CommonModelHelper;
 import com.xujl.applibrary.mvp.port.ICommonModel;
+import com.xujl.applibrary.mvp.port.IRequest;
 import com.xujl.baselibrary.mvp.model.BaseModel;
 import com.xujl.datalibrary.network.InternetUtil;
-import com.xujl.rxlibrary.BaseObservable;
-import com.xujl.rxlibrary.BaseObservableEmitter;
-import com.xujl.rxlibrary.BaseObserver;
-import com.xujl.rxlibrary.RxHelper;
-import com.xujl.rxlibrary.RxLife;
-import com.xujl.utilslibrary.data.ParamsMapTool;
 import com.xujl.datalibrary.network.ResultEntity;
+import com.xujl.task.Emitter;
+import com.xujl.task.RxExecutor;
+import com.xujl.task.RxLifeList;
+import com.xujl.task.Task;
+import com.xujl.utilslibrary.data.ParamsMapTool;
 import com.xujl.utilslibrary.port.RequestCallBack;
 
 import java.util.HashMap;
@@ -50,31 +50,35 @@ public abstract class CommonModel extends BaseModel implements ICommonModel {
     }
 
     @Override
-    public void requestForGet (int mode, ParamsMapTool paramsMapTool, RxLife rxLife, BaseObserver<ResultEntity> observer) {
+    public void requestForGet (int mode, ParamsMapTool paramsMapTool, RxLifeList rxLife, final IRequest<ResultEntity> iRequest) {
         final String apiName = getApiName(mode);
         final Map<String, Object> params = new HashMap<>();
         addParams(mode, params, paramsMapTool);
-        RxHelper.onCreate(rxLife)
-                .createNormal(new BaseObservable<ResultEntity>() {
-                    @Override
-                    public void emitAction (final BaseObservableEmitter<ResultEntity> e) throws Exception {
-                        mInternetUtil.requestForGet(params, "", new RequestCallBack() {
-                            @Override
-                            public void notice (String json) {
-                                e.onNext(new ResultEntity(json));
-                                e.onComplete();
-                            }
+        final RequestCallBack requestCallBack = new RequestCallBack() {
+            @Override
+            public void notice (String json) {
+                iRequest.onNext(new ResultEntity(json));
+            }
 
-                            @Override
-                            public void error (@JsonICode int error, @Nullable String json) {
-                                e.onNext(new ResultEntity(json, error));
-                                e.onComplete();
-                            }
-                        }, apiName);
+            @Override
+            public void error (@JsonICode int error, @Nullable String json) {
+                iRequest.onNext(new ResultEntity(json, error));
+            }
+        };
+        RxExecutor.getInstance()
+                .executeTask(new Task<Object>() {
+                    @Override
+                    public void run (final Emitter e) throws Exception {
+                        super.run(e);
+                        mInternetUtil.requestForGet(params, "", requestCallBack, apiName);
                     }
-                })
-                .newThreadToMain()
-                .run(observer);
+
+                    @Override
+                    public void onNext (Object object) {
+                        super.onNext(object);
+                        iRequest.onNext((ResultEntity) object);
+                    }
+                });
     }
 
     protected void addParams (int mode, Map<String, Object> params, ParamsMapTool paramsMapTool) {

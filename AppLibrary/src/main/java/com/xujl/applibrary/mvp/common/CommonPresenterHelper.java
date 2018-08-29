@@ -6,14 +6,14 @@ import android.os.Bundle;
 import com.xujl.applibrary.mvp.port.ICommonModel;
 import com.xujl.applibrary.mvp.port.ICommonPresenter;
 import com.xujl.applibrary.mvp.port.ICommonView;
+import com.xujl.applibrary.mvp.port.IRequest;
 import com.xujl.baselibrary.mvp.common.BasePresenterHelper;
 import com.xujl.baselibrary.mvp.presenter.BaseActivityPresenter;
-import com.xujl.baselibrary.utils.ActivityManger;
-import com.xujl.rxlibrary.BaseObserver;
-import com.xujl.utilslibrary.data.ParamsMapTool;
 import com.xujl.datalibrary.network.ResultEntity;
+import com.xujl.task.RxExecutor;
+import com.xujl.task.Task;
+import com.xujl.utilslibrary.data.ParamsMapTool;
 
-import io.reactivex.annotations.NonNull;
 
 /**
  * Created by xujl on 2017/7/4.
@@ -31,17 +31,23 @@ public class CommonPresenterHelper extends BasePresenterHelper {
             view.showLoading();
         }
         //网络请求与生命周期绑定，界面被销毁时，不接受回调结果
-        model.requestForGet(mode, paramsMapTool, presenter.getRxLife(), new BaseObserver<ResultEntity>() {
+        model.requestForGet(mode, paramsMapTool, presenter.getRxLife(), new IRequest<ResultEntity>() {
             @Override
-            public void onNext (@NonNull ResultEntity resultEntity) {
-                super.onNext(resultEntity);
-                view.dismissLoading();
-                if (resultEntity.getErrorCode() == 0) {
-                    presenter.requestSuccess(mode, resultEntity.getResultJson());
-                    return;
-                }
-                presenter.requestFailed(mode, resultEntity.getErrorCode(),
-                        resultEntity.getErrorString(), resultEntity.getResultJson());
+            public void onNext (final ResultEntity resultEntity) {
+                RxExecutor.getInstance()
+                        .executeUiTask(new Task() {
+                            @Override
+                            public void onlyRunUiTask () {
+                                super.onlyRunUiTask();
+                                view.dismissLoading();
+                                if (resultEntity.getErrorCode() == 0) {
+                                    presenter.requestSuccess(mode, resultEntity.getResultJson());
+                                    return;
+                                }
+                                presenter.requestFailed(mode, resultEntity.getErrorCode(),
+                                        resultEntity.getErrorString(), resultEntity.getResultJson());
+                            }
+                        });
             }
         });
     }

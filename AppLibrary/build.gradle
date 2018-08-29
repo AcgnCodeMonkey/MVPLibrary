@@ -11,7 +11,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -25,7 +25,6 @@ android {
 }
 
 dependencies {
-
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -40,8 +39,8 @@ dependencies {
     compile 'net.zetetic:android-database-sqlcipher:3.5.2'
     //greendao加密依赖库
     compile project(':BaseLibrary')
-    compile 'com.xujl.utilslibrary:UtilsLibrary:0.0.1-alpha9'
-    compile 'com.xujl.rxlibrary:RxLibrary:0.0.1-alpha7'
-    compile 'com.xujl.widgetlibrary:WidgetLibrary:0.0.1-alpha12'
+    compile 'com.xujl.utilslibrary:UtilsLibrary:0.0.1-alpha19'
+    compile 'com.xujl.widgetlibrary:WidgetLibrary:0.0.1-alpha14'
+    compile 'com.android.support:multidex:1.0.3'
     compile project(':DataLibrary')
 }

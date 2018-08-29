@@ -16,7 +16,7 @@ import com.xujl.applibrary.util.CustomToast;
 import com.xujl.baselibrary.mvp.port.IBaseModel;
 import com.xujl.baselibrary.mvp.port.IBaseView;
 import com.xujl.baselibrary.mvp.presenter.BaseFragmentPresenter;
-import com.xujl.rxlibrary.RxLife;
+import com.xujl.task.RxLifeList;
 import com.xujl.utilslibrary.data.ParamsMapTool;
 
 /**
@@ -25,7 +25,7 @@ import com.xujl.utilslibrary.data.ParamsMapTool;
 
 public abstract class CommonFragmentPresenter<V extends ICommonView, M extends ICommonModel>
         extends BaseFragmentPresenter<V, M> implements ICommonPresenter {
-    protected RxLife mRxLife = new RxLife();
+    private RxLifeList mRxLife = new RxLifeList();
     @Override
     public void exit () {
         getPresenterHelper().exit(exposeActivity());
@@ -149,7 +149,7 @@ public abstract class CommonFragmentPresenter<V extends ICommonView, M extends I
     }
     @Override
     public void onDestroy () {
-        mRxLife.destroyAll();
+        mRxLife.onDestroy();
         super.onDestroy();
     }
     @Override
@@ -163,7 +163,7 @@ public abstract class CommonFragmentPresenter<V extends ICommonView, M extends I
     }
 
     @Override
-    public RxLife getRxLife () {
+    public RxLifeList getRxLife () {
         return mRxLife;
     }
 }

@@ -12,6 +12,7 @@
     <color name="layoutBgWhite">#dfdfdf</color>
 
     <color name="menuBackground">#aa000000</color>
+    <color name="rootBg">#222222</color>
     <color name="lineColor">#777</color>
     <color name="transparent">#0000</color>
 </resources>

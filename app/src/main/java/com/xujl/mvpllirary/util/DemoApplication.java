@@ -8,6 +8,7 @@ import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import com.xujl.applibrary.util.AppApplication;
 import com.xujl.baselibrary.Logger;
+import com.xujl.baselibrary.MvpConfig;
 import com.xujl.baselibrary.utils.ActivityManger;
 import com.xujl.mvpllirary.mvp.model.ModelPackageConfig;
 import com.xujl.mvpllirary.mvp.presenter.MainFragmentPresenter;
@@ -26,6 +27,8 @@ public class DemoApplication extends AppApplication {
     @Override
     public void onCreate () {
         super.onCreate();
+        //初始化框架核心库
+        MvpConfig.init();
         Logger.init(true);
         registerActivityLifecycleCallbacks(ActivityManger.newInstance());
 //        StallBuster.getInstance().init(this);
