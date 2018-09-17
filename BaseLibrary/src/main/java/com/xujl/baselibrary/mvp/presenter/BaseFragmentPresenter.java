@@ -135,19 +135,12 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
                         super.run(emitter);
                         createModel();
                         mModel.initModel(BaseFragmentPresenter.this);
-                        emitter.next(0);
-                        Thread.sleep(200);
-                    }
-
-                    @Override
-                    public void onNext (Object object) {
-                        super.onNext(object);
-                        initPresenter(savedInstanceState);
                     }
 
                     @Override
                     public void onFinished () {
                         super.onFinished();
+                        initPresenter(savedInstanceState);
                         mView.dismissNullView(NullLayoutModule.LOADING);
                     }
                 });

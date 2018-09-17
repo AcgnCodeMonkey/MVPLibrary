@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tl="http://schemas.android.com/tools"
-    android:id="@+id/toolbar"
-    android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    android:background="@color/colorPrimary"
-    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-    app:elevation="4dp"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+<android.support.v7.widget.Toolbar android:id="@+id/toolbar"
+                                   xmlns:android="http://schemas.android.com/apk/res/android"
+                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="?attr/actionBarSize"
+                                   android:background="@drawable/toolbar_bg"
+                                   android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                                   app:elevation="4dp"
+                                   app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
     <ImageButton
         android:id="@+id/toolbar_layout_leftImageBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@null" />
+        android:background="@null"/>
 
     <TextView
         android:id="@+id/toolbar_layout_titleTV"
@@ -25,7 +24,7 @@
         android:text="标题"
         android:textColor="@android:color/white"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
 
     <ImageButton
@@ -34,5 +33,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_marginRight="10dp"
-        android:background="@null" />
+        android:background="@null"/>
 </android.support.v7.widget.Toolbar>

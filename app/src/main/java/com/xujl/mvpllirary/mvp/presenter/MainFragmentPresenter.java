@@ -2,9 +2,8 @@ package com.xujl.mvpllirary.mvp.presenter;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.view.View;
-import android.widget.RadioGroup;
+import android.widget.CompoundButton;
 
 import com.xujl.applibrary.db.ImageBeanType;
 import com.xujl.applibrary.mvp.presenter.CommonFragmentPresenter;
@@ -22,7 +21,7 @@ import com.xujl.mvpllirary.util.IntentKey;
  */
 
 public class MainFragmentPresenter extends CommonFragmentPresenter<IMainFragmentView, IMainFragmentModel>
-        implements RadioGroup.OnCheckedChangeListener {
+        implements CompoundButton.OnCheckedChangeListener {
     public static MainFragmentPresenter newInstance () {
 
         Bundle args = new Bundle();
@@ -96,21 +95,6 @@ public class MainFragmentPresenter extends CommonFragmentPresenter<IMainFragment
 //        return new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 //    }
 
-    @Override
-    public void onCheckedChanged (RadioGroup group, @IdRes int checkedId) {
-        switch (checkedId) {
-            case R.id.activity_main_radioButton1:
-                mView.setCurrentItem(MainFragmentPresenter.this, mModel.getFragments(), 0, "妹纸");
-                break;
-            case R.id.activity_main_radioButton2:
-                mView.setCurrentItem(MainFragmentPresenter.this, mModel.getFragments(), 1, "资讯");
-                break;
-            default:
-
-                break;
-
-        }
-    }
 
 
     @Override
@@ -130,5 +114,14 @@ public class MainFragmentPresenter extends CommonFragmentPresenter<IMainFragment
     @Override
     public boolean enableToolBar () {
         return true;
+    }
+
+    @Override
+    public void onCheckedChanged (CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            mView.setCurrentItem(MainFragmentPresenter.this, mModel.getFragments(), 0, "妹纸");
+        } else {
+            mView.setCurrentItem(MainFragmentPresenter.this, mModel.getFragments(), 1, "资讯");
+        }
     }
 }

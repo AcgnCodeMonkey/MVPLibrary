@@ -41,7 +41,7 @@ public class SplashFragmentPresenter extends CommonFragmentPresenter {
                 isCompleted = true;
                 //使用路由跳转
 //                Router.build(RouterConst.MAIN).go(exposeContext());
-                SplashFragmentPresenter.this.start(MainFragmentPresenter.newInstance());
+                SplashFragmentPresenter.this.startWithPop(MainFragmentPresenter.newInstance());
             }
         });
         granzortView.setCallback(new GranzortView.Callback() {
@@ -49,7 +49,7 @@ public class SplashFragmentPresenter extends CommonFragmentPresenter {
             public void end () {
 //                exit();
                 if (!isCompleted) {
-                    SplashFragmentPresenter.this.start(MainFragmentPresenter.newInstance());
+                    SplashFragmentPresenter.this.startWithPop(MainFragmentPresenter.newInstance());
                 }
                 //使用路由跳转
 //                Router.build(RouterConst.MAIN).go(exposeContext());

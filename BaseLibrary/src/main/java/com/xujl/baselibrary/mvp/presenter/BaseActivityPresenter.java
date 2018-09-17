@@ -163,20 +163,12 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
                         createModel();
                         //初始化model
                         mModel.initModel(BaseActivityPresenter.this);
-                        emitter.next(0);
-                        Thread.sleep(200);
                     }
-
-                    @Override
-                    public void onNext (Object object) {
-                        super.onNext(object);
-                        //初始化逻辑代码
-                        initPresenter(savedInstanceState);
-                    }
-
                     @Override
                     public void onFinished () {
                         super.onFinished();
+                        //初始化逻辑代码
+                        initPresenter(savedInstanceState);
                         mView.dismissNullView(NullLayoutModule.LOADING);
                     }
                 });

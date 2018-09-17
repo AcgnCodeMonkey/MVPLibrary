@@ -44,9 +44,14 @@ android {
         /*fragment管理库*/
         // appcompat-v7包是必须的，v1.1.9兼容v4-27.0.0+
         compile 'me.yokeyword:fragmentation:1.1.10'
-        // swipeback基于fragmentation, 如果是自定制SupportActivity/Fragment，则参照SwipeBackActivity/Fragment实现即可
+        // swipeback基于fragmentation, 如果是自定制SupportActivity/Fragment，则参照SwipeBackActivity/Fragment
+        // 实现即可
         compile 'me.yokeyword:fragmentation-swipeback:1.1.10'
     }
+    lintOptions {
+        abortOnError false
+    }
+
 }
 
 //方法1

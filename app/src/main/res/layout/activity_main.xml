@@ -5,52 +5,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mvp.presenter.MainFragmentPresenter"
-    tools:openDrawer="start">
-    <LinearLayout
+    tools:context=".mvp.presenter.MainFragmentPresenter" tools:openDrawer="start">
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        android:orientation="vertical"
     >
         <FrameLayout android:id="@+id/root_fl"
                      android:layout_width="match_parent"
-                     android:layout_height="0dp"
-                     android:background="@color/rootBg"
-                     android:layout_weight="1">
+                     android:layout_height="match_parent"
+                     android:background="@drawable/main_menu_bg">
 
         </FrameLayout>
-        <RadioGroup android:id="@+id/activity_main_radioGroup"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimaryDark"
-                    android:orientation="horizontal">
-            <Space android:layout_width="0dp"
-                   android:layout_height="0dp"
-                   android:layout_weight="1"/>
-            <RadioButton android:id="@+id/activity_main_radioButton1"
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:button="@null"
-                         android:checked="true"
-                         android:drawableLeft="@drawable/home_image"
-                         android:padding="10dp"
-                         android:textColor="@drawable/home_tab_text"
+        <FrameLayout android:layout_width="@dimen/menu_bottom_btn_size"
+                     android:layout_height="@dimen/menu_bottom_btn_size"
+                     android:layout_gravity="right|bottom"
+                     android:layout_marginBottom="@dimen/dp_20"
+                     android:layout_marginRight="@dimen/dp_20"
+                     android:background="@drawable/menu_bottom_btn_bg">
+
+
+            <CheckBox android:id="@+id/cb_menu"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center"
+                      android:button="@null"
+                      android:checked="true"
+                      android:drawableLeft="@drawable/home_image"
+                      android:gravity="center"
             />
-            <Space android:layout_width="0dp"
-                   android:layout_height="0dp"
-                   android:layout_weight="2"/>
-            <RadioButton android:id="@+id/activity_main_radioButton2"
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:button="@null"
-                         android:drawableLeft="@drawable/home_news"
-                         android:textColor="@drawable/home_tab_text"
-            />
-            <Space android:layout_width="0dp"
-                   android:layout_height="0dp"
-                   android:layout_weight="1"/>
-        </RadioGroup>
-    </LinearLayout>
+        </FrameLayout>
+    </FrameLayout>
     <include layout="@layout/part_activity_main_menu"/>
 </android.support.v4.widget.DrawerLayout>

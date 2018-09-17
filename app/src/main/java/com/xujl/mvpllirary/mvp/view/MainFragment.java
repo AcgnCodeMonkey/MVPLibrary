@@ -1,14 +1,21 @@
 package com.xujl.mvpllirary.mvp.view;
 
+import android.app.Activity;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.ViewDragHelper;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 
 import com.xujl.applibrary.mvp.view.CommonView;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.mvpllirary.R;
 import com.xujl.mvpllirary.mvp.view.port.IMainFragmentView;
+
+import java.lang.reflect.Field;
 
 import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -43,13 +50,28 @@ public class MainFragment extends CommonView implements IMainFragmentView {
         };
         mDrawerToggle.syncState();
         mDrawerLayout.addDrawerListener(mDrawerToggle);
+        setDrawerLeftEdgeSize(presenter.exposeActivity(),mDrawerLayout,0f);
         mRootView.findViewById(R.id.part_activity_main_menu_downloadTV).setOnClickListener(presenter);
         mRootView.findViewById(R.id.part_activity_main_menu_collectionTV).setOnClickListener(presenter);
         mRootView.findViewById(R.id.part_activity_main_menu_personTV).setOnClickListener(presenter);
-        RadioGroup radioGroup = (RadioGroup) mRootView.findViewById(R.id.activity_main_radioGroup);
-        radioGroup.setOnCheckedChangeListener((RadioGroup.OnCheckedChangeListener) presenter);
+        ((CheckBox) mRootView.findViewById(R.id.cb_menu)).setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) presenter);
     }
 
+    public static void setDrawerLeftEdgeSize (Activity activity, DrawerLayout drawerLayout, float displayWidthPercentage) {
+        if (activity == null || drawerLayout == null) return;
+        try {
+            Field leftDraggerField = drawerLayout.getClass().getDeclaredField("mLeftDragger");
+            leftDraggerField.setAccessible(true);
+            ViewDragHelper leftDragger = (ViewDragHelper) leftDraggerField.get(drawerLayout);
+            Field edgeSizeField = leftDragger.getClass().getDeclaredField("mEdgeSize");
+            edgeSizeField.setAccessible(true);
+            int edgeSize = edgeSizeField.getInt(leftDragger);
+            DisplayMetrics dm = new DisplayMetrics();
+            activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+            edgeSizeField.setInt(leftDragger, Math.max(edgeSize, (int) (dm.widthPixels * displayWidthPercentage)));
+        } catch (Exception e) {
+        }
+    }
 
     @Override
     public int getLayoutId () {
