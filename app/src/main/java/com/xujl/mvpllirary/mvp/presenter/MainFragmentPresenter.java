@@ -1,6 +1,7 @@
 package com.xujl.mvpllirary.mvp.presenter;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -74,7 +75,7 @@ public class MainFragmentPresenter extends CommonFragmentPresenter<IMainFragment
             case R.id.toolbar_layout_rightImageBtn:
                 final boolean permissionsGet = requestPermissions(new String[]{Manifest.permission.CAMERA});
                 if (permissionsGet) {
-                    getQRScanHelper().openScanner(exposeActivity());
+                    getQRScanHelper().openScanner(this);
                 }
                 break;
             default:
@@ -87,7 +88,7 @@ public class MainFragmentPresenter extends CommonFragmentPresenter<IMainFragment
     @Override
     protected void permissionsComplete (String[] permissions) {
         super.permissionsComplete(permissions);
-        getQRScanHelper().openScanner(exposeActivity());
+        getQRScanHelper().openScanner(this);
     }
 
 //    @Override
@@ -98,8 +99,8 @@ public class MainFragmentPresenter extends CommonFragmentPresenter<IMainFragment
 
 
     @Override
-    public void onFragmentResult (int requestCode, int resultCode, Bundle data) {
-        super.onFragmentResult(requestCode, resultCode, data);
+    public void onActivityResult (int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         final String result = getQRScanHelper().onActivityResult(requestCode, resultCode, data);
         if (result == null) {
             return;
