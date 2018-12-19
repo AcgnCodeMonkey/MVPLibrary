@@ -125,25 +125,14 @@ public abstract class BaseFragmentPresenter<V extends IBaseView, M extends IBase
         mRootView = createLayout(inflater, container, savedInstanceState);
         //初始化控件
         mView.initView(this);
+
+        createModel();
+        mModel.initModel(BaseFragmentPresenter.this);
+        initPresenter(savedInstanceState);
+        mView.dismissNullView(NullLayoutModule.LOADING);
         if (mLifeCycleCallback != null) {
             mLifeCycleCallback.onCreateLife(savedInstanceState);
         }
-        RxExecutor.getInstance()
-                .executeTask(new Task<Object>() {
-                    @Override
-                    public void run (Emitter emitter) throws Exception {
-                        super.run(emitter);
-                        createModel();
-                        mModel.initModel(BaseFragmentPresenter.this);
-                    }
-
-                    @Override
-                    public void onFinished () {
-                        super.onFinished();
-                        initPresenter(savedInstanceState);
-                        mView.dismissNullView(NullLayoutModule.LOADING);
-                    }
-                });
         return mRootView;
     }
 

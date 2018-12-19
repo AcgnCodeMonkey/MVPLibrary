@@ -18,11 +18,6 @@ public class MainFragmentModel extends CommonModel implements IMainFragmentModel
     @Override
     public void initModel (IBasePresenter presenter) {
         super.initModel(presenter);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

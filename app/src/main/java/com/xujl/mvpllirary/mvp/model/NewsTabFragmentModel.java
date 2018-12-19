@@ -27,11 +27,6 @@ public class NewsTabFragmentModel extends CommonModel implements INewsTabFragmen
     public void initModel (IBasePresenter presenter) {
         super.initModel(presenter);
         mDataList = new ArrayList<>();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

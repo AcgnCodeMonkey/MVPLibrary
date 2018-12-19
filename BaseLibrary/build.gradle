@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 //提交到仓库中的版本号
-version = "0.1.4"
+version = "0.1.5"
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -38,7 +38,7 @@ android {
         //权限管理
         compile 'pub.devrel:easypermissions:1.1.1'
         //rx工具类
-        compile 'com.xujl:task:0.0.1-alpha'
+        compile 'com.xujl:task:0.0.3'
         //加载动画控件
         compile 'com.github.ybq:Android-SpinKit:1.1.0'
         /*fragment管理库*/

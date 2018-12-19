@@ -1,6 +1,7 @@
 package com.xujl.mvpllirary.mvp.presenter;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.xujl.applibrary.mvp.presenter.CommonActivityPresenter;
 import com.xujl.mvpllirary.mvp.model.port.ISingleActivityModel;
@@ -18,5 +19,11 @@ public class SingleActivityPresenter extends CommonActivityPresenter<ISingleActi
     @Override
     public boolean enableToolBar () {
         return false;
+    }
+
+    @Override
+    protected void onResume () {
+        super.onResume();
+        Log.e("mModel Test", "mModel:" + mModel);
     }
 }

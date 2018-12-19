@@ -22,9 +22,6 @@ import com.xujl.baselibrary.mvp.port.IBaseView;
 import com.xujl.baselibrary.mvp.port.LifeCycleCallback;
 import com.xujl.baselibrary.utils.ListUtils;
 import com.xujl.baselibrary.utils.PermissionsHelper;
-import com.xujl.task.Emitter;
-import com.xujl.task.RxExecutor;
-import com.xujl.task.Task;
 
 import java.util.List;
 
@@ -147,31 +144,20 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
         //初始化控件
         mView.initView(this);
         this.savedInstanceState = savedInstanceState;
-        if (mLifeCycleCallback != null) {
-            mLifeCycleCallback.onCreateLife(savedInstanceState);
-        }
+        //创建model
+        createModel();
+        //初始化model
+        mModel.initModel(BaseActivityPresenter.this);
+        judgeLoading();
     }
 
     private void continueLoading (final Bundle savedInstanceState) {
-        //子线程初始化model并回归主线程初始化逻辑
-        RxExecutor.getInstance()
-                .executeTask(new Task<Object>() {
-                    @Override
-                    public void run (Emitter emitter) throws Exception {
-                        super.run(emitter);
-                        //创建model
-                        createModel();
-                        //初始化model
-                        mModel.initModel(BaseActivityPresenter.this);
-                    }
-                    @Override
-                    public void onFinished () {
-                        super.onFinished();
-                        //初始化逻辑代码
-                        initPresenter(savedInstanceState);
-                        mView.dismissNullView(NullLayoutModule.LOADING);
-                    }
-                });
+        //初始化逻辑代码
+        initPresenter(savedInstanceState);
+        mView.dismissNullView(NullLayoutModule.LOADING);
+        if (mLifeCycleCallback != null) {
+            mLifeCycleCallback.onCreateLife(savedInstanceState);
+        }
     }
 
     @Override
@@ -182,7 +168,6 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
             oldTime = 0;
         }
         isViewCompleted = hasFocus;
-        judgeLoading();
     }
 
     /**
@@ -190,7 +175,7 @@ public abstract class BaseActivityPresenter<V extends IBaseView, M extends IBase
      */
     private void judgeLoading () {
         //已经加载过或者当前界面未获取焦点时跳出
-        if (isViewLoaded || !isViewCompleted) {
+        if (isViewLoaded) {
             return;
         }
         isViewLoaded = true;
