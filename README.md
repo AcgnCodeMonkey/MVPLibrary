@@ -1,14 +1,12 @@
 # MVP模式扩展-->MVPH模式
 #### 使用简单，易扩展，易维护，低耦合，高复用是MVPH的目标<br>
-![](https://img.shields.io/badge/jCenter-0.1.4-green.svg)![](https://img.shields.io/badge/DemoVersion-1.8-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
+![](https://img.shields.io/badge/jCenter-0.1.5-green.svg)![](https://img.shields.io/badge/DemoVersion-1.9-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
 
-基于MVPH库的快速开发框架：
-[FastDeptLibrary（研发中）](https://github.com/AcgnCodeMonkey/FastDeptLibrary)
+
 
 引用方式 :<br>
 
-> ~~compile 'com.xujl:BaseLibrary:0.1.3'~~//后面版本升级较大，请勿再使用此版本<br>
-> **compile 'com.xujl:BaseLibrary:0.1.4'**//稳定版<br>
+> **compile 'com.xujl:BaseLibrary:0.1.5'**//稳定版<br>
 
 ### 框架思路简介
 [架构思路详解](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/架构思路.md)
@@ -60,7 +58,8 @@ Activity为Presenter则是一个Presenter对应多个View和Model),而MVPH的思
  boolean isMVP();//是否使用MVP模式
 >5. **支持DataBinding.**从0.1.0版本开始，正式兼容使用DataBinding进行开发
 >6. **支持空布局。**从0.1.3-subAlpha3版本开始，支持加载布局，空布局，等实现。
->6. **采用多线程加载。**从0.1.4版本开始，model初始化将在子线程中初始化，这意味着你可以直接在model初始化中直接进行耗时操作，但是需要注意的是model完成之后才会进行initPresenter方法初始化，建议开启空布局带来更好的体验，同时耗时过长的数据操作依然不建议放在初始化时进行，本功能仅为解决用户跳转界面后快速响应，减少卡顿感。
+>7. ~~采用多线程加载。~~（0.1.5删除此功能，因为多线程加载会造成onResume中model实例可能为空，故不再使用多线程加载，多线程加载逻辑开发者可自行添加控制）从0.1.4版本开始，model初始化将在子线程中初始化，这意味着你可以直接在model初始化中直接进行耗时操作，但是需要注意的是model完成之后才会进行initPresenter方法初始化，建议开启空布局带来更好的体验，同时耗时过长的数据操作依然不建议放在初始化时进行，本功能仅为解决用户跳转界面后快速响应，减少卡顿感。
+
 
 
 &emsp;&emsp;由于为了提高框架的自由度与可扩展度，所以MVPH本身并没有封装太多功能，仅仅提供了基本的MVPH架构思路。不过在demo里
