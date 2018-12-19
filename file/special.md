@@ -104,5 +104,5 @@ demo中只有MainActivity采用了方法1进行反射创建，其他所有界面
 |  方法名  |  所属类  |  说明  |
 |:---:|:---:|:---:|
 |initView|BaseView|view的初始化方法，会被UI线程最优先调用，此方法请勿做任何耗时操作|
-|initModel|BaseModel|model的初始化方法,此方法会在界面可见后在子线程中调用，可以做一定耗时操作，但是依然不建议将耗时过长的操作放在这里执行，因为初始化presenter会在此方法执行完毕后再会去执行，所以此方法如果耗时过长会造成界面处于长时间的Loading状态|
+|initModel|BaseModel|model的初始化方法,0.1.5版本后，此方法中不再允许做耗时操作|
 |initPresenter|BasePresenter|presenter的初始化方法，会被UI线程最后调用，不要做耗时操作|
