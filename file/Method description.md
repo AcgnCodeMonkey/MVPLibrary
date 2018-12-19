@@ -132,11 +132,11 @@
 |             方法名        | 说明           |
 |:---:|:---:|
 |View createLayout (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) |创建视图方法，与BaseActivityPresenter的参数列表稍有不同|
-| void onInVisible () | fragment不可见时，会回调此方法 |
-| void onVisible () | fragment可见时会回调此方法 |
-| void lazyLoad () | 懒加载方法，需要懒加载的代码可以写在此方法中 |
-| boolean isEveryReload () | 是否每次fragment从不可见变为可见状态时都重新进行懒加载 |
-| void resetLoadingState () | 强制重置当前加载状态为未加载 |
+| void onSupportInvisible () | fragment不可见时，会回调此方法 |
+| void onSupportVisible () | fragment可见时会回调此方法 |
+| void onLazyInitView () | 懒加载方法，需要懒加载的代码可以写在此方法中 |
+
+具体fragment管理方法，参考库Fragmentation
 
 ---
 ### 其他部分类说明
@@ -145,7 +145,7 @@
 
 |             方法名        | 说明           |
 |:---:|:---:|
-| <T extends BaseHelper> void addHelper (@HelperType.HelperTypeEnum int type, T helper) | 为当前helper类扩展一个helper类到自己内部，并规定他的类型号 |
-| <T extends BaseHelper> T getHelper (@HelperType.HelperTypeEnum int type) | 获取当前helper类中的某一个类型的扩展类对象 |
-| void removeHelper (@HelperType.HelperTypeEnum int type) | 去除当前helper类中某一个类型的扩展类 |
+| <T extends BaseHelper> void addHelper (T helper) | 为当前helper类扩展一个helper类到自己内部，并规定他的类型号 |
+| <T extends BaseHelper> T getHelper (Class cls) | 获取当前helper类中的某一个类型的扩展类对象 |
+| void removeHelper (Class cls) | 去除当前helper类中某一个类型的扩展类 |
 | void clearHelpers () | 清空当前所有的扩展helper类 |
