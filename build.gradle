@@ -3,17 +3,19 @@
 buildscript {
     repositories {
         jcenter()
+        //镜像，解决部分库无法下载
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0'
+        classpath 'com.android.tools.build:gradle:3.4.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         //GreenDao3依赖
-        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.1'
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
         //路由框架
         classpath 'com.chenenyu.router:gradle-plugin:1.2.6'
     }
@@ -25,12 +27,12 @@ buildscript {
     ext {
         // Sdk and tools
         minSdkVersion = 16
-        targetSdkVersion = 26
-        compileSdkVersion = 26
-        buildToolsVersion = '26.0.2'
+        targetSdkVersion = 29
+        compileSdkVersion = 29
+        buildToolsVersion = '28.0.3'
 
         // App dependencies
-        supportVersion = '26.+'
+        supportVersion = '28.0.0'
         guavaVersion = '18.0'
         junitVersion = '4.12'
         mockitoVersion = '1.10.19'
@@ -41,13 +43,13 @@ buildscript {
         espressoVersion = '2.2.2'
         constraintLayoutVersion = '1.0.2'
         mainGroup = [
-                Junit: "junit:junit:$junitVersion",
-                SupportV7 : "com.android.support:appcompat-v7:$supportVersion",
-                SupportV4 : "com.android.support:support-v4:$supportVersion",
-                SupportRecyclerviewV7 : "com.android.support:recyclerview-v7:$supportVersion",
-                CardViewV7 : "com.android.support:cardview-v7:$supportVersion",
-                Design :  "com.android.support:design:$supportVersion",
-                ConstraintLayout : "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
+                Junit                : "junit:junit:$junitVersion",
+                SupportV7            : "com.android.support:appcompat-v7:$supportVersion",
+                SupportV4            : "com.android.support:support-v4:$supportVersion",
+                SupportRecyclerviewV7: "com.android.support:recyclerview-v7:$supportVersion",
+                CardViewV7           : "com.android.support:cardview-v7:$supportVersion",
+                Design               : "com.android.support:design:$supportVersion",
+                ConstraintLayout     : "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
 
         ]
     }
@@ -56,6 +58,8 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        //镜像，解决部分库无法下载
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url "https://jitpack.io" }
         google()
     }
@@ -65,7 +69,16 @@ allprojects {
     }
 
 }
-
+subprojects {
+    project.configurations.all {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'com.android.support'
+                    && !details.requested.name.contains('multidex')) {
+                details.useVersion "28.0.0"
+            }
+        }
+    }
+}
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

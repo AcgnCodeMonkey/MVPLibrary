@@ -1,8 +1,6 @@
 package com.xujl.baselibrary.mvp.view;
 
 import android.content.Context;
-import android.databinding.ViewDataBinding;
-import android.support.annotation.CallSuper;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -15,6 +13,9 @@ import com.xujl.baselibrary.mvp.port.IBaseView;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.CallSuper;
+import androidx.databinding.ViewDataBinding;
 
 /**
  * ━━━━━━神兽出没━━━━━━

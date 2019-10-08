@@ -1,20 +1,19 @@
 package com.xujl.mvpllirary.mvp.common;
 
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.scwang.smartrefresh.header.MaterialHeader;
-import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.xujl.baselibrary.mvp.common.BaseHelper;
 import com.xujl.mvpllirary.R;
 import com.xujl.utilslibrary.system.Log;
 import com.xujl.widgetlibrary.adapter.BaseRecyclerViewAdapter;
 import com.xujl.widgetlibrary.widget.RefreshLayout;
+
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 /**

@@ -3,15 +3,15 @@ package com.xujl.baselibrary.utils;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
-
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import androidx.core.content.ContextCompat;
 
 
 /**

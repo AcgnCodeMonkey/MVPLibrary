@@ -2,13 +2,14 @@ package com.xujl.applibrary.util;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.multidex.MultiDex;
-import android.support.multidex.MultiDexApplication;
 
 import com.xujl.applibrary.db.bean.DaoMaster;
 import com.xujl.applibrary.db.bean.DaoSession;
 import com.xujl.utilslibrary.other.DebugConfig;
 import com.xujl.utilslibrary.system.DelegateApplication;
+
+import androidx.multidex.MultiDex;
+import androidx.multidex.MultiDexApplication;
 
 /**
  * Created by xujl on 2017/7/6.

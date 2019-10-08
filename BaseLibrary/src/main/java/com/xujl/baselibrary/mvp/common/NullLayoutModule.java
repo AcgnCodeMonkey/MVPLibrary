@@ -1,6 +1,5 @@
 package com.xujl.baselibrary.mvp.common;
 
-import android.support.annotation.IntDef;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -11,6 +10,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import androidx.annotation.IntDef;
 
 /**
  * Created by xujl on 2017/12/15.

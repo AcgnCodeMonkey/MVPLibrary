@@ -2,9 +2,6 @@ package com.xujl.mvpllirary.mvp.view;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PagerSnapHelper;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -14,6 +11,10 @@ import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.mvpllirary.R;
 import com.xujl.mvpllirary.mvp.view.port.IShowImageFragmentView;
 import com.xujl.widgetlibrary.adapter.BaseRecyclerViewAdapter;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by xujl on 2017/7/8.

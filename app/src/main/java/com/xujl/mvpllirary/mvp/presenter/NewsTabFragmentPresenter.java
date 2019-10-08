@@ -1,7 +1,6 @@
 package com.xujl.mvpllirary.mvp.presenter;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -14,6 +13,8 @@ import com.xujl.mvpllirary.mvp.view.port.INewsTabFragmentView;
 import com.xujl.mvpllirary.util.IntentKey;
 import com.xujl.widgetlibrary.adapter.BaseRecyclerViewAdapter;
 import com.xujl.widgetlibrary.widget.RefreshLayout;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by xujl on 2017/9/6.

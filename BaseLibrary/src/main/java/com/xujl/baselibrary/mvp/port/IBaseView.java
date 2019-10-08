@@ -1,13 +1,14 @@
 package com.xujl.baselibrary.mvp.port;
 
 import android.content.Context;
-import android.databinding.ViewDataBinding;
 import android.view.View;
 
 import com.xujl.baselibrary.mvp.common.BaseToolBarModule;
 import com.xujl.baselibrary.mvp.common.NullLayoutModule;
 
 import java.util.Map;
+
+import androidx.databinding.ViewDataBinding;
 
 /**
  * ━━━━━━神兽出没━━━━━━

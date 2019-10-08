@@ -1,17 +1,14 @@
 package com.xujl.mvpllirary.mvp.test;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.ViewGroup;
-import android.view.ViewGroupOverlay;
 import android.widget.TextView;
 
 import com.xujl.applibrary.mvp.presenter.CommonFragmentPresenter;
 import com.xujl.mvpllirary.R;
 
-import java.util.List;
+import androidx.annotation.NonNull;
 
 /**
  * Created by xujl on 2017/11/20.

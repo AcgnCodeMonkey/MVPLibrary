@@ -1,9 +1,10 @@
 package com.xujl.datalibrary.network;
 
-import android.support.annotation.IntDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.IntDef;
 
 /**
  * Created by xujl on 2017/9/26.

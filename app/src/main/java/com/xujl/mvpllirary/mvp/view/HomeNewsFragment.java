@@ -1,17 +1,14 @@
 package com.xujl.mvpllirary.mvp.view;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.xujl.applibrary.mvp.view.CommonView;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.mvpllirary.R;
 import com.xujl.mvpllirary.adapter.TabAdapter;
-import com.xujl.mvpllirary.adapter.TabFragmentAdapter;
 import com.xujl.mvpllirary.mvp.view.port.IHomeNewsFragmentView;
-import android.support.design.widget.TabLayout;
 
-import java.util.ArrayList;
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * Created by xujl on 2017/9/6.

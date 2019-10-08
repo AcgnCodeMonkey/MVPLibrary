@@ -3,7 +3,6 @@ package com.xujl.mvpllirary.util;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.support.v7.widget.LinearLayoutManager;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

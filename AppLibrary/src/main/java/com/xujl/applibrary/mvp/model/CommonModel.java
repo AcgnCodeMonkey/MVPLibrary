@@ -1,6 +1,5 @@
 package com.xujl.applibrary.mvp.model;
 
-import android.support.annotation.Nullable;
 
 import com.xujl.applibrary.mvp.common.CommonModelHelper;
 import com.xujl.applibrary.mvp.port.ICommonModel;
@@ -17,6 +16,8 @@ import com.xujl.utilslibrary.port.RequestCallBack;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by xujl on 2017/7/4.

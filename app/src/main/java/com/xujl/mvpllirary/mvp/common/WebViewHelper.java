@@ -1,7 +1,6 @@
 package com.xujl.mvpllirary.mvp.common;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -12,6 +11,8 @@ import com.just.library.ChromeClientCallbackManager;
 import com.xujl.applibrary.mvp.presenter.CommonFragmentPresenter;
 import com.xujl.baselibrary.mvp.common.BaseHelper;
 import com.xujl.baselibrary.mvp.port.IBaseView;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by xujl on 2017/9/6.

@@ -1,7 +1,6 @@
 package com.xujl.mvpllirary.mvp.model;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
 import com.xujl.applibrary.mvp.model.CommonModel;
 import com.xujl.mvpllirary.mvp.model.port.IHomeNewsFragmentModel;
@@ -9,8 +8,9 @@ import com.xujl.mvpllirary.mvp.presenter.NewsTabFragmentPresenter;
 import com.xujl.mvpllirary.util.IntentKey;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by xujl on 2017/9/6.

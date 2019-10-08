@@ -1,9 +1,10 @@
 package com.xujl.mvpllirary.json;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 
 import com.xujl.mvpllirary.BR;
+
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 
 /**
  * Created by xujl on 2017/9/12.

@@ -1,7 +1,8 @@
 package com.xujl.baselibrary.mvp.port;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by xujl on 2017/5/26.

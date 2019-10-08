@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +19,12 @@ import com.xujl.baselibrary.mvp.port.IBaseView;
 import com.xujl.baselibrary.mvp.port.LifeCycleCallback;
 import com.xujl.baselibrary.utils.ListUtils;
 import com.xujl.baselibrary.utils.PermissionsHelper;
-import com.xujl.task.Emitter;
-import com.xujl.task.RxExecutor;
-import com.xujl.task.Task;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;

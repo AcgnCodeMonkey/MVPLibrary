@@ -1,11 +1,7 @@
 package com.xujl.mvpllirary.mvp.model.port;
 
-import android.support.v4.app.Fragment;
 
 import com.xujl.applibrary.mvp.port.ICommonModel;
-import com.xujl.mvpllirary.mvp.presenter.MainFragmentPresenter;
-
-import java.util.List;
 
 import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation.SupportFragment;

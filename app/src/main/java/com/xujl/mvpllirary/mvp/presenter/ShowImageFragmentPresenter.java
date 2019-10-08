@@ -3,8 +3,6 @@ package com.xujl.mvpllirary.mvp.presenter;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.liulishuo.filedownloader.BaseDownloadTask;
@@ -22,6 +20,9 @@ import com.xujl.task.Task;
 import com.xujl.widgetlibrary.adapter.BaseRecyclerViewAdapter;
 
 import java.io.File;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by xujl on 2017/7/8.

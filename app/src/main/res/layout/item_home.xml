@@ -9,7 +9,7 @@
               android:paddingLeft="2.5dp"
               android:paddingRight="2.5dp"
               android:paddingTop="5dp">
-    <android.support.v7.widget.CardView android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginBottom="3dp"
                                         android:layout_marginLeft="3dp"
@@ -39,6 +39,6 @@
                       android:textColor="@color/textTitleColor"
                       android:textSize="@dimen/text_medium"/>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

@@ -1,10 +1,11 @@
 package com.xujl.mvpllirary.mvp.model.port;
 
-import android.support.v4.app.Fragment;
 
 import com.xujl.applibrary.mvp.port.ICommonModel;
 
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by xujl on 2017/9/6.

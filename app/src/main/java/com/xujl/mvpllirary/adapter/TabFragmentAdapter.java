@@ -3,9 +3,6 @@ package com.xujl.mvpllirary.adapter;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +15,10 @@ import com.xujl.utilslibrary.system.DensityUtil;
 import com.xujl.widgetlibrary.widget.ViewPagerTabView;
 
 import java.util.List;
+
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 /**
  * Created by xujl on 2017/9/6.

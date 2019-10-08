@@ -12,14 +12,13 @@ import android.graphics.PathMeasure;
 import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
-import com.xujl.mvpllirary.R;
 import com.xujl.utilslibrary.system.Log;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by xujl on 2017/9/8.

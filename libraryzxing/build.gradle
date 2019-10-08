@@ -28,6 +28,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/zxing.jar')
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    api files('libs/zxing.jar')
 }

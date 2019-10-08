@@ -10,7 +10,6 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
     buildTypes {
@@ -28,22 +27,19 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testCompile mainGroup.Junit
-    compile 'com.github.GrenderG:Toasty:1.1.3'
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    api 'com.github.GrenderG:Toasty:1.1.3'
     //toast库
-    compile 'me.zhanghai.android.materialprogressbar:library:1.4.1'
+    api 'me.zhanghai.android.materialprogressbar:library:1.4.1'
     //加载圈
-    compile 'org.greenrobot:greendao:3.2.0'
+    api 'org.greenrobot:greendao:3.2.0'
     //greendao数据库框架依赖
-    compile 'net.zetetic:android-database-sqlcipher:3.5.2'
+    api 'net.zetetic:android-database-sqlcipher:3.5.2'
     //greendao加密依赖库
-    compile project(':BaseLibrary')
-    compile 'com.xujl.utilslibrary:UtilsLibrary:0.0.1-alpha19'
-    compile 'com.xujl.widgetlibrary:WidgetLibrary:0.0.1-alpha14'
-    compile 'com.android.support:multidex:1.0.3'
-    compile project(':DataLibrary')
+//    api project(':BaseLibrary')
+    api 'com.xujl:BaseLibrary:0.1.6.3'
+    api 'com.xujl.utilslibrary:UtilsLibrary:0.0.1-alpha19'
+    api 'com.xujl.widgetlibrary:WidgetLibrary:0.0.1-alpha14'
+    api 'com.android.support:multidex:1.0.3'
+    api project(':DataLibrary')
 }

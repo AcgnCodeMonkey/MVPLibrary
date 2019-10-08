@@ -7,10 +7,10 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent"
                                                 android:orientation="vertical">
-        <android.support.v7.widget.RecyclerView android:id="@+id/activity_image_list_recyclerView"
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/activity_image_list_recyclerView"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent"
                                                 android:background="@color/layoutBg">
-        </android.support.v7.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
     </com.xujl.widgetlibrary.widget.RefreshLayout>
 </LinearLayout>

@@ -1,8 +1,6 @@
 package com.xujl.baselibrary.mvp.common;
 
 import android.app.Activity;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +11,9 @@ import com.xujl.baselibrary.R;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
 import com.xujl.baselibrary.mvp.port.IBaseView;
 import com.xujl.baselibrary.mvp.presenter.BaseFragmentPresenter;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 
 /**
  * ━━━━━━神兽出没━━━━━━

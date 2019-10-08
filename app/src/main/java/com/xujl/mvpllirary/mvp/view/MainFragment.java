@@ -1,14 +1,10 @@
 package com.xujl.mvpllirary.mvp.view;
 
 import android.app.Activity;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.ViewDragHelper;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.RadioGroup;
 
 import com.xujl.applibrary.mvp.view.CommonView;
 import com.xujl.baselibrary.mvp.port.IBasePresenter;
@@ -17,6 +13,9 @@ import com.xujl.mvpllirary.mvp.view.port.IMainFragmentView;
 
 import java.lang.reflect.Field;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.customview.widget.ViewDragHelper;
+import androidx.drawerlayout.widget.DrawerLayout;
 import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation.SupportFragment;
 

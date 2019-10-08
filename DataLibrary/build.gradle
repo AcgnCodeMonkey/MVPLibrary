@@ -9,9 +9,6 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
     buildTypes {
         release {
@@ -25,19 +22,15 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testCompile mainGroup.Junit
-    compile mainGroup.SupportV7
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    api mainGroup.SupportV7
+    api 'com.squareup.retrofit2:retrofit:2.1.0'
     //retrofit网络请求库
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    api 'com.squareup.retrofit2:converter-gson:2.1.0'
     //retrofit网络请求库
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    api 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     //retrofit网络请求库
-    compile 'org.greenrobot:greendao:3.2.0'
+    api 'org.greenrobot:greendao:3.2.2'
     //greendao数据库框架依赖
-    compile 'com.xujl.utilslibrary:UtilsLibrary:0.0.1-alpha9'
+    api 'com.xujl.utilslibrary:UtilsLibrary:0.0.1-alpha9'
 }

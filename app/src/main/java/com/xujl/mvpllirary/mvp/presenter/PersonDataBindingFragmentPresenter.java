@@ -1,16 +1,16 @@
 package com.xujl.mvpllirary.mvp.presenter;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.xujl.applibrary.mvp.presenter.CommonActivityPresenter;
 import com.xujl.applibrary.mvp.presenter.CommonFragmentPresenter;
 import com.xujl.mvpllirary.R;
 import com.xujl.mvpllirary.mvp.model.port.IPersonDataBindingFragmentModel;
 import com.xujl.mvpllirary.mvp.view.port.IPersonDataBindingFragmentView;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by xujl on 2017/9/12.
