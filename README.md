@@ -1,12 +1,12 @@
 # MVP模式扩展-->MVPH模式
 #### 使用简单，易扩展，易维护，低耦合，高复用是MVPH的目标<br>
-![](https://img.shields.io/badge/jCenter-0.1.5-green.svg)![](https://img.shields.io/badge/DemoVersion-1.9-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
+![](https://img.shields.io/badge/jCenter-0.1.6.1-green.svg)![](https://img.shields.io/badge/DemoVersion-1.9-yellow.svg)![](https://img.shields.io/badge/作者-xujl-ff69b4.svg)<br>
 
 
 
 引用方式 :<br>
 
-> **compile 'com.xujl:BaseLibrary:0.1.5'**//稳定版<br>
+> **implementation 'com.xujl:BaseLibrary:0.1.6.1'**//稳定版<br>
 
 ### 框架思路简介
 [架构思路详解](https://github.com/AcgnCodeMonkey/MVPLibrary/blob/master/file/架构思路.md)
